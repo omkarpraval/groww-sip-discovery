@@ -1,0 +1,62 @@
+name: Discovery engine
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "collect | code | all"
+        default: "all"
+      max_per_source:
+        description: "cap coded items per source (0 = all)"
+        default: "0"
+      limit:
+        description: "max items to code this run (0 = all)"
+        default: "0"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt yt-dlp
+
+      - name: Collect (Play Store, App Store, Reddit, TradingQnA, YouTube)
+        if: inputs.stage == 'collect' || inputs.stage == 'all'
+        working-directory: collectors
+        run: |
+          python play_store.py || true
+          python app_store.py || true
+          python reddit.py || true
+          python tradingqna.py || true
+          python youtube.py || true
+
+      - name: Stage 1 filter
+        if: inputs.stage == 'collect' || inputs.stage == 'all'
+        run: python pipeline/filter.py
+
+      - name: Stage 2 AI coding (Gemini)
+        if: inputs.stage == 'code' || inputs.stage == 'all'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python pipeline/coder.py --max-per-source ${{ inputs.max_per_source }} --limit ${{ inputs.limit }}
+
+      - name: Stage 3 aggregate + golden set
+        if: inputs.stage == 'code' || inputs.stage == 'all'
+        run: |
+          python pipeline/aggregate.py
+          if [ -f data/golden/golden_human.csv ]; then python pipeline/golden.py; fi
+
+      - name: Commit results
+        run: |
+          git config user.name "discovery-engine-bot"
+          git config user.email "actions@users.noreply.github.com"
+          gzip -kf data/raw/*.jsonl 2>/dev/null || true
+          git add data/stage1.jsonl data/coded outputs data/raw/*.gz 2>/dev/null || true
+          git commit -m "engine run: ${{ inputs.stage }}" || echo "nothing to commit"
+          git push

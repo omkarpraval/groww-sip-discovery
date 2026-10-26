@@ -12,6 +12,9 @@ on:
       limit:
         description: "max items to code this run (0 = all)"
         default: "0"
+      model:
+        description: "Gemini model id"
+        default: "gemini-2.5-flash"
 
 permissions:
   contents: write
@@ -20,6 +23,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 340
+    env:
+      PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,6 +49,7 @@ jobs:
         if: inputs.stage == 'code' || inputs.stage == 'all'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ inputs.model }}
         run: python pipeline/coder.py --max-per-source ${{ inputs.max_per_source }} --limit ${{ inputs.limit }}
 
       - name: Stage 3 aggregate + golden set
@@ -53,10 +59,23 @@ jobs:
           if [ -f data/golden/golden_human.csv ]; then python pipeline/golden.py; fi
 
       - name: Commit results
+        if: always()
         run: |
           git config user.name "discovery-engine-bot"
           git config user.email "actions@users.noreply.github.com"
           gzip -kf data/raw/*.jsonl 2>/dev/null || true
           git add data/stage1.jsonl data/coded outputs data/raw/*.gz 2>/dev/null || true
           git commit -m "engine run: ${{ inputs.stage }}" || echo "nothing to commit"
+          git pull --rebase origin main
           git push
+
+      - name: Keep raw data as a run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-data
+          path: |
+            data/raw/*.gz
+            data/stage1.jsonl
+            data/coded
+            outputs

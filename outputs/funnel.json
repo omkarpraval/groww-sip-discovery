@@ -1,0 +1,26 @@
+{
+  "collected": {
+    "app_store": 986,
+    "play_store": 91782,
+    "reddit_post": 2450,
+    "reddit_comment": 869,
+    "tradingqna": 2493,
+    "youtube": 5769
+  },
+  "deduplicated": {
+    "app_store": 943,
+    "play_store": 50091,
+    "reddit_post": 2365,
+    "reddit_comment": 856,
+    "tradingqna": 2474,
+    "youtube": 4943
+  },
+  "stage1_relevant": {
+    "app_store": 126,
+    "play_store": 2023,
+    "reddit_post": 2364,
+    "reddit_comment": 844,
+    "tradingqna": 2334,
+    "youtube": 1244
+  }
+}

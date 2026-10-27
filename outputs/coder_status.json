@@ -1,35 +1,17 @@
 {
   "prompt_version": "coder-v1.1",
-  "time": "2026-10-27 07:31:00",
-  "ok": true,
+  "time": "2026-10-27 08:37:50",
+  "ok": false,
   "model": "gemini-flash-lite-latest",
-  "coded_this_run": 30,
-  "already": 0,
-  "todo": 30,
-  "error": null,
+  "coded_this_run": 7335,
+  "already": 30,
+  "todo": 8905,
+  "error": "gave up after 5 retries; last error HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex",
   "probes": [
-    {
-      "model": "gemini-3.8-flash",
-      "ok": false,
-      "seconds": 17.7,
-      "error": "gave up after 2 retries; last error HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand"
-    },
-    {
-      "model": "gemini-3.7-flash",
-      "ok": false,
-      "seconds": 164.7,
-      "error": "gave up after 2 retries; last error network ReadTimeout"
-    },
-    {
-      "model": "gemini-flash-latest",
-      "ok": false,
-      "seconds": 16.3,
-      "error": "gave up after 2 retries; last error HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand"
-    },
     {
       "model": "gemini-flash-lite-latest",
       "ok": true,
-      "seconds": 0.8
+      "seconds": 0.5
     }
   ],
   "models_available": [

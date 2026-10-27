@@ -69,8 +69,9 @@ class LLMError(Exception):
 
 
 # Newest first. Google retires older models for new API keys (run #2 got a 404 on gemini-2.5-flash).
-FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3-flash", "gemini-flash-latest", "gemini-2.5-flash",
-                   "gemini-2.5-flash-lite"]
+FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3-flash", "gemini-flash-latest",
+                   "gemini-3.8-flash-lite", "gemini-flash-lite-latest", "gemini-2.5-flash"]
+NON_TEXT = ("tts", "image", "audio", "live", "embedding", "native")  # not usable for JSON text coding
 
 
 def list_models(key=None):
@@ -97,7 +98,8 @@ def resolve_model(preferred=None, key=None):
     Order: preferred -> curated fallbacks -> any other Flash model, newest first."""
     preferred = preferred or MODEL
     avail = list_models(key)
-    others = sorted([m for m in avail if "flash" in m and m not in FALLBACK_MODELS], key=_version_key, reverse=True)
+    others = sorted([m for m in avail if "flash" in m and m not in FALLBACK_MODELS
+                     and not any(x in m for x in NON_TEXT)], key=_version_key, reverse=True)
     global PROBES
     PROBES = []
     for m in dict.fromkeys([preferred] + FALLBACK_MODELS + others):
@@ -105,7 +107,7 @@ def resolve_model(preferred=None, key=None):
             continue
         t0 = time.time()
         try:
-            call_gemini("Reply with the word ok.", key=key, model=m, retries=1, timeout=60)
+            call_gemini("Reply with the word ok.", key=key, model=m, retries=2, timeout=150)
             PROBES.append({"model": m, "ok": True, "seconds": round(time.time() - t0, 1)})
             return m, avail
         except LLMError as e:
@@ -128,16 +130,24 @@ def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperat
         body["systemInstruction"] = {"parts": [{"text": system}]}
     if schema:
         body["generationConfig"].update({"responseMimeType": "application/json", "responseSchema": schema})
+    m = model or MODEL
+    if m.startswith("gemini-3") or "latest" in m:
+        # Labelling needs little reasoning; low thinking keeps latency/cost down. Dropped if the model rejects it.
+        body["generationConfig"]["thinkingConfig"] = {"thinkingLevel": "low"}
     wait, last = 4, ""
     for attempt in range(retries):
         try:
-            r = requests.post(API.format(m=model or MODEL), params={"key": key}, json=body, timeout=timeout)
+            r = requests.post(API.format(m=m), params={"key": key}, json=body, timeout=timeout)
         except requests.exceptions.RequestException as e:  # timeouts / dropped connections are retryable
             last = f"network {type(e).__name__}"
             time.sleep(wait); wait = min(wait * 2, 90); continue
+        if r.status_code == 400 and "thinking" in r.text.lower() and "thinkingConfig" in body["generationConfig"]:
+            body["generationConfig"].pop("thinkingConfig")
+            continue
         if r.status_code == 200:
             try:
-                txt = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+                parts = r.json()["candidates"][0]["content"]["parts"]
+                txt = "".join(p["text"] for p in parts if "text" in p and not p.get("thought"))
                 return json.loads(txt) if schema else txt
             except Exception as e:
                 raise LLMError(f"bad response: {e}: {r.text[:300]}")

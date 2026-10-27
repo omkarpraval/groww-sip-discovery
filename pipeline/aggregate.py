@@ -43,9 +43,34 @@ def to_num(v):
         return 0.0
 
 
+STAGE1 = os.path.join(ROOT, "data", "stage1.jsonl")
+
+# Root-cause clusters (human grouping of codebook triggers; an item counts once per cluster)
+CLUSTERS = {
+    "Can't tell if my SIP is working": {"wrong_fund_doubt", "underwhelming_returns", "market_fall_negative_returns",
+                                        "expectation_mismatch", "information_overload_conflict"},
+    "Money got tight / life changed": {"cash_flow_squeeze", "life_event"},
+    "Debit or mandate failed": {"payment_mandate_failure"},
+    "App friction or distrust": {"app_ux_or_control_gap", "platform_trust_doubt"},
+    "No reason to stay": {"goal_disconnect", "social_influence", "lock_in_or_tax"},
+}
+
+
+def quote_ok(quote, text):
+    """Quality gate: the evidence quote must appear verbatim in the source (catches hallucinated evidence)."""
+    q = (quote or "").lower().strip(" .\"'")
+    return (not q) or q in (text or "").lower()
+
+
 def load():
     rows = [json.loads(l) for l in open(CODED, encoding="utf-8")]
+    src = {}
+    if os.path.exists(STAGE1):
+        for l in open(STAGE1, encoding="utf-8"):
+            r = json.loads(l)
+            src[r["id"]] = (r.get("title") or "") + " " + r["text"]
     df = pd.DataFrame(rows)
+    df["quote_ok"] = [quote_ok(q, src.get(i, q)) for q, i in zip(df.evidence_quote, df.id)]
     df["engagement"] = df["engagement"].apply(to_num)
     df["triggers"] = df["triggers"].apply(lambda t: [x for x in (t or []) if x != "none"])
     df["drop_event"] = df["sip_action"].isin(DROP)
@@ -58,8 +83,9 @@ def main():
         print("no coded rows yet; skipping aggregation"); return
     df = load()
     n_all = len(df)
-    rel = df[df.relevant & (df.confidence >= 0.6)].copy()
-    low_conf = int((df.relevant & (df.confidence < 0.6)).sum())
+    gate_fail = df.relevant & ((df.confidence < 0.6) | ~df.quote_ok)
+    rel = df[df.relevant & ~gate_fail].copy()
+    low_conf = int(gate_fail.sum())
     ex = rel.explode("triggers").dropna(subset=["triggers"]).reset_index(drop=True)
 
     themes = []
@@ -88,6 +114,24 @@ def main():
         return frame[col].value_counts(normalize=True).mul(100).round(1).to_dict()
 
     drops = rel[rel.drop_event]
+    # Target cohort view: why do FIRST-TIME / FIRST-YEAR investors consider stopping, pause, stop or lapse?
+    ed = drops[drops.early]
+    tc = Counter(t for ts in ed.triggers for t in ts)
+    clusters = {k: round(100 * ed.triggers.apply(lambda ts: bool(set(ts) & v)).mean(), 1) if len(ed) else 0
+                for k, v in CLUSTERS.items()}
+    early_dropoffs = {
+        "clusters_pct": clusters,
+        "no_reason_stated_pct": round(100 * ed.triggers.apply(lambda ts: not ts).mean(), 1) if len(ed) else 0,
+        "n_early_relevant": int(rel.early.sum()), "n_early_dropoffs": int(len(ed)),
+        "early_dropoff_rate_pct": round(100 * len(ed) / max(1, rel.early.sum()), 1),
+        "actions": ed.sip_action.value_counts().to_dict(),
+        "emotion": ed.emotion.value_counts(normalize=True).mul(100).round(1).to_dict(),
+        "triggers_pct": {k: round(100 * v / max(1, len(ed)), 1) for k, v in tc.most_common()},
+        "outside_app": Counter(a for x in rel[rel.early].outside_app_action for a in x).most_common(8),
+        "quotes": {t: ed[ed.triggers.apply(lambda ts: t in ts)].sort_values("engagement", ascending=False)
+                   [["evidence_quote", "unmet_need", "source", "url"]].head(8).to_dict("records")
+                   for t, _ in tc.most_common(6)},
+    }
     stage_x = pd.crosstab(ex.triggers, ex.investor_stage, normalize="columns").mul(100).round(1)
     seg = {}
     for col in ["income_type", "money_source", "influencer", "age_band", "first_time"]:
@@ -100,6 +144,10 @@ def main():
         seg[col] = sorted(recs, key=lambda r: -r["n"])
 
     insights = {
+        "early_dropoffs": early_dropoffs,
+        "quality_gate": {"relevant_coded": int(df.relevant.sum()), "failed_quote_check": int((df.relevant & ~df.quote_ok).sum()),
+                         "low_confidence": int((df.relevant & (df.confidence < 0.6)).sum()),
+                         "confidence_min": float(df[df.relevant].confidence.min()) if df.relevant.any() else None},
         "funnel": {"coded": n_all, "relevant_high_conf": int(len(rel)), "relevant_low_conf_review": low_conf,
                    "dropoff_events": int(len(drops)),
                    "by_source": rel.source.value_counts().to_dict()},

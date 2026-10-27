@@ -67,6 +67,8 @@ def main(recode):
     report["prompt_version"] = ",".join(sorted(v for v in vers if v))
     report["models"] = dict(Counter(e.get("model", "") for e in eng.values() if e.get("id") in set(g.id)))
     json.dump(report, open(OUT, "w"), indent=2, default=str)
+    if not recode:  # the score of the labels actually behind the published numbers
+        json.dump(report, open(OUT.replace(".json", "_corpus.json"), "w"), indent=2, default=str)
     if recode:  # keep each prompt version's score for the evidence log
         json.dump(report, open(OUT.replace(".json", f"_{report['prompt_version']}_{os.getenv('LLM_PROVIDER') or 'auto'}.json"), "w"), indent=2, default=str)
     for f, v in report["fields"].items():

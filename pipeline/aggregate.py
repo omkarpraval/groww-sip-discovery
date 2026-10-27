@@ -31,9 +31,22 @@ ADDRESSABILITY = {
 }
 
 
+def to_num(v):
+    """Engagement arrives as int (reviews/Reddit) or text like '1.2K' (YouTube)."""
+    if isinstance(v, (int, float)):
+        return float(v)
+    s = str(v or "0").strip().upper().replace(",", "")
+    mult = 1000.0 if s.endswith("K") else 1e6 if s.endswith("M") else 1.0
+    try:
+        return float(s.rstrip("KM") or 0) * mult
+    except ValueError:
+        return 0.0
+
+
 def load():
     rows = [json.loads(l) for l in open(CODED, encoding="utf-8")]
     df = pd.DataFrame(rows)
+    df["engagement"] = df["engagement"].apply(to_num)
     df["triggers"] = df["triggers"].apply(lambda t: [x for x in (t or []) if x != "none"])
     df["drop_event"] = df["sip_action"].isin(DROP)
     df["early"] = df["investor_stage"].isin(EARLY) | (df["first_time"] == "yes")
@@ -41,6 +54,8 @@ def load():
 
 
 def main():
+    if not os.path.exists(CODED) or os.path.getsize(CODED) == 0:
+        print("no coded rows yet; skipping aggregation"); return
     df = load()
     n_all = len(df)
     rel = df[df.relevant & (df.confidence >= 0.6)].copy()

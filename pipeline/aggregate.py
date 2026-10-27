@@ -69,7 +69,7 @@ def load():
         for l in open(STAGE1, encoding="utf-8"):
             r = json.loads(l)
             src[r["id"]] = (r.get("title") or "") + " " + r["text"]
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows).drop_duplicates("id", keep="last")  # re-coded rows supersede older prompt versions
     df["quote_ok"] = [quote_ok(q, src.get(i, q)) for q, i in zip(df.evidence_quote, df.id)]
     df["engagement"] = df["engagement"].apply(to_num)
     df["triggers"] = df["triggers"].apply(lambda t: [x for x in (t or []) if x != "none"])

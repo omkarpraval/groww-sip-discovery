@@ -26,12 +26,14 @@ def kappa(a, b):
 def engine_labels(recode):
     if recode:
         import sys; sys.path.insert(0, os.path.dirname(__file__))
-        from llm import code_items
+        from llm import code_items, resolve_model
+        model, _ = resolve_model()  # same fallback chain as the batch coder
+        print("recoding golden set with", model)
         g = pd.read_csv(GOLD)
         out = []
         for i in range(0, len(g), 10):
             items = [{"id": r.id, "text": r.text} for r in g.iloc[i:i + 10].itertuples()]
-            out += [c for c in code_items(items) if c]
+            out += [c for c in code_items(items, model=model) if c]
         return {o["id"]: o for o in out}
     return {json.loads(l)["id"]: json.loads(l) for l in open(CODED, encoding="utf-8")}
 
@@ -39,7 +41,8 @@ def engine_labels(recode):
 def main(recode):
     g = pd.read_csv(GOLD, dtype=str).fillna("")
     eng = engine_labels(recode)
-    rows, report = [], {"n": 0, "fields": {}, "disagreements": []}
+    vers = {e.get("prompt_version", "") for e in eng.values()} if not recode else {__import__("llm").PROMPT_VERSION}
+    rows, report = [], {"n": 0, "mode": "recode" if recode else "corpus", "fields": {}, "disagreements": []}
     for r in g.itertuples():
         e = eng.get(r.id)
         if not e:
@@ -61,7 +64,10 @@ def main(recode):
         diff = {f: {"human": h[f], "engine": e[f]} for f in FIELDS if h[f] != e[f]}
         if diff:
             report["disagreements"].append({"id": rid, "engine_confidence": conf, "diff": diff})
+    report["prompt_version"] = ",".join(sorted(v for v in vers if v))
     json.dump(report, open(OUT, "w"), indent=2, default=str)
+    if recode:  # keep each prompt version's score for the evidence log
+        json.dump(report, open(OUT.replace(".json", f"_{report['prompt_version']}.json"), "w"), indent=2, default=str)
     for f, v in report["fields"].items():
         print(f"{f:16s} agreement={v['agreement_pct']}%  kappa={v['cohens_kappa']}")
     print("disagreements:", len(report["disagreements"]), "of", report["n"])

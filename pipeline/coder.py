@@ -28,7 +28,8 @@ def main(batch, max_per_source, rpm, limit):
         rows = keep
     done = set()
     if os.path.exists(OUT):
-        done = {json.loads(l)["id"] for l in open(OUT, encoding="utf-8")}
+        done = {r["id"] for r in map(json.loads, open(OUT, encoding="utf-8"))
+                if r.get("prompt_version") == PROMPT_VERSION}  # older prompt versions get re-coded
     todo = [r for r in rows if r["id"] not in done][: limit or None]
     try:
         model, avail = resolve_model()

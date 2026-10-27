@@ -1,45 +1,52 @@
 {
   "prompt_version": "coder-v1.1",
-  "time": "2026-10-27 07:24:37",
-  "ok": false,
-  "stage": "resolve_model",
-  "error": "no usable Gemini model; probes [{'model': 'gemini-3.8-flash', 'ok': False, 'seconds': 64.1, 'error': 'gave up after 1 retries; last error network ReadTimeout'}, {'model': 'gemini-flash-latest', 'ok': False, 'seconds': 64.1, 'error': 'gave up after 1 retries; last error network ReadTimeout'}, {'model",
+  "time": "2026-10-27 07:31:00",
+  "ok": true,
+  "model": "gemini-flash-lite-latest",
+  "coded_this_run": 30,
+  "already": 0,
+  "todo": 30,
+  "error": null,
   "probes": [
     {
       "model": "gemini-3.8-flash",
       "ok": false,
-      "seconds": 64.1,
-      "error": "gave up after 1 retries; last error network ReadTimeout"
-    },
-    {
-      "model": "gemini-flash-latest",
-      "ok": false,
-      "seconds": 64.1,
-      "error": "gave up after 1 retries; last error network ReadTimeout"
-    },
-    {
-      "model": "gemini-2.5-flash",
-      "ok": false,
-      "seconds": 0.1,
-      "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use"
-    },
-    {
-      "model": "gemini-2.5-flash-lite",
-      "ok": false,
-      "seconds": 0.1,
-      "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Please update your code t"
-    },
-    {
-      "model": "gemini-3.8-flash-tts",
-      "ok": false,
-      "seconds": 1.9,
-      "error": "bad response: 'text': {\n  \"candidates\": [\n    {\n      \"content\": {\n        \"parts\": [\n          {\n            \"inlineData\": {\n              \"mimeType\": \"audio/w"
+      "seconds": 17.7,
+      "error": "gave up after 2 retries; last error HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand"
     },
     {
       "model": "gemini-3.7-flash",
       "ok": false,
-      "seconds": 61.1,
-      "error": "gave up after 1 retries; last error HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand"
+      "seconds": 164.7,
+      "error": "gave up after 2 retries; last error network ReadTimeout"
+    },
+    {
+      "model": "gemini-flash-latest",
+      "ok": false,
+      "seconds": 16.3,
+      "error": "gave up after 2 retries; last error HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand"
+    },
+    {
+      "model": "gemini-flash-lite-latest",
+      "ok": true,
+      "seconds": 0.8
     }
+  ],
+  "models_available": [
+    "gemini-2.5-flash",
+    "gemini-2.5-pro",
+    "gemini-2.5-flash-preview-tts",
+    "gemini-2.5-pro-preview-tts",
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
+    "gemini-pro-latest",
+    "gemini-2.5-flash-lite",
+    "gemini-2.5-flash-image",
+    "gemini-3-flash-preview",
+    "gemini-3.1-pro-preview",
+    "gemini-3.1-pro-preview-customtools",
+    "gemini-3.1-flash-lite-preview",
+    "gemini-3.1-flash-lite",
+    "gemini-3-pro-image-preview"
   ]
 }

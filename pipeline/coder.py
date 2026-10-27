@@ -1,8 +1,9 @@
-"""Stage 2: LLM coding of the Stage-1 population with Gemini (structured JSON output).
-Resumable: already-coded ids are skipped, so it can run across several free-tier sessions."""
+"""Stage 2: LLM coding of the Stage-1 population (Gemini first, Groq as automatic fallback).
+Resumable: ids already coded with the current prompt are skipped, so it can run across free-tier sessions."""
 import argparse, json, os, random, time
 import llm
-from llm import code_items, PROMPT_VERSION, LLMError, resolve_model
+from collections import Counter
+from llm import PROMPT_VERSION, LLMError
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 STATUS = os.path.join(ROOT, "outputs", "coder_status.json")
@@ -12,6 +13,13 @@ def write_status(**kw):
     """Committed with the results so failures are visible without opening the Actions log."""
     json.dump({"prompt_version": PROMPT_VERSION, "time": time.strftime("%Y-%m-%d %H:%M:%S"), **kw},
               open(STATUS, "w"), indent=2)
+def redact(msg):
+    for k in ("GEMINI_API_KEY", "GROQ_API_KEY"):
+        if os.getenv(k):
+            msg = msg.replace(os.getenv(k), "***")
+    return msg
+
+
 IN = os.path.join(ROOT, "data", "stage1.jsonl")
 OUT = os.path.join(ROOT, "data", "coded", "coded.jsonl")
 
@@ -32,21 +40,21 @@ def main(batch, max_per_source, rpm, limit):
                 if r.get("prompt_version") == PROMPT_VERSION}  # older prompt versions get re-coded
     todo = [r for r in rows if r["id"] not in done][: limit or None]
     try:
-        model, avail = resolve_model()
+        chain = llm.build_chain()
     except LLMError as e:
-        msg = str(e).replace(os.getenv("GEMINI_API_KEY", "~~"), "***")
-        write_status(ok=False, stage="resolve_model", error=msg[:300], probes=llm.PROBES)
-        print("stopping:", msg); return
-    llm.MODEL = model
-    print(f"to code: {len(todo)} (already {len(done)}) model={model} prompt={PROMPT_VERSION}")
-    gap, coded_n, error = 60.0 / rpm, 0, None
+        write_status(ok=False, stage="build_chain", error=redact(str(e))[:300], probes=llm.PROBES)
+        print("stopping:", redact(str(e))); return
+    if chain[0][0] == "gemini":
+        llm.MODEL = chain[0][1]
+    print(f"to code: {len(todo)} (already {len(done)}) chain={chain} prompt={PROMPT_VERSION}")
+    gap, coded_n, error, used = 60.0 / rpm, 0, None, Counter()
     with open(OUT, "a", encoding="utf-8") as f:
         for i in range(0, len(todo), batch):
             chunk, t0 = todo[i:i + batch], time.time()
             try:
-                coded = code_items(chunk, model=model)
+                coded, model = llm.code_items_auto(chunk)
             except LLMError as e:
-                error = str(e).replace(os.getenv("GEMINI_API_KEY", "~~"), "***")
+                error = redact(str(e))
                 print("stopping:", error); break
             for r, c in zip(chunk, coded):
                 if not c:
@@ -55,12 +63,15 @@ def main(batch, max_per_source, rpm, limit):
                           "engagement": r["engagement"], "rating": r.get("rating"),
                           "model": model, "prompt_version": PROMPT_VERSION})
                 f.write(json.dumps(c, ensure_ascii=False) + "\n")
-                coded_n += 1
+                coded_n += 1; used[model] += 1
             f.flush()
             print(f"{i + len(chunk)}/{len(todo)}")
             time.sleep(max(0, gap - (time.time() - t0)))
-    write_status(ok=error is None, model=model, coded_this_run=coded_n, already=len(done), todo=len(todo),
-                 error=error, probes=llm.PROBES, models_available=[m for m in avail if "gemini" in m][:15])
+    gem = [c[1] for c in chain if c[0] == "gemini"]
+    write_status(ok=error is None, model=(gem or [llm.label(*chain[0])])[0], coded_this_run=coded_n,
+                 coded_by_model=dict(used), already=len(done), todo=len(todo), error=error,
+                 chain=[llm.label(*c) for c in chain], switches=[{k: redact(str(v)) for k, v in s.items()}
+                                                              for s in llm.SWITCHES], probes=llm.PROBES)
 
 
 def safe_main(*args):
@@ -68,7 +79,7 @@ def safe_main(*args):
     try:
         main(*args)
     except Exception as e:
-        msg = f"{type(e).__name__}: {e}".replace(os.getenv("GEMINI_API_KEY", "~~"), "***")[:500]
+        msg = redact(f"{type(e).__name__}: {e}")[:500]
         write_status(ok=False, stage="crash", error=msg, probes=llm.PROBES)
         print("crashed:", msg)
 

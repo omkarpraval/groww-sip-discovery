@@ -29,8 +29,9 @@ def secret(k):
         return os.getenv(k)
 
 
-if secret("GEMINI_API_KEY"):
-    os.environ["GEMINI_API_KEY"] = secret("GEMINI_API_KEY")
+for _k in ("GEMINI_API_KEY", "GROQ_API_KEY"):
+    if secret(_k):
+        os.environ[_k] = secret(_k)
 # Live analysis uses the same model that coded the corpus (recorded by the pipeline), unless overridden.
 try:
     _status = json.load(open(os.path.join(ROOT, "outputs", "coder_status.json")))
@@ -178,13 +179,11 @@ with tabs[4]:
         try:
             import llm
             batch = [{"id": f"u{i}", "text": t} for i, t in enumerate(items)]
-            with st.spinner(f"Coding with {llm.MODEL}…"):
-                try:
-                    out = llm.code_items(batch)
-                except llm.LLMError:
-                    llm.MODEL, _ = llm.resolve_model()  # model busy/retired -> pick a working one, retry once
-                    out = llm.code_items(batch)
-            st.caption(f"Model: {llm.MODEL} · prompt {llm.PROMPT_VERSION}")
+            with st.spinner("Coding (Gemini, with Groq as automatic fallback)…"):
+                out, used_model = llm.code_items_auto(batch)
+            st.caption(f"Model: {used_model} · prompt {llm.PROMPT_VERSION}"
+                       + (" · switched provider: " + ", ".join(s.get("dropped", s.get("skipped", ""))
+                                                               for s in llm.SWITCHES) if llm.SWITCHES else ""))
         except Exception as ex:
             st.error(f"The AI coder is unavailable right now ({ex}). Fallback: the precomputed corpus "
                      "results in tabs ②–④ are still valid.")

@@ -1,4 +1,4 @@
-# Codebook — SIP continuation discovery (v1)
+# Codebook — SIP continuation discovery (v1.2)
 
 Unit of analysis: one review / post / comment. The coder answers **only from what the text says**;
 anything not stated is `unknown`. Built from a 110-item open-coding read of real Play Store and
@@ -8,17 +8,29 @@ Reddit data, then frozen before the full run. (Changes are versioned in `CHANGEL
 TRUE only if the author talks about **their own (or a close person's) mutual fund / SIP experience,
 intent, or behaviour**. FALSE for: IPO/F&O/stock-only complaints, generic "good app", spam/ads,
 pure fund-picking questions with no behaviour or feeling ("which small cap is best?").
+**v1.2:** advice or allocation tips written *for someone else* ("you should split 15k into…") are FALSE
+unless the author also describes their own SIP behaviour or feeling.
 
 ## 2. investor_stage
 `considering` (not started) · `first_months` (≤3 months / "just started" / "first SIP") ·
 `within_year` (3–12 months) · `beyond_year` (>12 months) · `unknown`
 
 ## 3. first_time (yes / no / unknown)
-"yes" if they say they are new / beginner / first investment / first SIP.
+"yes" ONLY if the author explicitly says they are new / beginner / first investment / first SIP /
+"just started investing". **v1.2:** do not infer it from a basic question, young age, a small amount or a
+short holding period alone — those stay `unknown`.
 
 ## 4. sip_action — what happened or is being considered (single)
 `started` · `continuing` · `considering_stop` · `paused_or_skipped` · `reduced` · `stopped_or_cancelled` ·
 `redeemed` · `increased` · `restarted` · `failed_involuntary` (debit/mandate failed without intent) · `none`
+
+v1.2 decision rules (from golden-set failures, see AI Evidence Log):
+- `considering_stop` ONLY when the author says they are thinking of stopping, pausing, cancelling or
+  redeeming **their own** SIP. Asking "is this normal?", "should I switch fund?" or "what should I do?"
+  without stating an intent to stop is `continuing` (if they still run the SIP) or `none`.
+- A step-up, top-up, lump-sum add or "increased my SIP" → `increased`; a cut in amount → `reduced`.
+  Do not collapse these into `continuing`.
+- Actions described for another person (advice, a friend's story with no first-person behaviour) → `none`.
 
 ## 5. triggers — why (multi-label, max 3, ordered by importance)
 | code | meaning |

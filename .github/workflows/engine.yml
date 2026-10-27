@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "collect | code | aggregate | all"
+        description: "collect | code | aggregate | golden | all"
         default: "all"
       max_per_source:
         description: "cap coded items per source (0 = all)"
@@ -57,6 +57,13 @@ jobs:
         run: |
           python pipeline/aggregate.py
           if [ -f data/golden/golden_human.csv ]; then python pipeline/golden.py; fi
+
+      - name: Golden set re-score with current prompt (fresh coding)
+        if: inputs.stage == 'golden'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ inputs.model }}
+        run: python pipeline/golden.py --recode
 
       - name: Commit results
         if: always()

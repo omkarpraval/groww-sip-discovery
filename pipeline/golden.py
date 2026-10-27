@@ -26,14 +26,14 @@ def kappa(a, b):
 def engine_labels(recode):
     if recode:
         import sys; sys.path.insert(0, os.path.dirname(__file__))
-        from llm import code_items, resolve_model
-        model, _ = resolve_model()  # same fallback chain as the batch coder
-        print("recoding golden set with", model)
+        import llm
+        print("recoding golden set with chain", llm.build_chain())  # LLM_PROVIDER=groq scores Groq alone
         g = pd.read_csv(GOLD)
         out = []
         for i in range(0, len(g), 10):
             items = [{"id": r.id, "text": r.text} for r in g.iloc[i:i + 10].itertuples()]
-            out += [c for c in code_items(items, model=model) if c]
+            coded, m = llm.code_items_auto(items)
+            out += [dict(c, model=m) for c in coded if c]
         return {o["id"]: o for o in out}
     return {json.loads(l)["id"]: json.loads(l) for l in open(CODED, encoding="utf-8")}
 
@@ -65,9 +65,10 @@ def main(recode):
         if diff:
             report["disagreements"].append({"id": rid, "engine_confidence": conf, "diff": diff})
     report["prompt_version"] = ",".join(sorted(v for v in vers if v))
+    report["models"] = dict(Counter(e.get("model", "") for e in eng.values() if e.get("id") in set(g.id)))
     json.dump(report, open(OUT, "w"), indent=2, default=str)
     if recode:  # keep each prompt version's score for the evidence log
-        json.dump(report, open(OUT.replace(".json", f"_{report['prompt_version']}.json"), "w"), indent=2, default=str)
+        json.dump(report, open(OUT.replace(".json", f"_{report['prompt_version']}_{os.getenv('LLM_PROVIDER') or 'auto'}.json"), "w"), indent=2, default=str)
     for f, v in report["fields"].items():
         print(f"{f:16s} agreement={v['agreement_pct']}%  kappa={v['cohens_kappa']}")
     print("disagreements:", len(report["disagreements"]), "of", report["n"])

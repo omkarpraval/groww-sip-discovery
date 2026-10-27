@@ -14,7 +14,7 @@ on:
         default: "0"
       model:
         description: "Gemini model id"
-        default: "gemini-2.5-flash"
+        default: "auto"
 
 permissions:
   contents: write

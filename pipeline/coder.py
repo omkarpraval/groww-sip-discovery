@@ -34,7 +34,7 @@ def main(batch, max_per_source, rpm, limit):
         model, avail = resolve_model()
     except LLMError as e:
         msg = str(e).replace(os.getenv("GEMINI_API_KEY", "~~"), "***")
-        write_status(ok=False, stage="resolve_model", error=msg)
+        write_status(ok=False, stage="resolve_model", error=msg[:300], probes=llm.PROBES)
         print("stopping:", msg); return
     llm.MODEL = model
     print(f"to code: {len(todo)} (already {len(done)}) model={model} prompt={PROMPT_VERSION}")
@@ -59,7 +59,17 @@ def main(batch, max_per_source, rpm, limit):
             print(f"{i + len(chunk)}/{len(todo)}")
             time.sleep(max(0, gap - (time.time() - t0)))
     write_status(ok=error is None, model=model, coded_this_run=coded_n, already=len(done), todo=len(todo),
-                 error=error, models_available=[m for m in avail if "gemini" in m][:15])
+                 error=error, probes=llm.PROBES, models_available=[m for m in avail if "gemini" in m][:15])
+
+
+def safe_main(*args):
+    """Any unexpected crash still leaves a readable status file in the repo."""
+    try:
+        main(*args)
+    except Exception as e:
+        msg = f"{type(e).__name__}: {e}".replace(os.getenv("GEMINI_API_KEY", "~~"), "***")[:500]
+        write_status(ok=False, stage="crash", error=msg, probes=llm.PROBES)
+        print("crashed:", msg)
 
 
 if __name__ == "__main__":
@@ -69,4 +79,4 @@ if __name__ == "__main__":
     ap.add_argument("--rpm", type=float, default=8)
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
-    main(a.batch, a.max_per_source, a.rpm, a.limit)
+    safe_main(a.batch, a.max_per_source, a.rpm, a.limit)

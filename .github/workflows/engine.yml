@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "collect | code | all"
+        description: "collect | code | aggregate | all"
         default: "all"
       max_per_source:
         description: "cap coded items per source (0 = all)"
@@ -53,7 +53,7 @@ jobs:
         run: python pipeline/coder.py --max-per-source ${{ inputs.max_per_source }} --limit ${{ inputs.limit }}
 
       - name: Stage 3 aggregate + golden set
-        if: inputs.stage == 'code' || inputs.stage == 'all'
+        if: inputs.stage == 'code' || inputs.stage == 'all' || inputs.stage == 'aggregate'
         run: |
           python pipeline/aggregate.py
           if [ -f data/golden/golden_human.csv ]; then python pipeline/golden.py; fi

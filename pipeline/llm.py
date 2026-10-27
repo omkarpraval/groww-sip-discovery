@@ -76,8 +76,11 @@ FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3-flash", "gemini-flash-latest", 
 def list_models(key=None):
     """Model ids this key can call with generateContent (used to pick a working model)."""
     key = key or os.getenv("GEMINI_API_KEY")
-    r = requests.get("https://generativelanguage.googleapis.com/v1beta/models", params={"key": key, "pageSize": 200},
-                     timeout=60)
+    try:
+        r = requests.get("https://generativelanguage.googleapis.com/v1beta/models",
+                         params={"key": key, "pageSize": 200}, timeout=60)
+    except requests.exceptions.RequestException as e:
+        raise LLMError(f"ListModels network {type(e).__name__}")
     if r.status_code != 200:
         raise LLMError(f"ListModels HTTP {r.status_code}: {r.text[:300]}")
     return [m["name"].split("/", 1)[1] for m in r.json().get("models", [])
@@ -95,19 +98,27 @@ def resolve_model(preferred=None, key=None):
     preferred = preferred or MODEL
     avail = list_models(key)
     others = sorted([m for m in avail if "flash" in m and m not in FALLBACK_MODELS], key=_version_key, reverse=True)
-    tried = []
+    global PROBES
+    PROBES = []
     for m in dict.fromkeys([preferred] + FALLBACK_MODELS + others):
         if m not in avail or m == "auto":
             continue
+        t0 = time.time()
         try:
-            call_gemini("Reply with the word ok.", key=key, model=m, retries=2)
+            call_gemini("Reply with the word ok.", key=key, model=m, retries=1, timeout=60)
+            PROBES.append({"model": m, "ok": True, "seconds": round(time.time() - t0, 1)})
             return m, avail
         except LLMError as e:
-            tried.append(f"{m}: {str(e)[:120]}")
-    raise LLMError(f"no usable Gemini model; tried {tried[:6]}; available {avail[:20]}")
+            PROBES.append({"model": m, "ok": False, "seconds": round(time.time() - t0, 1), "error": str(e)[:160]})
+        if len(PROBES) >= 6:
+            break
+    raise LLMError(f"no usable Gemini model; probes {PROBES}; available {avail[:20]}")
 
 
-def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperature=0.0, retries=5):
+PROBES = []
+
+
+def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperature=0.0, retries=5, timeout=240):
     key = key or os.getenv("GEMINI_API_KEY")
     if not key:
         raise LLMError("GEMINI_API_KEY not set")
@@ -119,7 +130,11 @@ def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperat
         body["generationConfig"].update({"responseMimeType": "application/json", "responseSchema": schema})
     wait, last = 4, ""
     for attempt in range(retries):
-        r = requests.post(API.format(m=model or MODEL), params={"key": key}, json=body, timeout=180)
+        try:
+            r = requests.post(API.format(m=model or MODEL), params={"key": key}, json=body, timeout=timeout)
+        except requests.exceptions.RequestException as e:  # timeouts / dropped connections are retryable
+            last = f"network {type(e).__name__}"
+            time.sleep(wait); wait = min(wait * 2, 90); continue
         if r.status_code == 200:
             try:
                 txt = r.json()["candidates"][0]["content"]["parts"][0]["text"]

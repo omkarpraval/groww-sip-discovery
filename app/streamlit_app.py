@@ -85,12 +85,18 @@ p,li{color:var(--ink-2)}
 .hero h1{font-size:clamp(30px,4.2vw,46px);line-height:1.08;font-weight:800;margin:0 0 12px;padding:0}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero p{font-size:18px;max-width:760px;margin:0 0 18px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow)}
 .stat b{display:block;font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
 .stat span{font-size:13px;color:var(--ink-3)}
 /* segmented nav */
-div[data-testid="stSegmentedControl"] button,div[data-testid="stButtonGroup"] button{font-weight:600!important;font-size:15px!important;padding:8px 16px!important}
+div[data-testid="stButtonGroup"] button{font-weight:600!important;font-size:15px!important;padding:8px 16px!important}
+/* main menu: full width, equal segments, stays on screen while scrolling */
+.st-key-navbar{position:sticky;top:0;z-index:50;background:var(--bg);padding:10px 0 12px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.st-key-navbar .st-key-nav,.st-key-navbar [data-testid="stButtonGroup"]{width:100%!important;flex:1 1 auto!important}
+.st-key-navbar [data-testid="stButtonGroup"]>div:not([data-testid]){width:100%!important;max-width:none!important;display:flex!important;flex-wrap:nowrap!important}
+.st-key-navbar [data-testid="stButtonGroup"] p{overflow:visible!important;text-overflow:clip!important}
+.st-key-navbar [data-testid="stButtonGroup"] button{flex:1 1 0!important;min-height:46px;justify-content:center;font-size:16px!important;padding:8px 6px!important}
 /* cards */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin-bottom:16px}
 .card h3{font-size:18px;margin:0 0 4px}
@@ -104,7 +110,7 @@ div[data-testid="stSegmentedControl"] button,div[data-testid="stButtonGroup"] bu
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
 @media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}
 .kv{background:var(--surface-2);border-radius:12px;padding:10px 12px}
-.kv span{display:block;font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.kv span{display:block;font-size:13px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
 .kv b{font-size:15px;color:var(--ink)}
 .kv.risk{background:var(--bad-bg)} .kv.risk b{color:var(--bad)}
 .pill{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);margin:0 6px 6px 0}
@@ -114,7 +120,7 @@ div[data-testid="stSegmentedControl"] button,div[data-testid="stButtonGroup"] bu
 .quote{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px;background:var(--surface)}
 .quote p{margin:0 0 8px;font-size:16px;color:var(--ink);line-height:1.5}
 .quote .tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--ink-3)}
-.tag{font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2)}
+.tag{font-size:13px;font-weight:600;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2)}
 .ok{color:var(--good);font-weight:600}
 .quote a{margin-left:auto;font-weight:600;text-decoration:none;color:var(--accent-ink)}
 .need{font-size:14px;color:var(--ink-2);margin:0 0 8px}
@@ -123,7 +129,7 @@ div[data-testid="stSegmentedControl"] button,div[data-testid="stButtonGroup"] bu
 .bars .t i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:0 3px 3px 0}
 .bars .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
 .score{width:100%;border-collapse:collapse;font-size:15px}
-.score th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);text-align:left;font-weight:600;padding:0 8px 8px}
+.score th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);text-align:left;font-weight:600;padding:0 8px 8px}
 .score td{padding:12px 8px;border-top:1px solid var(--line);color:var(--ink)}
 .score .n{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
 .step{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
@@ -141,6 +147,30 @@ div[data-testid="stButtonGroup"]>div{flex-wrap:wrap!important}
 .score,.score th,.score td{border:none!important}
 .score td{border-top:1px solid var(--line)!important}
 .score tr{background:transparent!important}
+.tablewrap{overflow-x:auto}
+.cmp-m{display:none}
+.cmp-m .mrow{border-top:1px solid var(--line);padding:12px 0}
+.cmp-m .mrow b{display:block;margin-bottom:6px;color:var(--ink)}
+.cmp-m .mrow div{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:15px;color:var(--ink-2)}
+.cmp-m .ok{color:var(--good);font-weight:700}.cmp-m .no{color:var(--bad);font-weight:700}
+div[data-testid="stExpander"] table{display:block;overflow-x:auto}
+div[data-testid="stExpander"] code{font-size:13px!important}
+/* phones */
+@media (max-width:640px){
+  .topbar{margin-bottom:18px;gap:8px}.topbar .code{display:none}
+  .hero h1{font-size:28px}.hero p{font-size:16px}
+  .stats{grid-template-columns:1fr 1fr}.stat b{font-size:18px}
+  .st-key-navbar [data-testid="stButtonGroup"] button{font-size:14px!important;padding:6px 2px!important;min-height:44px}
+  .st-key-howto{display:none}
+  .card{padding:16px}
+  .bars .b{grid-template-columns:1fr 70px 40px}
+  .score.stack thead,.score.stack tr.h{display:none}
+  .score.stack tr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-top:1px solid var(--line)}
+  .score.stack td{border:none!important;padding:0}.score.stack td:first-child{grid-column:1/-1;font-weight:600}
+  .score.stack td.k{display:none}
+  .cmp-d{display:none}.cmp-m{display:block}
+  .quote a{min-height:36px;display:inline-flex;align-items:center}
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -160,7 +190,7 @@ st.markdown(f"""
   <a class="brand" href="{STORY}" target="_blank"><span class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>SIP Discovery Engine</a>
   <span class="labtag">Live lab</span><span class="sp"></span>
   <a class="toplink" href="{STORY}" target="_blank">← Read the findings</a>
-  <a class="toplink" href="{REPO}" target="_blank">Code</a>
+  <a class="toplink code" href="{REPO}" target="_blank">Code</a>
 </div>""", unsafe_allow_html=True)
 
 F = DATA.get("funnel", {})
@@ -178,10 +208,10 @@ st.markdown(f"""<div class="hero">
 <p>Paste a review, Reddit post or comment. The same AI and prompt that labelled 8,900 public conversations will read it, explain why the person might stop, and check its own evidence word-for-word.</p>
 <div class="stats">{stats}</div></div>""", unsafe_allow_html=True)
 
-nav = st.segmented_control("Section", ["Analyse text", "Explore the evidence", "Validation", "Method"],
-                           default="Analyse text", key="nav", label_visibility="collapsed")
-nav = nav or "Analyse text"
-st.write("")
+NAV = {"Analyse": "Analyse text", "Evidence": "Explore the evidence", "Validation": "Validation", "Method": "Method"}
+with st.container(key="navbar"):
+    nav = st.segmented_control("Section", list(NAV), default="Analyse", key="nav", label_visibility="collapsed")
+nav = NAV[nav or "Analyse"]
 
 # ------------------------------------------------------------------ helpers
 SAMPLES = {
@@ -276,7 +306,7 @@ if nav == "Analyse text":
                            help="Up to 5 items, separated by a blank line. Don't paste names, phone numbers, PAN or account details.")
         go = st.button("Analyse", type="primary", icon=":material/auto_awesome:")
         st.caption(SAMPLE_NOTE + " Don’t paste personal details.")
-    with right:
+    with right, st.container(key="howto"):
         st.markdown("""<div class="card"><h3>What you’ll get</h3><p class="hint">For each item, in about 5–15 seconds</p>
 <div class="step"><span class="no">1</span><div><b>What they did</b><br><span style="color:var(--ink-2)">continuing, considering stopping, paused, debit failed…</span></div></div>
 <div class="step"><span class="no">2</span><div><b>Why — in plain English</b><br><span style="color:var(--ink-2)">up to three reasons, plus the unmet need behind them</span></div></div>
@@ -332,17 +362,20 @@ elif nav == "Explore the evidence":
     df = corpus()
     st.markdown("""<div class="eyebrow">Every quote here passed the word-for-word check</div>
 <h3 style="margin:4px 0 14px">Browse what people actually said</h3>""", unsafe_allow_html=True)
-    f1, f2, f3, f4 = st.columns([1.3, 1, 1, 1])
-    clusters = sorted({c for cs in df.cluster for c in cs})
-    cl = f1.multiselect("Root cause", clusters, placeholder="All causes")
-    srcs = f2.multiselect("Source", sorted(df.src.unique()), placeholder="All sources")
-    emos = f3.multiselect("Emotion", sorted(df.emotion.unique()), format_func=str.capitalize, placeholder="Any emotion")
-    acts = f4.multiselect("What they did", [a for a in ACT if a in set(df.sip_action)], format_func=ACT.get,
-                          placeholder="Any action")
-    g1, g2 = st.columns([2.2, 1])
+    g1, g2 = st.columns([2.2, 1], vertical_alignment="center")
     q = g1.text_input("Search", placeholder="Search words, e.g. “red”, “autopay”, “salary”, “band kar”",
                       label_visibility="collapsed")
     only_early = g2.toggle("First-year investors only", value=True)
+    n_active = sum(bool(st.session_state.get(k)) for k in ("f_cl", "f_src", "f_emo", "f_act"))
+    with st.expander(f"Filter by cause, source, emotion or action{f' · {n_active} active' if n_active else ''}"):
+        f1, f2 = st.columns(2)
+        clusters = sorted({c for cs in df.cluster for c in cs})
+        cl = f1.multiselect("Root cause", clusters, placeholder="All causes", key="f_cl")
+        srcs = f2.multiselect("Source", sorted(df.src.unique()), placeholder="All sources", key="f_src")
+        f3, f4 = st.columns(2)
+        emos = f3.multiselect("Emotion", sorted(df.emotion.unique()), format_func=str.capitalize, placeholder="Any emotion", key="f_emo")
+        acts = f4.multiselect("What they did", [a for a in ACT if a in set(df.sip_action)], format_func=ACT.get,
+                              placeholder="Any action", key="f_act")
 
     v = df
     if only_early: v = v[v.early]
@@ -406,11 +439,11 @@ elif nav == "Validation":
     else:
         main = gold or reports[0]
         rows = "".join(f'<tr><td>{FIELD[k][0]}</td><td class="n">{round(main["fields"][k]["agreement"])}%</td>'
-                       f'<td>{main["fields"][k]["kappa"]}</td><td>{FIELD[k][1] and str(FIELD[k][1]) + "%" or "—"}</td>'
+                       f'<td class="k">{main["fields"][k]["kappa"]}</td><td class="k">{FIELD[k][1] and str(FIELD[k][1]) + "%" or "—"}</td>'
                        f'<td>{badge(main["fields"][k]["agreement"], FIELD[k][1])}</td></tr>'
                        for k in FIELD if k in main["fields"])
         st.markdown(f"""<div class="card"><h3>Scorecard — {E(name(main))}</h3><p class="hint">{main['n']} items scored · κ above 0.6 = substantial agreement</p>
-<table class="score"><tr><th>What the AI labels</th><th>Agreement</th><th>Cohen’s κ</th><th>Pass mark</th><th>Result</th></tr>{rows}</table></div>""",
+<table class="score stack"><tr class="h"><th>What the AI labels</th><th>Agreement</th><th>Cohen’s κ</th><th>Pass mark</th><th>Result</th></tr>{rows}</table></div>""",
                     unsafe_allow_html=True)
         if len(reports) > 1:
             def cell(r, k):
@@ -421,8 +454,17 @@ elif nav == "Validation":
                 return f'<td class="n" style="color:{col}">{round(f["agreement"])}%{" ✓" if ok else ""}</td>'
             head = "".join(f"<th>{FIELD[k][0]}</th>" for k in FIELD)
             body = "".join(f'<tr><td>{E(name(r))}</td>{"".join(cell(r, k) for k in FIELD)}</tr>' for r in reports)
+
+            def mcell(r, k):
+                f = r["fields"].get(k)
+                if not f: return ""
+                t = FIELD[k][1]; ok = None if t is None else f["agreement"] >= t
+                cls = "ok" if ok else "no" if ok is False else ""
+                return f'<span>{FIELD[k][0]}</span><span class="{cls}">{round(f["agreement"])}%{" ✓" if ok else " ✕" if ok is False else ""}</span>'
+            mob = "".join(f'<div class="mrow"><b>{E(name(r))}</b><div>{"".join(mcell(r, k) for k in FIELD)}</div></div>' for r in reports)
             st.markdown(f"""<div class="card"><h3>Every model and prompt, same test</h3><p class="hint">Agreement with human labels · ✓ meets the pass mark</p>
-<div style="overflow-x:auto"><table class="score"><tr><th>Model · prompt</th>{head}</tr>{body}</table></div></div>""", unsafe_allow_html=True)
+<div class="tablewrap cmp-d"><table class="score"><tr><th>Model · prompt</th>{head}</tr>{body}</table></div>
+<div class="cmp-m">{mob}</div></div>""", unsafe_allow_html=True)
         corr = (DATA.get("golden") or {}).get("corrections", [])
         if corr:
             st.markdown('<h3 style="margin:18px 0 10px">Where the AI was wrong — and what changed</h3>', unsafe_allow_html=True)

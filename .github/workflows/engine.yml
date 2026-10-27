@@ -15,6 +15,9 @@ on:
       model:
         description: "Gemini model id"
         default: "auto"
+      provider:
+        description: "auto (Gemini then Groq) | gemini | groq"
+        default: "auto"
 
 permissions:
   contents: write
@@ -50,6 +53,8 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ inputs.model }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ inputs.provider }}
         run: python pipeline/coder.py --max-per-source ${{ inputs.max_per_source }} --limit ${{ inputs.limit }}
 
       - name: Stage 3 aggregate + golden set
@@ -63,6 +68,8 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ inputs.model }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ inputs.provider }}
         run: python pipeline/golden.py --recode
 
       - name: Commit results

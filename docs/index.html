@@ -48,6 +48,7 @@ a{color:var(--accent-ink)}
 .navcta{flex:none;font-size:15px;font-weight:600;text-decoration:none;color:#fff;background:var(--accent);padding:8px 14px;border-radius:10px}
 .progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--accent);width:0}
 @media (max-width:980px){.links{display:none}.navcta{margin-left:auto}}
+@media (max-width:640px){.nav .wrap{height:56px}}
 
 /* hero */
 .hero{padding:64px 0 32px}
@@ -77,7 +78,7 @@ a{color:var(--accent-ink)}
 .step.key::before{background:var(--accent-soft)}
 .step.key .n{color:var(--accent-ink)}
 .sources{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.src{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:2px 8px}
+.src{font-size:13px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:2px 8px}
 @media (max-width:900px){.funnel{grid-template-columns:1fr 1fr}.step+.step{border-left:none}.step+.step::before{display:none}.step{border-top:1px solid var(--line)}.step:nth-child(-n+2){border-top:none}.step:nth-child(even){border-left:1px solid var(--line)}.step.key{grid-column:1/-1;border-left:none}}
 
 /* sections */
@@ -135,7 +136,7 @@ details[open].table summary::before{transform:rotate(90deg)}
 .quote p::before{content:"“";color:var(--accent);font-weight:800;margin-right:2px}
 .quote p::after{content:"”";color:var(--accent);font-weight:800;margin-left:1px}
 .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-3)}
-.tag{font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2)}
+.tag{font-size:13px;font-weight:600;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2)}
 .meta a{margin-left:auto;font-weight:600;text-decoration:none}
 .meta a:hover{text-decoration:underline}
 .verified{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-weight:600}
@@ -281,6 +282,58 @@ footer a{color:var(--ink-2)}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
 .loading{padding:120px 0;text-align:center;color:var(--ink-3)}
+/* key takeaways */
+.tldr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.tk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,transform .15s}
+.tk:hover{border-color:#9fc6e0;transform:translateY(-2px)}
+.tk .no{font-size:13px;font-weight:700;color:var(--accent-ink)}
+.tk b{font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
+.tk span{font-size:15px;color:var(--ink-2);line-height:1.45}
+.tk em{font-style:normal;margin-top:auto;font-size:14px;font-weight:600;color:var(--accent-ink)}
+@media (max-width:900px){.tldr{grid-template-columns:1fr 1fr}}
+/* mobile section menu */
+.mnav{display:none;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 16px 10px;margin:0 -16px;-webkit-overflow-scrolling:touch}
+.mnav::-webkit-scrollbar{display:none}
+.mnav a{flex:none;font-size:14px;font-weight:600;color:var(--ink-2);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:8px 14px;border-radius:999px;min-height:38px;display:inline-flex;align-items:center}
+.mnav a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media (max-width:980px){.mnav{display:flex}}
+.grid-where{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+.cmp-m{display:none}
+/* phones */
+@media (max-width:640px){
+  body{font-size:16px}
+  .hero{padding:36px 0 20px}
+  .hero h1{font-size:31px}
+  .lede{font-size:17px}
+  .ctas .btn{flex:1 1 100%;justify-content:center}
+  section.block{padding:56px 0 4px}
+  h2{font-size:25px}
+  .sub{font-size:16px;margin-bottom:22px}
+  .card{padding:18px}
+  .tldr{grid-template-columns:1fr;gap:10px}
+  .tk{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:14px 16px}
+  .tk b{font-size:24px}.tk span{flex:1 1 60%}.tk em,.tk .no{display:none}
+  .grid-where{grid-template-columns:1fr}
+  .src,.tag{font-size:13px}
+  .meta a,details.table summary,.stat .src-l a,.caveat a,footer a{display:inline-flex;align-items:center;min-height:40px}
+  details.table summary{padding:6px 0}
+  .ch{grid-template-columns:30px 1fr 50px}.ch .lab{font-size:15px}
+  .bigstat{font-size:48px}
+  .window{gap:14px}.ring{width:92px;height:92px}.window .big{font-size:38px}
+  .minirow{grid-template-columns:1fr 70px 40px}
+  /* swipeable rows instead of very long stacks */
+  .pipe,.cases{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -16px;padding:4px 16px 14px;scrollbar-width:none}
+  .pipe::-webkit-scrollbar,.cases::-webkit-scrollbar{display:none}
+  .pipe>.pst,.cases>.case{flex:0 0 82%;scroll-snap-align:start}
+  .swipe-hint{display:block!important}
+  .cmp-d{display:none}.cmp-m{display:block}
+  footer .row{gap:18px}
+}
+.swipe-hint{display:none;font-size:13px;color:var(--ink-3);margin:-4px 0 8px}
+.cmp-m .mrow{border-top:1px solid var(--line);padding:12px 0}
+.cmp-m .mrow b{display:block;margin-bottom:6px}
+.cmp-m .mrow div{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:14px;color:var(--ink-2)}
+.cmp-m .ok{color:var(--good);font-weight:700}.cmp-m .no{color:var(--bad);font-weight:700}
 </style>
 </head>
 <body>
@@ -302,6 +355,7 @@ footer a{color:var(--ink-2)}
     <a class="navcta" href="#try">Try it</a>
     <span class="progress" id="progress"></span>
   </div>
+  <div class="wrap"><div class="mnav" id="mnav"></div></div>
 </nav>
 
 <main id="main" class="wrap"><div class="loading" id="loading">Loading the latest engine results…</div></main>
@@ -379,6 +433,15 @@ function render(D){
     </div>
   </header>`;
 
+  /* ---------- key takeaways ---------- */
+  const dropTop = D.segments.find(s=>s.title==="How they earn");
+  h += `<section aria-label="Key takeaways"><div class="eyebrow" style="margin-top:8px">Key takeaways in 10 seconds</div><div class="tldr">
+    <a class="tk" href="#why"><span class="no">01</span><b>${r0(top.pct)}%</b><span>of first-year drop-off moments: they <b>can’t tell if their SIP is working</b></span><em>Why they stop →</em></a>
+    <a class="tk" href="#why"><span class="no">02</span><b>${considerPct}%</b><span>are still only <b>considering</b> stopping — there’s a window to help</span><em>The window →</em></a>
+    <a class="tk" href="#where"><span class="no">03</span><b>${r0(D.outside_any_pct)}%</b><span>look for answers <b>outside the app</b>, mostly on Reddit</span><em>Where they go →</em></a>
+    ${dropTop ? `<a class="tk" href="#who"><span class="no">04</span><b>${r0(dropTop.rows[0].dropoff)}% vs ${r0(dropTop.rows[dropTop.rows.length-1].dropoff)}%</b><span><b>irregular-income</b> vs salaried investors talk about stopping</span><em>Who’s at risk →</em></a>` : ""}
+  </div></section>`;
+
   /* ---------- 1 context ---------- */
   h += section("context", 1, "Why it matters", "SIPs are easy to start and easy to stop. Keeping a first-timer going for 12 months is the real growth problem.", "", `
     <div class="grid3">
@@ -446,7 +509,7 @@ function render(D){
   const C = D.checking;
   h += section("where", 4, "Where they go", `When in doubt, ${r0(D.outside_any_pct)}% of first-year investors look for answers outside the app — mostly on Reddit.`,
     `Places first-year investors say they went for answers (% of ${fmt(F.early)} first-year posts; a post can name several).`, `
-    <div class="grid2" style="grid-template-columns:1.4fr 1fr">
+    <div class="grid-where">
       <div class="card"><h3>Where they look for answers</h3><p class="hint">% of first-year posts</p>
         <div class="channels">${D.outside.map((o,i)=>`<div class="ch ${i>1?'dim':''}" data-tip="${esc(o.label)}: ${fmt(o.n)} posts (${o.pct}%)"><span class="ic">${ICON[CH_ICON[o.label]]||ICON.search}</span><span class="lab">${esc(o.label)}</span><span class="t"><i style="width:${100*o.pct/oMax}%"></i></span><span class="v">${r0(o.pct)}%</span></div>`).join("")}</div>
         ${table(["Channel","% of first-year posts","Posts"], D.outside.map(o=>[o.label,o.pct+"%",o.n]))}
@@ -505,15 +568,17 @@ function render(D){
         </div>
       </div>
     </div>
-    ${reports.length > 1 ? `<div class="card mt"><h3>Every model and prompt, same test</h3><p class="hint">Agreement with human labels · ✓ meets pass mark</p><div class="scroll-x"><table class="cmp"><thead><tr><th>Model · prompt</th>${fieldsOrder.map(k=>`<th style="text-align:center">${FIELD[k][0]}</th>`).join("")}</tr></thead><tbody>
+    ${reports.length > 1 ? `<div class="card mt"><h3>Every model and prompt, same test</h3><p class="hint">Agreement with human labels · ✓ meets pass mark</p><div class="scroll-x cmp-d"><table class="cmp"><thead><tr><th>Model · prompt</th>${fieldsOrder.map(k=>`<th style="text-align:center">${FIELD[k][0]}</th>`).join("")}</tr></thead><tbody>
       ${reports.map(r=>`<tr><td>${esc(repName(r))}</td>${fieldsOrder.map(k=>{const f=r.fields[k]; if(!f) return `<td class="c">–</td>`; const ok=f.target==null?null:f.agreement>=f.target; return `<td class="c ${ok===true?'ok':ok===false?'no':''}">${r0(f.agreement)}%${ok===true?' ✓':''}</td>`;}).join("")}</tr>`).join("")}
-      </tbody></table></div></div>` : ""}
-    ${D.golden.corrections.length ? `<div class="card mt"><h3>Where the AI was wrong — and what we changed</h3><p class="hint">Real golden-set cases. Each one became a rule in the next prompt version.</p><div class="grid3">
+      </tbody></table></div>
+      <div class="cmp-m">${reports.map(r=>`<div class="mrow"><b>${esc(repName(r))}</b><div>${fieldsOrder.filter(k=>r.fields[k]).map(k=>{const f=r.fields[k];const ok=f.target==null?null:f.agreement>=f.target;return `<span>${FIELD[k][0]}</span><span class="${ok===true?'ok':ok===false?'no':''}">${r0(f.agreement)}%${ok===true?' ✓':ok===false?' ✕':''}</span>`;}).join("")}</div></div>`).join("")}</div></div>` : ""}
+    ${D.golden.corrections.length ? `<div class="card mt"><h3>Where the AI was wrong — and what we changed</h3><p class="hint">Real golden-set cases. Each one became a rule in the next prompt version.</p><p class="swipe-hint">Swipe for more →</p><div class="grid3 cases">
       ${D.golden.corrections.map(c=>`<div class="case"><p class="txt">“${esc(c.text)}”</p><div class="verdict"><span>AI said</span><span class="strike">${ACT[c.ai]||c.ai}</span><span>Human said</span><span class="right">${ACT[c.human]||c.human}</span></div><span class="tag" style="align-self:flex-start">Fixed in prompt v1.2</span></div>`).join("")}
     </div></div>` : ""}`);
 
   /* ---------- 7 how ---------- */
   h += section("how", 7, "How it works", "Five steps from raw posts to numbers you can audit.", "", `
+    <p class="swipe-hint">Swipe to see all five steps →</p>
     <div class="pipe">
       <div class="pst"><span class="ic">${ICON.collect}</span><h4>Collect</h4><p>Public Play Store &amp; App Store reviews, Reddit, TradingQnA and YouTube comments since 2024.</p><span class="n">${fmt(F.collected)} <small>posts</small></span></div>
       <div class="pst"><span class="ic">${ICON.filter}</span><h4>Filter</h4><p>Remove duplicates and personal data; keep SIP-related text in English, Hindi and Hinglish.</p><span class="n">${fmt(F.sip)} <small>kept</small></span></div>
@@ -603,12 +668,13 @@ function wire(D){
   });
   document.querySelectorAll("[data-tip]").forEach(el => tipOn(el, el.dataset.tip));
 
-  /* bubble chart */
+  /* bubble chart (redrawn on resize so labels stay readable) */
   drawBubble(D.themes);
+  let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => drawBubble(D.themes), 200); });
 
   /* reveal + bar growth */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in");
-    e.target.querySelectorAll("[data-w]").forEach(t => t.style.width = t.dataset.w + "%"); io.unobserve(e.target); } }), {threshold: .12});
+    e.target.querySelectorAll("[data-w]").forEach(t => t.style.width = t.dataset.w + "%"); io.unobserve(e.target); } }), {threshold: 0, rootMargin: "0px 0px -8% 0px"});
   document.querySelectorAll(".reveal").forEach(s => io.observe(s));
 
   /* count-up */
@@ -619,12 +685,16 @@ function wire(D){
   }
 
   /* active nav + progress */
+  const mnav = document.getElementById("mnav");
+  mnav.innerHTML = [...document.querySelectorAll("#links a")].map(a=>`<a href="${a.getAttribute("href")}">${a.textContent}</a>`).join("") + `<a href="#try">Try it</a>`;
+  const mlinks = [...mnav.querySelectorAll("a")];
   const links = [...document.querySelectorAll("#links a")], prog = document.getElementById("progress");
   const secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const onScroll = () => {
     const y = scrollY + 120; let cur = -1;
     secs.forEach((s,i) => { if (s && s.offsetTop <= y) cur = i; });
     links.forEach((a,i) => a.classList.toggle("on", i === cur));
+    mlinks.forEach((a,i) => { const on = i === cur; if (on && !a.classList.contains("on")) a.scrollIntoView({block:"nearest", inline:"center"}); a.classList.toggle("on", on); });
     prog.style.width = (100 * scrollY / Math.max(1, document.body.scrollHeight - innerHeight)) + "%";
   };
   addEventListener("scroll", onScroll, {passive: true}); onScroll();
@@ -632,16 +702,18 @@ function wire(D){
 }
 
 function drawBubble(T){
-  const W = 640, H = 380, m = {l: 54, r: 20, t: 16, b: 46};
+  const el0 = document.getElementById("bubble");
+  const W = Math.max(300, Math.min(680, el0.clientWidth || 640)), narrow = W < 480;
+  const H = narrow ? 360 : 380, m = {l: narrow ? 52 : 58, r: narrow ? 10 : 20, t: 16, b: 46};
   const xmax = Math.ceil(Math.max(...T.map(t=>t.reach)) / 5) * 5 + 2, ymax = 100;
   const X = v => m.l + (W - m.l - m.r) * v / xmax, Y = v => H - m.b - (H - m.t - m.b) * v / ymax;
-  const R = v => 6 + 16 * Math.sqrt(v / 100);
-  const top = T.slice().sort((a,b)=>b.score-a.score).slice(0,5).map(t=>t.label);
+  const R = v => (narrow ? 5 : 6) + (narrow ? 11 : 16) * Math.sqrt(v / 100);
+  const top = T.slice().sort((a,b)=>b.score-a.score).slice(0, narrow ? 3 : 5).map(t=>t.label);
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Opportunity map: reach versus closeness to stopping for each reason">`;
-  for (let v = 0; v <= ymax; v += 25) s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l-10}" y="${Y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)">${v}%</text>`;
-  for (let v = 0; v <= xmax; v += 5) s += `<text x="${X(v)}" y="${H-m.b+20}" text-anchor="middle" font-size="12" fill="var(--ink-3)">${v}%</text>`;
+  for (let v = 0; v <= ymax; v += 25) s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l-10}" y="${Y(v)+4}" text-anchor="end" font-size="13" fill="var(--ink-3)">${v}%</text>`;
+  for (let v = 0; v <= xmax; v += (narrow ? 10 : 5)) s += `<text x="${X(v)}" y="${H-m.b+20}" text-anchor="middle" font-size="13" fill="var(--ink-3)">${v}%</text>`;
   s += `<text x="${(W+m.l-m.r)/2}" y="${H-6}" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Reach — % of all relevant posts →</text>`;
-  s += `<text transform="translate(14 ${(H-m.b+m.t)/2}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Tied to stopping →</text>`;
+  s += `<text transform="translate(12 ${(H-m.b+m.t)/2}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Tied to stopping →</text>`;
   const sorted = T.slice().sort((a,b)=>b.early-a.early);
   sorted.forEach(t => {
     const fix = t.addr >= .8, cx = X(t.reach), cy = Y(t.proximity), r = R(t.early);
@@ -651,13 +723,13 @@ function drawBubble(T){
   const placed = [];
   T.filter(t => top.includes(t.label)).forEach(t => {
     let x = X(t.reach) + R(t.early) + 6, y = Y(t.proximity) + 4, anchor = "start";
-    if (x > W - 150) { x = X(t.reach) - R(t.early) - 6; anchor = "end"; }
+    if (x > W - (narrow ? 120 : 150)) { x = X(t.reach) - R(t.early) - 6; anchor = "end"; }
     while (placed.some(p => Math.abs(p - y) < 15)) y += 15;
     placed.push(y);
     s += `<text x="${x}" y="${y}" font-size="13" font-weight="600" fill="var(--ink)" text-anchor="${anchor}" paint-order="stroke" stroke="#fff" stroke-width="4">${esc(t.label)}</text>`;
   });
   s += `</svg>`;
-  const el = document.getElementById("bubble"); el.innerHTML = s;
+  const el = el0; el.innerHTML = s;
   el.querySelectorAll(".bub").forEach(c => tipOn(c, c.dataset.tip));
 }
 

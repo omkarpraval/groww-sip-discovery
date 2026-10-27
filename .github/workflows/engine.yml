@@ -72,13 +72,18 @@ jobs:
           LLM_PROVIDER: ${{ inputs.provider }}
         run: python pipeline/golden.py --recode
 
+      - name: Build site data (GitHub Pages)
+        if: inputs.stage != 'collect'
+        working-directory: pipeline
+        run: python site_data.py || echo "site data skipped"
+
       - name: Commit results
         if: always()
         run: |
           git config user.name "discovery-engine-bot"
           git config user.email "actions@users.noreply.github.com"
           gzip -kf data/raw/*.jsonl 2>/dev/null || true
-          git add data/stage1.jsonl data/coded outputs data/raw/*.gz 2>/dev/null || true
+          git add data/stage1.jsonl data/coded outputs docs/data.json data/raw/*.gz 2>/dev/null || true
           git commit -m "engine run: ${{ inputs.stage }}" || echo "nothing to commit"
           git pull --rebase origin main
           git push

@@ -385,7 +385,11 @@
     "relevant_coded": 4304,
     "failed_quote_check": 300,
     "low_confidence": 0,
-    "confidence_min": 0.7
+    "confidence_min": 0.7,
+    "schema_repairs": 0,
+    "rows_by_model": {
+      "gemini-flash-lite-latest": 7365
+    }
   },
   "funnel": {
     "coded": 7365,

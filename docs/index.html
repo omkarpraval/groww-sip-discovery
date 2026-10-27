@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIP Discovery Engine</title>
+<meta name="description" content="Why first-time mutual fund investors stop their SIPs — 100k+ public conversations, AI-coded and validated against a hand-labelled golden set. Research only, not investment advice.">
+<meta property="og:title" content="SIP Discovery Engine">
+<meta property="og:description" content="Why first-time investors stop their SIPs — AI-coded public conversations, validated against human labels.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230072B2'/%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='M19 19l6 6' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f5f6f8; --surface:#ffffff; --surface-2:#f0f2f5; --line:#e3e6ea;
+  --ink:#101418; --ink-2:#47505a; --ink-3:#66707c;
+  --accent:#0072B2; --accent-soft:#e6f1f8; --accent-ink:#005a8c;
+  --bar:#0072B2; --bar-dim:#a9cde4; --muted-bar:#c3c9d1;
+  --orange:#E69F00; --verm:#D55E00; --green:#009E73; --sky:#56B4E9; --pink:#CC79A7;
+  --good:#00704f; --good-bg:#e2f4ee; --warn:#8a5700; --warn-bg:#fdf1d8; --bad:#a94400; --bad-bg:#fbe7dc;
+  --shadow:0 1px 2px rgba(16,20,24,.04),0 4px 16px rgba(16,20,24,.06);
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:8px 12px;border-radius:8px;z-index:99}
+.skip:focus{left:8px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(245,246,248,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.brand .dot{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:#fff}
+.links{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+.links a{color:var(--ink-2);text-decoration:none;font-size:15px;font-weight:500;padding:8px 12px;border-radius:999px;white-space:nowrap}
+.links a:hover{background:var(--surface-2);color:var(--ink)}
+.links a.on{background:var(--ink);color:#fff}
+.navcta{flex:none;font-size:15px;font-weight:600;text-decoration:none;color:#fff;background:var(--accent);padding:8px 14px;border-radius:10px}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--accent);width:0}
+@media (max-width:980px){.links{display:none}.navcta{margin-left:auto}}
+
+/* hero */
+.hero{padding:64px 0 32px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--warn);background:var(--warn-bg);padding:6px 12px;border-radius:999px}
+.hero h1{font-size:clamp(32px,5vw,56px);line-height:1.07;letter-spacing:-.028em;margin:18px 0;max-width:940px;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:clamp(17px,2vw,20px);color:var(--ink-2);max-width:760px;margin:0 0 28px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:16px;padding:12px 20px;border-radius:12px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-ink)}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink-3)}
+.status-line{font-size:14px;color:var(--ink-3);display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:18px}
+.status-line span{display:inline-flex;align-items:center;gap:6px}
+.status-line i{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block}
+
+.funnel{margin-top:40px;display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.step{padding:22px 20px;position:relative}
+.step+.step{border-left:1px solid var(--line)}
+.step+.step::before{content:"";position:absolute;left:-7px;top:34px;width:12px;height:12px;background:var(--surface);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:rotate(45deg)}
+.step .n{font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.step .l{font-size:14px;color:var(--ink-2);line-height:1.4;margin-top:4px}
+.step .meter{height:6px;border-radius:3px;background:var(--surface-2);margin-top:14px;overflow:hidden}
+.step .meter i{display:block;height:100%;background:var(--bar);border-radius:3px;min-width:3px}
+.step.key{background:var(--accent-soft)}
+.step.key::before{background:var(--accent-soft)}
+.step.key .n{color:var(--accent-ink)}
+.sources{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.src{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:2px 8px}
+@media (max-width:900px){.funnel{grid-template-columns:1fr 1fr}.step+.step{border-left:none}.step+.step::before{display:none}.step{border-top:1px solid var(--line)}.step:nth-child(-n+2){border-top:none}.step:nth-child(even){border-left:1px solid var(--line)}.step.key{grid-column:1/-1;border-left:none}}
+
+/* sections */
+section.block{padding:80px 0 8px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
+.eyebrow b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;font-size:13px;letter-spacing:0}
+h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15;letter-spacing:-.022em;margin:10px 0 12px;max-width:860px;font-weight:800}
+.sub{color:var(--ink-2);font-size:18px;max-width:780px;margin:0 0 30px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;min-width:0}
+.card h3{font-size:18px;margin:0 0 4px;letter-spacing:-.01em;line-height:1.35}
+.hint{font-size:14px;color:var(--ink-3);margin:0 0 18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mt{margin-top:20px}
+@media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+.insight{display:flex;gap:14px;align-items:flex-start;margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--accent-soft)}
+.insight svg{flex:none;color:var(--accent-ink);margin-top:3px}
+.caveat{font-size:14px;color:var(--ink-3);margin:12px 0 0}
+details.table{margin-top:14px;font-size:14px}
+details.table summary{cursor:pointer;color:var(--accent-ink);font-weight:600;list-style:none;display:inline-flex;gap:6px;align-items:center}
+details.table summary::-webkit-details-marker{display:none}
+details.table summary::before{content:"▸";transition:transform .15s}
+details[open].table summary::before{transform:rotate(90deg)}
+.dt{width:100%;border-collapse:collapse;margin-top:10px}
+.dt th,.dt td{text-align:left;padding:7px 8px;border-top:1px solid var(--line)}
+.dt th{color:var(--ink-3);font-weight:600;border-top:none}
+.dt td.r,.dt th.r{text-align:right;font-variant-numeric:tabular-nums}
+
+/* context stats */
+.stat .big{font-size:clamp(34px,4vw,46px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat p{margin:8px 0 0;color:var(--ink-2)}
+.stat .src-l{font-size:13px;color:var(--ink-3);margin-top:12px;display:block}
+.stat.goal{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stat.goal .big{color:#fff;font-size:clamp(22px,2.4vw,28px)}
+.stat.goal p,.stat.goal .src-l{color:#c8cdd3}
+
+/* why */
+.why{display:grid;grid-template-columns:1.15fr 1fr;gap:20px;align-items:start}
+@media (max-width:900px){.why{grid-template-columns:1fr}}
+.bars{display:flex;flex-direction:column;gap:6px}
+.barrow{display:grid;grid-template-columns:minmax(150px,210px) 1fr 52px;align-items:center;gap:14px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+.barrow:hover{background:var(--surface-2)}
+.barrow[aria-pressed="true"]{background:var(--accent-soft);border-color:#b8d6ea}
+.barrow .name{font-size:15px;font-weight:600;line-height:1.3}
+.track{height:22px;position:relative}
+.track i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--bar-dim);width:0;transition:width .9s cubic-bezier(.2,.8,.2,1),background .2s}
+.barrow[aria-pressed="true"] .track i,.barrow:hover .track i{background:var(--bar)}
+.pct{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+@media (max-width:560px){.barrow{grid-template-columns:1fr 48px;row-gap:6px}.barrow .track{grid-column:1/-1;grid-row:2}}
+.panel{position:sticky;top:86px}
+.panel .big{font-size:40px;font-weight:800;letter-spacing:-.02em;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.panel .big small{font-size:16px;color:var(--ink-3);font-weight:600}
+.quote{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;background:var(--surface)}
+.quote p{margin:0 0 10px;font-size:16px;line-height:1.5}
+.quote p::before{content:"“";color:var(--accent);font-weight:800;margin-right:2px}
+.quote p::after{content:"”";color:var(--accent);font-weight:800;margin-left:1px}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-3)}
+.tag{font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2)}
+.meta a{margin-left:auto;font-weight:600;text-decoration:none}
+.meta a:hover{text-decoration:underline}
+.verified{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-weight:600}
+.stack{display:flex;height:42px;border-radius:10px;overflow:hidden;gap:2px}
+.stack span{display:flex;align-items:center;padding:0 10px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;min-width:0}
+.legend{display:flex;gap:8px 16px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--ink-2)}
+.legend b{color:var(--ink)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.window{display:flex;gap:20px;align-items:center}
+.ring{flex:none;width:120px;height:120px}
+.window .big{font-size:44px;font-weight:800;letter-spacing:-.02em;color:var(--accent-ink);line-height:1}
+.minirows{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.minirow{display:grid;grid-template-columns:150px 1fr 44px;gap:10px;align-items:center;font-size:14px}
+.minirow .t{height:10px;background:var(--surface-2);border-radius:3px;position:relative;overflow:hidden}
+.minirow .t i{position:absolute;inset:0 auto 0 0;background:var(--bar);border-radius:0 3px 3px 0}
+.minirow .t i.dim{background:var(--muted-bar)}
+.minirow .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* who */
+.seg{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.segrow{display:grid;grid-template-columns:1fr 64px;gap:4px 12px;align-items:center}
+.segrow .lab{font-size:15px;font-weight:600}
+.segrow .lab small{font-weight:400;color:var(--ink-3);font-size:13px;margin-left:6px}
+.segrow .v{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+.segrow .t{grid-column:1/-1;height:12px;background:var(--surface-2);border-radius:3px;position:relative}
+.segrow .t i{position:absolute;left:0;top:0;bottom:0;border-radius:0 3px 3px 0;background:var(--bar-dim)}
+.segrow.hi .t i{background:var(--bar)}
+.segrow .t b{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.baseline-key{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
+.baseline-key b{display:inline-block;width:2px;height:14px;background:var(--ink)}
+
+/* where */
+.channels{display:flex;flex-direction:column;gap:10px}
+.ch{display:grid;grid-template-columns:30px 170px 1fr 54px;gap:10px;align-items:center}
+.ch .ic{width:30px;height:30px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2)}
+.ch .lab{font-weight:600;font-size:15px}
+.ch .t{height:14px;background:var(--surface-2);border-radius:3px;position:relative}
+.ch .t i{position:absolute;left:0;top:0;bottom:0;border-radius:0 3px 3px 0;background:var(--bar)}
+.ch.dim .t i{background:var(--bar-dim)}
+.ch .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.ch{grid-template-columns:30px 1fr 50px}.ch .t{grid-column:2/-1;grid-row:2}}
+.bigstat{font-size:56px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+
+/* opportunity */
+.opp{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+@media (max-width:900px){.opp{grid-template-columns:1fr}}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:inherit}
+.rank{display:flex;flex-direction:column;gap:12px}
+.rk{display:grid;grid-template-columns:28px 1fr 56px;gap:10px;align-items:center}
+.rk .no{width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font-weight:700;font-size:14px}
+.rk.top .no{background:var(--accent);color:#fff}
+.rk .lab{font-weight:600;line-height:1.3}
+.rk .lab small{display:block;font-weight:400;color:var(--ink-3);font-size:13px}
+.rk .v{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* trust */
+.trust{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+@media (max-width:900px){.trust{grid-template-columns:1fr}}
+.score{width:100%;border-collapse:collapse}
+.score th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);text-align:left;font-weight:600;padding:0 8px 10px}
+.score td{padding:14px 8px;border-top:1px solid var(--line);vertical-align:middle}
+.score .q{font-weight:600}
+.score .q small{display:block;font-weight:400;color:var(--ink-3);font-size:14px}
+.score .num{font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mini{height:6px;border-radius:3px;background:var(--surface-2);position:relative;margin-top:6px;width:110px}
+.mini i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--ink-3)}
+.mini b{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.status.good{color:var(--good);background:var(--good-bg)}
+.status.warn{color:var(--warn);background:var(--warn-bg)}
+.status.bad{color:var(--bad);background:var(--bad-bg)}
+.status.info{color:var(--ink-2);background:var(--surface-2)}
+.fix{font-size:14px;color:var(--ink-2);margin-top:6px;font-weight:400}
+@media (max-width:560px){
+  .score .hide-s{display:none}.score thead{display:none}
+  .score tr{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-top:1px solid var(--line)}
+  .score td{border:none;padding:0}.score td.q{grid-column:1/-1}.mini{width:140px}
+}
+.gates{display:flex;flex-direction:column;gap:16px}
+.gate{display:flex;gap:14px;align-items:flex-start}
+.gate .ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)}
+.gate b{display:block}
+.gate span{font-size:14px;color:var(--ink-2)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{padding:10px 8px;border-top:1px solid var(--line);text-align:left;white-space:nowrap}
+.cmp th{border-top:none;font-size:13px;color:var(--ink-3);font-weight:600}
+.cmp td.c{text-align:center;font-variant-numeric:tabular-nums;font-weight:700}
+.cmp .ok{color:var(--good)} .cmp .no{color:var(--bad)}
+.scroll-x{overflow-x:auto}
+.case{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.case .txt{font-size:15px;color:var(--ink-2);margin:0;line-height:1.5}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:14px;align-items:center}
+.strike{text-decoration:line-through;color:var(--bad);font-weight:600}
+.right{color:var(--good);font-weight:700}
+
+/* how */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;counter-reset:s}
+.pst{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);position:relative}
+.pst .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;margin-bottom:14px}
+.pst h4{margin:0 0 6px;font-size:16px}
+.pst p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.5}
+.pst .n{display:block;margin-top:12px;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.pst .n small{font-size:13px;font-weight:500;color:var(--ink-3)}
+.pst:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:30px;color:var(--ink-3);font-weight:700;z-index:2;background:var(--bg);width:12px;text-align:center}
+@media (max-width:980px){.pipe{grid-template-columns:1fr 1fr}.pst::after{display:none}}
+@media (max-width:560px){.pipe{grid-template-columns:1fr}}
+.stackchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.stackchips span{font-size:13px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2)}
+
+/* try */
+.try{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+@media (max-width:900px){.try{grid-template-columns:1fr}}
+.input{font-size:16px;line-height:1.6;background:var(--surface-2);border-radius:12px;padding:16px;margin:0}
+.input mark{background:#ffe7a8;color:inherit;border-radius:3px;padding:0 2px}
+.labels{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;align-items:start;font-size:15px}
+.labels dt{color:var(--ink-3);font-weight:500}
+.labels dd{margin:0;font-weight:600;display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.pill.risk{background:var(--bad-bg);color:var(--bad)}
+.labcta{margin-top:22px;padding:18px;border-radius:12px;background:var(--ink);color:#fff;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.labcta p{margin:0;color:#c8cdd3;font-size:14px}
+.labcta b{color:#fff;font-size:16px}
+.labcta .btn{background:#fff;color:var(--ink)}
+
+/* next */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:900px){.flow{grid-template-columns:1fr}}
+.fc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}
+.fc .k{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.fc p{margin:8px 0 0;font-size:17px;line-height:1.5}
+.fc.hyp{border:2px dashed #9fc6e0;background:#f7fbfe}
+
+footer{padding:64px 0 72px;color:var(--ink-3);font-size:14px}
+footer .row{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;border-top:1px solid var(--line);padding-top:28px}
+footer h5{color:var(--ink);font-size:14px;margin:0 0 8px}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+footer a{color:var(--ink-2)}
+@media (max-width:800px){footer .row{grid-template-columns:1fr}}
+.notice{display:flex;gap:10px;align-items:flex-start;background:var(--warn-bg);color:#5c3b00;border-radius:12px;padding:12px 14px;font-size:14px}
+
+.tip{position:fixed;pointer-events:none;z-index:40;background:var(--ink);color:#fff;font-size:13px;line-height:1.4;padding:8px 10px;border-radius:8px;max-width:270px;opacity:0;transition:opacity .12s}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.loading{padding:120px 0;text-align:center;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tip" id="tip" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>SIP Discovery Engine</a>
+    <div class="links" id="links">
+      <a href="#context">Why it matters</a>
+      <a href="#why">Why they stop</a>
+      <a href="#who">Who’s at risk</a>
+      <a href="#where">Where they go</a>
+      <a href="#opportunity">Opportunities</a>
+      <a href="#trust">Can you trust it?</a>
+      <a href="#how">How it works</a>
+    </div>
+    <a class="navcta" href="#try">Try it</a>
+    <span class="progress" id="progress"></span>
+  </div>
+</nav>
+
+<main id="main" class="wrap"><div class="loading" id="loading">Loading the latest engine results…</div></main>
+<noscript><p class="wrap">This page needs JavaScript to draw its charts. The raw numbers are in <a href="data.json">data.json</a>.</p></noscript>
+
+<script>
+const LIVE_LAB = "https://groww-sip-discovery-pm.streamlit.app/";
+const REPO = "https://github.com/omkarpraval/groww-sip-discovery";
+const ACT = {considering_stop:"Considering stopping",stopped_or_cancelled:"Stopped / cancelled",failed_involuntary:"Debit failed (not by choice)",
+  paused_or_skipped:"Paused / skipped",redeemed:"Withdrew money",reduced:"Reduced amount",continuing:"Continuing",started:"Started",
+  increased:"Increased",restarted:"Restarted",none:"No SIP action"};
+const STAGE = {considering:"Not started yet",first_months:"First 3 months",within_year:"3–12 months in",beyond_year:"Over a year",unknown:"Not stated"};
+const FT = {yes:"Yes",no:"No",unknown:"Not stated"};
+const FIELD = {primary_trigger:["Main reason for stopping","e.g. “portfolio in the red”, “debit failed”"],
+  relevant:["Is it about a SIP at all?","relevance filter"],sip_action:["What did they do?","continue, stop, pause, increase…"],
+  first_time:["First-time investor?","only if they say so"],emotion:["How do they feel?","dominant emotion"]};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = n => Number(n).toLocaleString("en-US");
+const r0 = n => Math.round(n);
+const ICON = {
+  idea:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>',
+  down:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+  ext:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  shield:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>',
+  grid:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M10 4v16"/></svg>',
+  swap:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>',
+  user:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/><path d="M3 3l18 18"/></svg>',
+  collect:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v12H5.5L4 18z"/><path d="M8 9h8M8 12h5"/></svg>',
+  filter:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>',
+  ai:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>',
+  check:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>',
+  chart:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  reddit:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-12.5 6.6L4 20l1.4-4.5A8 8 0 1 1 21 12z"/></svg>',
+  play:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>',
+  headset:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>',
+  people:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5c2.5 0 4.5 1.5 5.5 4.5"/></svg>',
+  bank:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></svg>',
+  search:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'
+};
+const CH_ICON = {"Reddit / forums":"reddit","YouTube finfluencers":"play","Customer support":"headset","Friends & family":"people","Fund house / other app":"bank","Advisor":"user","Google / news":"search"};
+const tip = document.getElementById("tip");
+function tipOn(el, text){
+  el.addEventListener("mousemove", e => { tip.textContent = text; tip.style.left = Math.min(e.clientX + 14, innerWidth - 285) + "px"; tip.style.top = (e.clientY + 16) + "px"; tip.style.opacity = 1; });
+  el.addEventListener("mouseleave", () => tip.style.opacity = 0);
+}
+const section = (id, n, eyebrow, title, sub, body) => `<section class="block reveal" id="${id}" aria-labelledby="${id}-h">
+  <div class="eyebrow"><b>${n}</b>${eyebrow}</div><h2 id="${id}-h">${title}</h2>${sub ? `<p class="sub">${sub}</p>` : ""}${body}</section>`;
+const insight = html => `<div class="insight">${ICON.idea}<div>${html}</div></div>`;
+const table = (cols, rows) => `<details class="table"><summary>View as table</summary><div class="scroll-x"><table class="dt"><thead><tr>${cols.map((c,i)=>`<th class="${i?'r':''}">${c}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td class="${i?'r':''}">${esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`;
+
+function render(D){
+  const F = D.funnel, ed = F.early_drops, top = D.clusters[0];
+  const acts = D.actions, consider = acts.considering_stop || 0, considerPct = r0(100 * consider / ed);
+  const G = D.golden.primary;
+  const promptMain = Object.keys(D.prompts)[0] || "";
+  const modelMain = Object.keys(D.models)[0] || "";
+  const nLabels = Object.values(D.models).reduce((a,b)=>a+b,0);
+
+  /* ---------- hero ---------- */
+  let h = `<header class="hero" id="top">
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Working finding · being validated in user interviews</span>
+    <h1>Most first-year investors who stop a SIP aren’t panicking. They’re <em>confused about whether a red or flat SIP is normal.</em></h1>
+    <p class="lede">We read ${fmt(F.collected)} public conversations about SIPs across five platforms, used AI to label every relevant one, and checked the AI against human labels. Here’s what first-year investors say just before they stop — and what that means for keeping them invested.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#why">See why they stop ${ICON.down}</a>
+      <a class="btn ghost" href="#trust">How reliable is this?</a>
+    </div>
+    <div class="status-line"><span><i></i>Updated ${esc(D.updated)}</span><span>${fmt(nLabels)} AI labels · ${esc(modelMain)} · prompt ${esc(promptMain.replace("coder-",""))}</span><span>Research only — not investment advice</span></div>
+    <div class="funnel" aria-label="From raw conversations to drop-off moments">
+      <div class="step"><div class="n" data-count="${F.collected}">${fmt(F.collected)}</div><div class="l">conversations collected</div><div class="sources"><span class="src">Play Store</span><span class="src">App Store</span><span class="src">Reddit</span><span class="src">TradingQnA</span><span class="src">YouTube</span></div></div>
+      <div class="step"><div class="n" data-count="${F.sip}">${fmt(F.sip)}</div><div class="l">talk about SIPs</div><div class="meter"><i style="width:${100*F.sip/F.collected}%"></i></div></div>
+      <div class="step"><div class="n" data-count="${F.relevant_ok}">${fmt(F.relevant_ok)}</div><div class="l">relevant &amp; passed AI quality checks</div><div class="meter"><i style="width:${100*F.relevant_ok/F.collected}%"></i></div></div>
+      <div class="step"><div class="n" data-count="${F.early}">${fmt(F.early)}</div><div class="l">from first-time or first-year investors</div><div class="meter"><i style="width:${100*F.early/F.collected}%"></i></div></div>
+      <div class="step key"><div class="n" data-count="${ed}">${fmt(ed)}</div><div class="l"><b>moments where they’re about to stop</b> — or already did</div><div class="meter"><i style="width:${100*ed/F.collected}%"></i></div></div>
+    </div>
+  </header>`;
+
+  /* ---------- 1 context ---------- */
+  h += section("context", 1, "Why it matters", "SIPs are easy to start and easy to stop. Keeping a first-timer going for 12 months is the real growth problem.", "", `
+    <div class="grid3">
+      <div class="card stat"><div class="big">78.5%</div><p>India’s SIP stoppage ratio in Sep 2026 — about 79 SIPs stopped or matured for every 100 new ones registered.</p><span class="src-l">AMFI data, Sep 2026 · <a href="https://www.angelone.in/news/mutual-funds/sip-stoppage-ratio-falls-for-5th-straight-month-to-78-53-in-september-2026" target="_blank" rel="noopener">source</a> · includes SIPs that simply matured</span></div>
+      <div class="card stat"><div class="big">9 in 10</div><p>direct-plan investors discontinue their SIPs within five years — and direct plans are where app-first investors live.</p><span class="src-l">AMFI-cited analysis · <a href="https://cafemutual.com/news/industry/16330-91-of-direct-plan-investors-discontinue-their-sips-within-5-years" target="_blank" rel="noopener">source</a></span></div>
+      <div class="card stat goal"><div class="big">% of first-time MF investors with an active SIP 12 months after their first SIP</div><p>The north-star metric for this project. “Active” = at least one successful instalment in the last 30 days.</p><span class="src-l">Constraint: no fund or stock recommendations, no fear/FOMO/urgency nudges.</span></div>
+    </div>`);
+
+  /* ---------- 2 why ---------- */
+  const MAXC = Math.max(...D.clusters.map(c=>c.pct)) * 1.08;
+  const emo = D.emotion, EC = ["#0072B2","#8a939e","#D55E00","#E69F00","#CC79A7","#56B4E9"];
+  h += section("why", 2, "Why they stop", `More than a third can’t tell whether their SIP is doing OK — the biggest single reason by far.`,
+    `Share of the ${fmt(ed)} first-year drop-off moments that mention each root cause. Pick a cause to read what people actually wrote.`, `
+    <div class="why">
+      <div class="card">
+        <h3>Root causes behind first-year drop-offs</h3>
+        <p class="hint">% of ${fmt(ed)} moments · one post can mention more than one cause</p>
+        <div class="bars" id="bars" role="group" aria-label="Root causes — select one to see quotes"></div>
+        <p class="caveat">${r0(D.no_reason_pct)}% of moments give no reason at all — one of the gaps the user interviews are probing.</p>
+        ${table(["Root cause","% of moments","Moments"], D.clusters.map(c=>[c.name, c.pct+"%", c.n]))}
+      </div>
+      <aside class="card panel" id="panel" aria-live="polite"></aside>
+    </div>
+    <div class="grid2 mt">
+      <div class="card">
+        <h3>How they feel in that moment</h3>
+        <p class="hint">Dominant emotion across the ${fmt(ed)} moments</p>
+        <div class="stack" id="stack" role="img" aria-label="${emo.map(e=>`${e[0]} ${r0(e[1])}%`).join(", ")}"></div>
+        <div class="legend">${emo.map((e,i)=>`<span><span class="sw" style="background:${EC[i]}"></span>${e[0]} <b>${r0(e[1])}%</b></span>`).join("")}</div>
+      </div>
+      <div class="card">
+        <h3>Most haven’t stopped yet — there’s a window</h3>
+        <p class="hint">What they did, across the ${fmt(ed)} moments</p>
+        <div class="window">
+          <svg class="ring" viewBox="0 0 42 42" role="img" aria-label="${considerPct}% are still only considering stopping">
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--surface-2)" stroke-width="6"/>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--bar)" stroke-width="6" stroke-dasharray="${considerPct} ${100-considerPct}" stroke-dashoffset="25" stroke-linecap="butt"/>
+          </svg>
+          <div><div class="big">${considerPct}%</div><div style="color:var(--ink-2)">are still only <b>considering</b> stopping when they post</div></div>
+        </div>
+        <div class="minirows">${Object.entries(acts).slice(0,5).map(([k,v],i)=>`<div class="minirow"><span>${ACT[k]||k}</span><span class="t"><i class="${i?'dim':''}" style="width:${100*v/ed}%"></i></span><span class="v">${r0(100*v/ed)}%</span></div>`).join("")}</div>
+      </div>
+    </div>
+    ${insight(`<b>So what:</b> the dominant feeling is <b>confusion</b>, not fear, and most people are still <b>deciding</b>. Confusion calls for <b>context</b> (“is this normal in month 5?”), not persuasion — which fits the brief’s rule of no fear, FOMO or urgency nudges.`)}`);
+
+  /* ---------- 3 who ---------- */
+  const base = D.baseline_dropoff;
+  const segMax = Math.max(...D.segments.flatMap(s=>s.rows.map(r=>r.dropoff)), base) * 1.15;
+  const inc = D.segments.find(s=>s.title==="How they earn");
+  const hiInc = inc ? inc.rows[0] : null, loInc = inc ? inc.rows[inc.rows.length-1] : null;
+  h += section("who", 3, "Who’s at risk", hiInc && loInc && hiInc.dropoff / loInc.dropoff >= 1.3 ? `${hiInc.label.startsWith("Variable") ? "Investors with irregular income" : hiInc.label} talk about stopping ${hiInc.dropoff / loInc.dropoff >= 1.65 ? "almost twice" : (hiInc.dropoff / loInc.dropoff).toFixed(1) + "×"} as often as ${loInc.label.toLowerCase()} investors.` : `Some groups of investors are far more likely to talk about stopping.`,
+    `Share of each group’s SIP posts that describe stopping, pausing or failed debits — or thinking about it. The black line is the average across everyone (${r0(base)}%).`, `
+    <div class="grid2">${D.segments.map(s=>{
+      const hi = s.rows[0].dropoff;
+      return `<div class="card"><h3>${esc(s.title)}</h3><p class="hint"><span class="baseline-key"><b></b>average ${r0(base)}%</span></p><div class="seg">${s.rows.map(r=>`
+        <div class="segrow ${r.dropoff===hi && r.dropoff>base ? 'hi':''}" data-tip="${esc(r.label)}: ${r.dropoff}% of ${fmt(r.n)} posts">
+          <span class="lab">${esc(r.label)}<small>n=${fmt(r.n)}</small></span><span class="v">${r0(r.dropoff)}%</span>
+          <span class="t"><i style="width:${100*r.dropoff/segMax}%"></i><b style="left:${100*base/segMax}%"></b></span></div>`).join("")}</div></div>`;}).join("")}
+    </div>
+    <p class="caveat">Groups are only counted when the post states them (e.g. “I’m a student”, “my salary”). Small groups (n under 100) are directional, not conclusive.</p>
+    ${insight(`<b>So what:</b> a fixed-date, fixed-amount SIP fits a salary; it fights irregular income. And people who started because a friend or a YouTuber said so are more likely to wobble than those who did their own research — they borrowed someone else’s conviction.`)}`);
+
+  /* ---------- 4 where ---------- */
+  const oMax = Math.max(...D.outside.map(o=>o.pct)) * 1.1;
+  const C = D.checking;
+  h += section("where", 4, "Where they go", `When in doubt, ${r0(D.outside_any_pct)}% of first-year investors look for answers outside the app — mostly on Reddit.`,
+    `Places first-year investors say they went for answers (% of ${fmt(F.early)} first-year posts; a post can name several).`, `
+    <div class="grid2" style="grid-template-columns:1.4fr 1fr">
+      <div class="card"><h3>Where they look for answers</h3><p class="hint">% of first-year posts</p>
+        <div class="channels">${D.outside.map((o,i)=>`<div class="ch ${i>1?'dim':''}" data-tip="${esc(o.label)}: ${fmt(o.n)} posts (${o.pct}%)"><span class="ic">${ICON[CH_ICON[o.label]]||ICON.search}</span><span class="lab">${esc(o.label)}</span><span class="t"><i style="width:${100*o.pct/oMax}%"></i></span><span class="v">${r0(o.pct)}%</span></div>`).join("")}</div>
+        ${table(["Channel","% of first-year posts","Posts"], D.outside.map(o=>[o.label,o.pct+"%",o.n]))}
+      </div>
+      <div class="card"><h3>And they check — a lot</h3><p class="hint">Among ${fmt(C.n)} posts that say how often they check</p>
+        <div class="bigstat">${r0(C.daily_pct)}%</div><p style="margin:6px 0 0;color:var(--ink-2)">check their SIP <b>daily or more</b> — far more often than a long-term SIP needs. Every check is another chance to see red.</p>
+        <p class="caveat">${r0(C.rarely_pct)}% say they rarely look — the “set and forget” group.</p>
+      </div>
+    </div>
+    ${insight(`<b>So what:</b> the question “is this normal?” is being answered on Reddit and YouTube, by people with no context about <i>this</i> investor’s timeline. That’s a gap the product can fill with neutral, personal context — without recommending any fund.`)}`);
+
+  /* ---------- 5 opportunity ---------- */
+  const T = D.themes.slice().sort((a,b)=>b.score-a.score);
+  h += section("opportunity", 5, "Opportunities", `The biggest opportunities are problems that are common, close to stopping — and in the product’s control.`,
+    `Each bubble is a reason people give. Right = more people mention it; higher = more often tied to stopping; bigger = more first-year investors. Solid bubbles are things the product can largely fix.`, `
+    <div class="opp">
+      <div class="card chart"><h3>Opportunity map</h3><p class="hint">Hover a bubble for details</p><div id="bubble"></div>
+        <div class="legend"><span><span class="sw" style="background:var(--bar)"></span>Product can largely fix (≥0.8)</span><span><span class="sw" style="background:#fff;border:2px solid var(--ink-3)"></span>Partly external (market, fund choice, life)</span></div>
+        ${table(["Reason","Mentions","Reach %","Near stopping %","First-year %","Fixability","Score"], T.map(t=>[t.label,t.mentions,t.reach,t.proximity,t.early,t.addr,t.score]))}
+      </div>
+      <div class="card"><h3>Ranked by opportunity score</h3><p class="hint">reach × closeness to stopping × fixability × first-year share</p>
+        <div class="rank">${T.slice(0,6).map((t,i)=>`<div class="rk ${i<3?'top':''}"><span class="no">${i+1}</span><span class="lab">${esc(t.label)}<small>${t.reach}% reach · ${r0(t.proximity)}% near stopping</small></span><span class="v">${t.score.toFixed(1)}</span></div>`).join("")}</div>
+        <p class="caveat"><b>Reading this with section 2:</b> “Can’t tell if my SIP is working” is five related reasons grouped together, so it is the largest root cause; individually, app friction is the single biggest fixable reason.</p>
+        <p class="caveat">Fixability is a documented human judgement, kept separate from the AI output so reviewers can disagree with it. “Doubts own fund choice” scores low on purpose: the brief rules out recommending funds.</p>
+      </div>
+    </div>`);
+
+  /* ---------- 6 trust ---------- */
+  const fieldsOrder = ["primary_trigger","relevant","sip_action","emotion","first_time"];
+  const status = f => { if (f.target == null) return `<span class="status info">Tracked</span>`;
+    if (f.agreement >= f.target) return `<span class="status good">✓ Pass</span>`;
+    if (f.agreement >= f.target - 5) return `<span class="status warn">! Just below</span>`;
+    return `<span class="status bad">✕ Fail → fixing</span>`; };
+  const fixNote = {sip_action:"The AI read “asking for advice” as “about to stop”. Prompt v1.2 adds explicit rules; re-scored before the corpus is re-labelled.",
+                   relevant:"Advice written for someone else was counted as relevant. Rule added in v1.2."};
+  const Q = D.quality;
+  const reports = D.golden.all;
+  const repName = r => `${Object.keys(r.models)[0]?.startsWith("groq:") ? "Groq " + Object.keys(r.models)[0].replace("groq:","").replace("openai/","") : "Gemini " + (Object.keys(r.models)[0]||"").replace("gemini-","")} · ${r.prompt_version.replace("coder-","")}${r.mode==="corpus" ? " (live)" : ""}`;
+  h += section("trust", 6, "Can you trust it?", G ? `The AI matches a human on root causes ${r0(G.fields.primary_trigger.agreement)}% of the time. Where it falls short, we show it — and the fix.` : "How the AI is checked",
+    `${D.golden.items} posts were labelled by hand <b>before</b> scoring, with pass marks fixed in advance. The AI is then marked against them — every model and prompt version separately.`, `
+    <div class="trust">
+      <div class="card"><h3>Golden-set scorecard</h3>
+        <p class="hint">${G ? `${esc(repName(G))} · ${G.n} items scored · ▏= pass mark` : ""}</p>
+        <table class="score"><thead><tr><th>What the AI labels</th><th>Agreement</th><th class="hide-s" style="text-transform:none">Cohen’s κ</th><th>Result</th></tr></thead><tbody>
+        ${G ? fieldsOrder.filter(k=>G.fields[k]).map(k=>{const f=G.fields[k];return `<tr><td class="q">${FIELD[k][0]}<small>${FIELD[k][1]}</small>${f.target!=null&&f.agreement<f.target&&fixNote[k]?`<div class="fix">${fixNote[k]}</div>`:""}</td>
+          <td><div class="num">${r0(f.agreement)}%</div>${f.target!=null?`<div class="mini"><i style="width:${f.agreement}%"></i><b style="left:${f.target}%"></b></div>`:""}</td><td class="hide-s">${f.kappa ?? "–"}</td><td>${status(f)}</td></tr>`;}).join("") : ""}
+        </tbody></table>
+        <p class="caveat">κ (kappa) corrects agreement for luck: above 0.6 is “substantial”. Pass marks: main reason ≥70%, relevance ≥90%, action ≥80%.</p>
+      </div>
+      <div class="card"><h3>Built-in safety checks</h3><p class="hint">Applied to every label, not just the test set</p>
+        <div class="gates">
+          <div class="gate"><span class="ic">${ICON.shield}</span><div><b>Every quote is checked word-for-word</b><span>${fmt(Q.failed_quote)} AI quotes (${r0(100*Q.failed_quote/Q.relevant_coded)}%) weren’t found in the original post — those items are excluded from every number on this page.</span></div></div>
+          <div class="gate"><span class="ic">${ICON.grid}</span><div><b>Fixed codebook, versioned prompts</b><span>Every label records the model and prompt version that produced it.</span></div></div>
+          <div class="gate"><span class="ic">${ICON.swap}</span><div><b>Backup model, scored separately</b><span>If Gemini is unavailable, Groq takes over automatically — and is marked against the same golden set.</span></div></div>
+          <div class="gate"><span class="ic">${ICON.user}</span><div><b>No personal data kept</b><span>Phone numbers, emails, PAN and account numbers are stripped before any text reaches the AI.</span></div></div>
+        </div>
+      </div>
+    </div>
+    ${reports.length > 1 ? `<div class="card mt"><h3>Every model and prompt, same test</h3><p class="hint">Agreement with human labels · ✓ meets pass mark</p><div class="scroll-x"><table class="cmp"><thead><tr><th>Model · prompt</th>${fieldsOrder.map(k=>`<th style="text-align:center">${FIELD[k][0]}</th>`).join("")}</tr></thead><tbody>
+      ${reports.map(r=>`<tr><td>${esc(repName(r))}</td>${fieldsOrder.map(k=>{const f=r.fields[k]; if(!f) return `<td class="c">–</td>`; const ok=f.target==null?null:f.agreement>=f.target; return `<td class="c ${ok===true?'ok':ok===false?'no':''}">${r0(f.agreement)}%${ok===true?' ✓':''}</td>`;}).join("")}</tr>`).join("")}
+      </tbody></table></div></div>` : ""}
+    ${D.golden.corrections.length ? `<div class="card mt"><h3>Where the AI was wrong — and what we changed</h3><p class="hint">Real golden-set cases. Each one became a rule in the next prompt version.</p><div class="grid3">
+      ${D.golden.corrections.map(c=>`<div class="case"><p class="txt">“${esc(c.text)}”</p><div class="verdict"><span>AI said</span><span class="strike">${ACT[c.ai]||c.ai}</span><span>Human said</span><span class="right">${ACT[c.human]||c.human}</span></div><span class="tag" style="align-self:flex-start">Fixed in prompt v1.2</span></div>`).join("")}
+    </div></div>` : ""}`);
+
+  /* ---------- 7 how ---------- */
+  h += section("how", 7, "How it works", "Five steps from raw posts to numbers you can audit.", "", `
+    <div class="pipe">
+      <div class="pst"><span class="ic">${ICON.collect}</span><h4>Collect</h4><p>Public Play Store &amp; App Store reviews, Reddit, TradingQnA and YouTube comments since 2024.</p><span class="n">${fmt(F.collected)} <small>posts</small></span></div>
+      <div class="pst"><span class="ic">${ICON.filter}</span><h4>Filter</h4><p>Remove duplicates and personal data; keep SIP-related text in English, Hindi and Hinglish.</p><span class="n">${fmt(F.sip)} <small>kept</small></span></div>
+      <div class="pst"><span class="ic">${ICON.ai}</span><h4>AI labels</h4><p>An LLM labels each post against a fixed codebook: stage, action, reasons, emotion, unmet need.</p><span class="n">${fmt(F.coded)} <small>labelled</small></span></div>
+      <div class="pst"><span class="ic">${ICON.check}</span><h4>Verify</h4><p>Quotes must exist word-for-word; labels are scored against a human golden set.</p><span class="n">${fmt(F.relevant_ok)} <small>passed</small></span></div>
+      <div class="pst"><span class="ic">${ICON.chart}</span><h4>Aggregate</h4><p>Group into root causes, segments and opportunity scores; this page refreshes on every run.</p><span class="n">${fmt(ed)} <small>key moments</small></span></div>
+    </div>
+    <div class="card mt"><h3>Sources</h3><p class="hint">Collected → kept after the SIP filter</p>
+      <div class="channels">${F.by_source.map(s=>`<div class="ch"><span class="ic">${ICON[s.source.startsWith("Reddit")?"reddit":s.source==="YouTube"?"play":s.source.includes("Store")?"bank":"people"]}</span><span class="lab">${esc(s.source)}</span><span class="t"><i style="width:${100*s.sip/Math.max(...F.by_source.map(x=>x.sip))}%"></i></span><span class="v">${fmt(s.sip)}</span></div>`).join("")}</div>
+      ${table(["Source","Collected","Kept (SIP-related)"], F.by_source.map(s=>[s.source,fmt(s.collected),fmt(s.sip)]))}
+      <div class="stackchips"><span>Python</span><span>GitHub Actions</span><span>Gemini (primary)</span><span>Groq (backup)</span><span>Structured JSON output</span><span>Cohen’s κ</span><span>Streamlit live lab</span></div>
+      <p class="caveat">Full code, codebook and golden set: <a href="${REPO}" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </div>`);
+
+  /* ---------- 8 try ---------- */
+  const E = D.example;
+  if (E) {
+    const i = E.text.toLowerCase().indexOf(E.quote.toLowerCase());
+    const marked = i >= 0 ? esc(E.text.slice(0,i)) + "<mark>" + esc(E.text.slice(i, i + E.quote.length)) + "</mark>" + esc(E.text.slice(i + E.quote.length)) : esc(E.text);
+    const L = E.labels;
+    h += section("try", 8, "Try it", "One real post in, structured evidence out.", "This is exactly what the engine produced for a real public review. The highlighted words are the evidence the AI quoted — verified word-for-word.", `
+      <div class="try">
+        <div class="card"><h3>Input</h3><p class="hint">${esc(E.source)} review · <a href="${esc(E.url)}" target="_blank" rel="noopener">source ↗</a></p><p class="input">${marked}</p></div>
+        <div class="card"><h3>What the engine extracted</h3><p class="hint">${esc(E.model)} · ${esc(E.prompt.replace("coder-","prompt "))} · <span class="verified">✓ quote verified</span></p>
+          <dl class="labels">
+            <dt>Stage</dt><dd>${STAGE[L["Investor stage"]]||L["Investor stage"]}</dd>
+            <dt>First-time?</dt><dd>${FT[L["First-time?"]]||L["First-time?"]}</dd>
+            <dt>What they did</dt><dd><span class="pill risk">${ACT[L["What they did"]]||L["What they did"]}</span></dd>
+            <dt>Why</dt><dd>${L.Why.map(w=>`<span class="pill">${esc(w)}</span>`).join("")}</dd>
+            <dt>Emotion</dt><dd>${esc(L.Emotion.charAt(0).toUpperCase()+L.Emotion.slice(1))}</dd>
+            <dt>Unmet need</dt><dd style="font-weight:500">${esc(L["Unmet need"])}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="labcta"><div><b>Paste your own text into the live lab</b><p>Runs the same model and prompt live, with the same quality gate. It may take ~30 seconds to wake up.</p></div><a class="btn" href="${LIVE_LAB}" target="_blank" rel="noopener">Open live lab ${ICON.ext}</a></div>`);
+  }
+
+  /* ---------- 9 next ---------- */
+  h += section("next", 9, "From insight to product", "What this engine hands to the next stage of the project.", "", `
+    <div class="flow">
+      <div class="fc"><span class="k">What we learned</span><p>First-year investors who stop are mostly <b>confused</b>, still <b>deciding</b>, and asking <b>strangers</b> whether a red or flat SIP is normal.</p></div>
+      <div class="fc hyp"><span class="k">Hypothesis to test</span><p>If a first-year investor can see, in plain language, whether their SIP’s ups and downs are <b>normal for their month and market</b>, fewer will stop — without any fund advice or pressure.</p></div>
+      <div class="fc"><span class="k">Next</span><p>Validate with user interviews, then build an eval-gated AI MVP with a visible quality check, a safe fallback and a “not investment advice” notice.</p></div>
+    </div>`);
+
+  h += `<footer><div class="notice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Research tool — not investment advice.</b> It does not recommend any fund or stock. Quotes are from public posts; personal data was removed before analysis. Independent student project, not affiliated with or endorsed by any company named here.</span></div>
+    <div class="row mt">
+      <div><h5>SIP Discovery Engine</h5><p style="margin:0">Public conversations → AI labels → human-checked evidence. Last updated ${esc(D.updated)}.</p></div>
+      <div><h5>Explore</h5><ul><li><a href="${LIVE_LAB}" target="_blank" rel="noopener">Live lab (Streamlit)</a></li><li><a href="${REPO}" target="_blank" rel="noopener">Code &amp; codebook (GitHub)</a></li><li><a href="data.json">Raw page data (JSON)</a></li></ul></div>
+      <div><h5>Market sources</h5><ul><li><a href="https://www.angelone.in/news/mutual-funds/sip-stoppage-ratio-falls-for-5th-straight-month-to-78-53-in-september-2026" target="_blank" rel="noopener">SIP stoppage ratio, Sep 2026</a></li><li><a href="https://cafemutual.com/news/industry/16330-91-of-direct-plan-investors-discontinue-their-sips-within-5-years" target="_blank" rel="noopener">Direct-plan SIP discontinuation</a></li></ul></div>
+    </div></footer>`;
+
+  const main = document.getElementById("main");
+  main.innerHTML = h;
+  wire(D);
+}
+
+function wire(D){
+  /* cluster bars + quote panel */
+  const bars = document.getElementById("bars"), panel = document.getElementById("panel"), ed = D.funnel.early_drops;
+  const MAXC = Math.max(...D.clusters.map(c=>c.pct)) * 1.08;
+  const show = i => {
+    [...bars.children].forEach((b,j)=>b.setAttribute("aria-pressed", i===j));
+    const c = D.clusters[i];
+    panel.innerHTML = `<h3>${esc(c.name)}</h3><div class="big">${c.pct}% <small>· ${fmt(c.n)} moments</small></div><p class="hint" style="margin:4px 0 4px">${esc(c.desc)}</p>
+      ${c.quotes.map(q=>`<div class="quote"><p>${esc(q.text)}</p><div class="meta"><span class="tag">${esc(q.source)}</span><span class="tag">${esc(q.emotion)}</span><span class="verified" title="Found word-for-word in the original post">✓ verified</span><a href="${esc(q.url)}" target="_blank" rel="noopener">Source ↗</a></div></div>`).join("")}
+      ${c.quotes.length ? `<p class="caveat">Play Store reviews have no per-review link, so they open the app’s review page.</p>` : ""}`;
+  };
+  D.clusters.forEach((c,i) => {
+    const b = document.createElement("button");
+    b.className = "barrow"; b.type = "button";
+    b.setAttribute("aria-label", `${c.name}: ${c.pct}% of drop-off moments. Show quotes.`);
+    b.innerHTML = `<span class="name">${esc(c.name)}</span><span class="track"><i data-w="${100*c.pct/MAXC}"></i></span><span class="pct">${r0(c.pct)}%</span>`;
+    b.onclick = () => show(i);
+    tipOn(b, `${c.name} — ${c.pct}% (${fmt(c.n)} of ${fmt(ed)}). Click to read quotes.`);
+    bars.appendChild(b);
+  });
+  show(0);
+
+  /* emotion stack */
+  const EC = ["#0072B2","#8a939e","#D55E00","#E69F00","#CC79A7","#56B4E9"], stack = document.getElementById("stack");
+  D.emotion.forEach(([n,p],i) => {
+    const s = document.createElement("span"); s.style.flex = p; s.style.background = EC[i];
+    if (p >= 20) s.textContent = `${n} ${r0(p)}%`;
+    if (i === 1 || i === 3) s.style.color = "#101418";
+    tipOn(s, `${n}: ${p}% of drop-off moments`); stack.appendChild(s);
+  });
+  document.querySelectorAll("[data-tip]").forEach(el => tipOn(el, el.dataset.tip));
+
+  /* bubble chart */
+  drawBubble(D.themes);
+
+  /* reveal + bar growth */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in");
+    e.target.querySelectorAll("[data-w]").forEach(t => t.style.width = t.dataset.w + "%"); io.unobserve(e.target); } }), {threshold: .12});
+  document.querySelectorAll(".reveal").forEach(s => io.observe(s));
+
+  /* count-up */
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("[data-count]").forEach(el => { const end = +el.dataset.count, t0 = performance.now();
+      const f = t => { const k = Math.min(1, (t - t0) / 1100); el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(f); };
+      requestAnimationFrame(f); });
+  }
+
+  /* active nav + progress */
+  const links = [...document.querySelectorAll("#links a")], prog = document.getElementById("progress");
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  const onScroll = () => {
+    const y = scrollY + 120; let cur = -1;
+    secs.forEach((s,i) => { if (s && s.offsetTop <= y) cur = i; });
+    links.forEach((a,i) => a.classList.toggle("on", i === cur));
+    prog.style.width = (100 * scrollY / Math.max(1, document.body.scrollHeight - innerHeight)) + "%";
+  };
+  addEventListener("scroll", onScroll, {passive: true}); onScroll();
+  if (location.hash) { const t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+}
+
+function drawBubble(T){
+  const W = 640, H = 380, m = {l: 54, r: 20, t: 16, b: 46};
+  const xmax = Math.ceil(Math.max(...T.map(t=>t.reach)) / 5) * 5 + 2, ymax = 100;
+  const X = v => m.l + (W - m.l - m.r) * v / xmax, Y = v => H - m.b - (H - m.t - m.b) * v / ymax;
+  const R = v => 6 + 16 * Math.sqrt(v / 100);
+  const top = T.slice().sort((a,b)=>b.score-a.score).slice(0,5).map(t=>t.label);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Opportunity map: reach versus closeness to stopping for each reason">`;
+  for (let v = 0; v <= ymax; v += 25) s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l-10}" y="${Y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)">${v}%</text>`;
+  for (let v = 0; v <= xmax; v += 5) s += `<text x="${X(v)}" y="${H-m.b+20}" text-anchor="middle" font-size="12" fill="var(--ink-3)">${v}%</text>`;
+  s += `<text x="${(W+m.l-m.r)/2}" y="${H-6}" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Reach — % of all relevant posts →</text>`;
+  s += `<text transform="translate(14 ${(H-m.b+m.t)/2}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Tied to stopping →</text>`;
+  const sorted = T.slice().sort((a,b)=>b.early-a.early);
+  sorted.forEach(t => {
+    const fix = t.addr >= .8, cx = X(t.reach), cy = Y(t.proximity), r = R(t.early);
+    s += `<circle class="bub" cx="${cx}" cy="${cy}" r="${r}" fill="${fix ? "var(--bar)" : "#fff"}" fill-opacity="${fix ? .85 : 1}" stroke="${fix ? "#fff" : "var(--ink-3)"}" stroke-width="2"
+      data-tip="${esc(t.label)} — ${t.reach}% reach, ${t.proximity}% tied to stopping, ${t.early}% first-year, fixability ${t.addr}, score ${t.score}"/>`;
+  });
+  const placed = [];
+  T.filter(t => top.includes(t.label)).forEach(t => {
+    let x = X(t.reach) + R(t.early) + 6, y = Y(t.proximity) + 4, anchor = "start";
+    if (x > W - 150) { x = X(t.reach) - R(t.early) - 6; anchor = "end"; }
+    while (placed.some(p => Math.abs(p - y) < 15)) y += 15;
+    placed.push(y);
+    s += `<text x="${x}" y="${y}" font-size="13" font-weight="600" fill="var(--ink)" text-anchor="${anchor}" paint-order="stroke" stroke="#fff" stroke-width="4">${esc(t.label)}</text>`;
+  });
+  s += `</svg>`;
+  const el = document.getElementById("bubble"); el.innerHTML = s;
+  el.querySelectorAll(".bub").forEach(c => tipOn(c, c.dataset.tip));
+}
+
+fetch("data.json", {cache: "no-store"}).then(r => r.json()).then(render).catch(e => {
+  document.getElementById("main").innerHTML = `<div class="loading">Couldn’t load the results (${esc(e.message)}). Try refreshing, or open the <a href="${LIVE_LAB}">live lab</a>.</div>`;
+});
+</script>
+</body>
+</html>

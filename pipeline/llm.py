@@ -2,7 +2,7 @@
 so mentors test exactly the same prompt/model that coded the corpus."""
 import json, os, time, requests
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+MODEL = os.getenv("GEMINI_MODEL") if os.getenv("GEMINI_MODEL") not in (None, "", "auto") else "gemini-3.8-flash"
 PROMPT_VERSION = "coder-v1.1"
 API = "https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent"
 
@@ -68,6 +68,45 @@ class LLMError(Exception):
     pass
 
 
+# Newest first. Google retires older models for new API keys (run #2 got a 404 on gemini-2.5-flash).
+FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3-flash", "gemini-flash-latest", "gemini-2.5-flash",
+                   "gemini-2.5-flash-lite"]
+
+
+def list_models(key=None):
+    """Model ids this key can call with generateContent (used to pick a working model)."""
+    key = key or os.getenv("GEMINI_API_KEY")
+    r = requests.get("https://generativelanguage.googleapis.com/v1beta/models", params={"key": key, "pageSize": 200},
+                     timeout=60)
+    if r.status_code != 200:
+        raise LLMError(f"ListModels HTTP {r.status_code}: {r.text[:300]}")
+    return [m["name"].split("/", 1)[1] for m in r.json().get("models", [])
+            if "generateContent" in m.get("supportedGenerationMethods", [])]
+
+
+def _version_key(m):
+    nums = [float(x) for x in __import__("re").findall(r"\d+(?:\.\d+)?", m)]
+    return (("lite" not in m and "preview" not in m and "exp" not in m), nums)
+
+
+def resolve_model(preferred=None, key=None):
+    """Pick the first model that is listed for this key AND answers a tiny test call.
+    Order: preferred -> curated fallbacks -> any other Flash model, newest first."""
+    preferred = preferred or MODEL
+    avail = list_models(key)
+    others = sorted([m for m in avail if "flash" in m and m not in FALLBACK_MODELS], key=_version_key, reverse=True)
+    tried = []
+    for m in dict.fromkeys([preferred] + FALLBACK_MODELS + others):
+        if m not in avail or m == "auto":
+            continue
+        try:
+            call_gemini("Reply with the word ok.", key=key, model=m, retries=2)
+            return m, avail
+        except LLMError as e:
+            tried.append(f"{m}: {str(e)[:120]}")
+    raise LLMError(f"no usable Gemini model; tried {tried[:6]}; available {avail[:20]}")
+
+
 def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperature=0.0, retries=5):
     key = key or os.getenv("GEMINI_API_KEY")
     if not key:
@@ -78,7 +117,7 @@ def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperat
         body["systemInstruction"] = {"parts": [{"text": system}]}
     if schema:
         body["generationConfig"].update({"responseMimeType": "application/json", "responseSchema": schema})
-    wait = 4
+    wait, last = 4, ""
     for attempt in range(retries):
         r = requests.post(API.format(m=model or MODEL), params={"key": key}, json=body, timeout=180)
         if r.status_code == 200:
@@ -88,9 +127,10 @@ def call_gemini(prompt, schema=None, system=None, key=None, model=None, temperat
             except Exception as e:
                 raise LLMError(f"bad response: {e}: {r.text[:300]}")
         if r.status_code in (429, 500, 503):
+            last = f"HTTP {r.status_code}: {r.text[:300]}"
             time.sleep(wait); wait = min(wait * 2, 90); continue
         raise LLMError(f"HTTP {r.status_code}: {r.text[:300]}")
-    raise LLMError("rate limited / unavailable after retries")
+    raise LLMError(f"gave up after {retries} retries; last error {last}")
 
 
 def code_items(items, key=None, model=None):

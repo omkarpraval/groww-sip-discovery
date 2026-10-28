@@ -1,0 +1,36 @@
+{
+  "n": 13,
+  "mode": "corpus",
+  "prompt_version": "coder-v1.2",
+  "models": {
+    "gemini-flash-lite-latest": 13
+  },
+  "note": "v1.2 corpus labels scored on the held-out set (13 of 15 posts labelled so far); prompt frozen before the held-out labels existed.",
+  "fields": {
+    "relevant": {
+      "agreement_pct": 92.3,
+      "cohens_kappa": 0.806
+    },
+    "sip_action": {
+      "agreement_pct": 61.5,
+      "cohens_kappa": 0.515
+    },
+    "primary_trigger": {
+      "agreement_pct": 53.8,
+      "cohens_kappa": 0.361
+    },
+    "first_time": {
+      "agreement_pct": 84.6,
+      "cohens_kappa": 0.6
+    },
+    "emotion": {
+      "agreement_pct": 92.3,
+      "cohens_kappa": 0.891
+    },
+    "dropoff_moment": {
+      "agreement_pct": 76.9,
+      "cohens_kappa": 0.53
+    }
+  },
+  "disagreements": []
+}

@@ -371,7 +371,8 @@ const STAGE = {considering:"Not started yet",first_months:"First 3 months",withi
 const FT = {yes:"Yes",no:"No",unknown:"Not stated"};
 const FIELD = {primary_trigger:["Main reason for stopping","e.g. “portfolio in the red”, “debit failed”"],
   relevant:["Is it about a SIP at all?","relevance filter"],sip_action:["What did they do?","continue, stop, pause, increase…"],
-  first_time:["First-time investor?","only if they say so"],emotion:["How do they feel?","dominant emotion"]};
+  first_time:["First-time investor?","only if they say so"],emotion:["How do they feel?","dominant emotion"],
+  dropoff_moment:["Spots a drop-off moment?","stop, pause, failed debit — or considering it"]};
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt = n => Number(n).toLocaleString("en-US");
 const r0 = n => Math.round(n);
@@ -538,13 +539,15 @@ function render(D){
     </div>`);
 
   /* ---------- 6 trust ---------- */
-  const fieldsOrder = ["primary_trigger","relevant","sip_action","emotion","first_time"];
+  const fieldsOrder = ["primary_trigger","dropoff_moment","relevant","sip_action","emotion","first_time"];
   const status = f => { if (f.target == null) return `<span class="status info">Tracked</span>`;
     if (f.agreement >= f.target) return `<span class="status good">✓ Pass</span>`;
     if (f.agreement >= f.target - 5) return `<span class="status warn">! Just below</span>`;
     return `<span class="status bad">✕ Fail → fixing</span>`; };
-  const fixNote = {sip_action:"The AI read “asking for advice” as “about to stop”. Prompt v1.2 adds explicit rules; re-scored before the corpus is re-labelled.",
-                   relevant:"Advice written for someone else was counted as relevant. Rule added in v1.2."};
+  const v11 = G && G.prompt_version === "coder-v1.1";
+  const fixNote = v11 ? {sip_action:"The AI read “asking for advice” as “about to stop”. Prompt v1.2 adds explicit rules; re-scored before the corpus is re-labelled.",
+                   relevant:"Advice written for someone else was counted as relevant. Rule added in v1.2."}
+                : {sip_action:"Most remaining misses are harmless swaps such as “No SIP action” vs “Continuing” — what matters for the numbers is the drop-off row above."};
   const Q = D.quality;
   const reports = D.golden.all;
   const repName = r => `${Object.keys(r.models)[0]?.startsWith("groq:") ? "Groq " + Object.keys(r.models)[0].replace("groq:","").replace("openai/","") : "Gemini " + (Object.keys(r.models)[0]||"").replace("gemini-","")} · ${r.prompt_version.replace("coder-","")}${r.mode==="corpus" ? " (live)" : ""}`;
@@ -557,7 +560,7 @@ function render(D){
         ${G ? fieldsOrder.filter(k=>G.fields[k]).map(k=>{const f=G.fields[k];return `<tr><td class="q">${FIELD[k][0]}<small>${FIELD[k][1]}</small>${f.target!=null&&f.agreement<f.target&&fixNote[k]?`<div class="fix">${fixNote[k]}</div>`:""}</td>
           <td><div class="num">${r0(f.agreement)}%</div>${f.target!=null?`<div class="mini"><i style="width:${f.agreement}%"></i><b style="left:${f.target}%"></b></div>`:""}</td><td class="hide-s">${f.kappa ?? "–"}</td><td>${status(f)}</td></tr>`;}).join("") : ""}
         </tbody></table>
-        <p class="caveat">κ (kappa) corrects agreement for luck: above 0.6 is “substantial”. Pass marks: main reason ≥70%, relevance ≥90%, action ≥80%.</p>
+        <p class="caveat">κ (kappa) corrects agreement for luck: above 0.6 is “substantial”. Pass marks: main reason ≥70%, relevance ≥90%, action ≥80%. “Spots a drop-off moment” was added after the first round, so it is tracked without a pass mark.</p>
       </div>
       <div class="card"><h3>Built-in safety checks</h3><p class="hint">Applied to every label, not just the test set</p>
         <div class="gates">
@@ -572,8 +575,8 @@ function render(D){
       ${reports.map(r=>`<tr><td>${esc(repName(r))}</td>${fieldsOrder.map(k=>{const f=r.fields[k]; if(!f) return `<td class="c">–</td>`; const ok=f.target==null?null:f.agreement>=f.target; return `<td class="c ${ok===true?'ok':ok===false?'no':''}">${r0(f.agreement)}%${ok===true?' ✓':''}</td>`;}).join("")}</tr>`).join("")}
       </tbody></table></div>
       <div class="cmp-m">${reports.map(r=>`<div class="mrow"><b>${esc(repName(r))}</b><div>${fieldsOrder.filter(k=>r.fields[k]).map(k=>{const f=r.fields[k];const ok=f.target==null?null:f.agreement>=f.target;return `<span>${FIELD[k][0]}</span><span class="${ok===true?'ok':ok===false?'no':''}">${r0(f.agreement)}%${ok===true?' ✓':ok===false?' ✕':''}</span>`;}).join("")}</div></div>`).join("")}</div></div>` : ""}
-    ${D.golden.corrections.length ? `<div class="card mt"><h3>Where the AI was wrong — and what we changed</h3><p class="hint">Real golden-set cases. Each one became a rule in the next prompt version.</p><p class="swipe-hint">Swipe for more →</p><div class="grid3 cases">
-      ${D.golden.corrections.map(c=>`<div class="case"><p class="txt">“${esc(c.text)}”</p><div class="verdict"><span>AI said</span><span class="strike">${ACT[c.ai]||c.ai}</span><span>Human said</span><span class="right">${ACT[c.human]||c.human}</span></div><span class="tag" style="align-self:flex-start">Fixed in prompt v1.2</span></div>`).join("")}
+    ${D.golden.corrections.length ? `<div class="card mt"><h3>Where the AI was wrong — and what we changed</h3><p class="hint">Real golden-set cases from the first prompt. Each became a rule — and here is what the new prompt says now.</p><p class="swipe-hint">Swipe for more →</p><div class="grid3 cases">
+      ${D.golden.corrections.map(c=>`<div class="case"><p class="txt">“${esc(c.text)}”</p><div class="verdict"><span>AI said (${esc((c.ai_version||"").replace("coder-",""))})</span><span class="strike">${ACT[c.ai]||c.ai}</span><span>Human said</span><span class="right">${ACT[c.human]||c.human}</span>${c.now ? `<span>${esc(c.now_version.replace("coder-",""))} now says</span><span class="${c.now_ok?'right':''}" style="font-weight:700">${ACT[c.now]||c.now}${c.now_ok?' ✓':''}</span>` : ""}</div><span class="tag" style="align-self:flex-start">${c.now ? (c.now_ok ? "Fixed by the new rules" : c.now_drop_ok ? "No longer a false drop-off" : "Still wrong — logged") : "Rule added in the next prompt"}</span></div>`).join("")}
     </div></div>` : ""}`);
 
   /* ---------- 7 how ---------- */

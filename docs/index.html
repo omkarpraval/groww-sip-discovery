@@ -435,12 +435,21 @@ function render(D){
   </header>`;
 
   /* ---------- key takeaways ---------- */
-  const dropTop = D.segments.find(s=>s.title==="How they earn");
+  /* the segment with the biggest real gap drives the "who" story (picked from data, never hard-coded) */
+  const VIA = {"Friend or family": "a friend or family member", "Own research": "their own research", "YouTube finfluencer": "a YouTube finfluencer", "App or ad": "an app or ad"};
+  const PHR = {"Who got them started": l => "people who started through " + (VIA[l] || l.toLowerCase()),
+    "How they earn": l => l.toLowerCase() + " investors", "Age": l => "investors aged " + l.toLowerCase(),
+    "Investing before?": l => l === "First-time investor" ? "first-time investors" : "experienced investors"};
+  const phr = (t, l) => (PHR[t] || (x => x.toLowerCase()))(l);
+  const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const gap = D.segments.map(s => ({t: s.title, hi: s.rows[0], lo: s.rows[s.rows.length-1]})).filter(g => g.lo.dropoff > 0)
+    .sort((a,b) => b.hi.dropoff/b.lo.dropoff - a.hi.dropoff/a.lo.dropoff)[0];
+  const gapR = gap ? gap.hi.dropoff / gap.lo.dropoff : 1;
   h += `<section aria-label="Key takeaways"><div class="eyebrow" style="margin-top:8px">Key takeaways in 10 seconds</div><div class="tldr">
     <a class="tk" href="#why"><span class="no">01</span><b>${r0(top.pct)}%</b><span>of first-year drop-off moments: they <b>can’t tell if their SIP is working</b></span><em>Why they stop →</em></a>
     <a class="tk" href="#why"><span class="no">02</span><b>${considerPct}%</b><span>are still only <b>considering</b> stopping — there’s a window to help</span><em>The window →</em></a>
     <a class="tk" href="#where"><span class="no">03</span><b>${r0(D.outside_any_pct)}%</b><span>look for answers <b>outside the app</b>, mostly on Reddit</span><em>Where they go →</em></a>
-    ${dropTop ? `<a class="tk" href="#who"><span class="no">04</span><b>${r0(dropTop.rows[0].dropoff)}% vs ${r0(dropTop.rows[dropTop.rows.length-1].dropoff)}%</b><span><b>irregular-income</b> vs salaried investors talk about stopping</span><em>Who’s at risk →</em></a>` : ""}
+    ${gap && gapR >= 1.25 ? `<a class="tk" href="#who"><span class="no">04</span><b>${r0(gap.hi.dropoff)}% vs ${r0(gap.lo.dropoff)}%</b><span><b>${phr(gap.t, gap.hi.label)}</b> vs ${phr(gap.t, gap.lo.label)} talk about stopping</span><em>Who’s at risk →</em></a>` : ""}
   </div></section>`;
 
   /* ---------- 1 context ---------- */
@@ -491,9 +500,9 @@ function render(D){
   /* ---------- 3 who ---------- */
   const base = D.baseline_dropoff;
   const segMax = Math.max(...D.segments.flatMap(s=>s.rows.map(r=>r.dropoff)), base) * 1.15;
-  const inc = D.segments.find(s=>s.title==="How they earn");
-  const hiInc = inc ? inc.rows[0] : null, loInc = inc ? inc.rows[inc.rows.length-1] : null;
-  h += section("who", 3, "Who’s at risk", hiInc && loInc && hiInc.dropoff / loInc.dropoff >= 1.3 ? `${hiInc.label.startsWith("Variable") ? "Investors with irregular income" : hiInc.label} talk about stopping ${hiInc.dropoff / loInc.dropoff >= 1.65 ? "almost twice" : (hiInc.dropoff / loInc.dropoff).toFixed(1) + "×"} as often as ${loInc.label.toLowerCase()} investors.` : `Some groups of investors are far more likely to talk about stopping.`,
+  const WHY_SEG = {"Who got them started": "people who started because someone else said so are more likely to wobble than those who did their own research — they borrowed someone else’s conviction, so they have less of their own when the SIP turns red.",
+    "How they earn": "a fixed-date, fixed-amount SIP fits a regular salary; it fights irregular income."};
+  h += section("who", 3, "Who’s at risk", gap && gapR >= 1.25 ? `${cap(phr(gap.t, gap.hi.label))} talk about stopping ${gapR >= 1.9 ? "about twice" : gapR.toFixed(1) + "×"} as often as ${phr(gap.t, gap.lo.label)}.` : `No single group stands out — doubt about stopping is spread across who people are.`,
     `Share of each group’s SIP posts that describe stopping, pausing or failed debits — or thinking about it. The black line is the average across everyone (${r0(base)}%).`, `
     <div class="grid2">${D.segments.map(s=>{
       const hi = s.rows[0].dropoff;
@@ -503,7 +512,9 @@ function render(D){
           <span class="t"><i style="width:${100*r.dropoff/segMax}%"></i><b style="left:${100*base/segMax}%"></b></span></div>`).join("")}</div></div>`;}).join("")}
     </div>
     <p class="caveat">Groups are only counted when the post states them (e.g. “I’m a student”, “my salary”). Small groups (n under 100) are directional, not conclusive.</p>
-    ${insight(`<b>So what:</b> a fixed-date, fixed-amount SIP fits a salary; it fights irregular income. And people who started because a friend or a YouTuber said so are more likely to wobble than those who did their own research — they borrowed someone else’s conviction.`)}`);
+    ${insight(`<b>So what:</b> ${gap && gapR >= 1.25 && WHY_SEG[gap.t] ? WHY_SEG[gap.t] : "risk is spread across groups, so a fix should target the moment of doubt itself rather than one demographic."} ${(() => { const NM = {"How they earn": "income", "Age": "age", "Investing before?": "first-time status", "Who got them started": "who got them started"};
+      const small = D.segments.filter(s => s.title !== (gap && gap.t) && s.rows[s.rows.length-1].dropoff > 0 && s.rows[0].dropoff / s.rows[s.rows.length-1].dropoff < 1.2).map(s => NM[s.title] || s.title.toLowerCase());
+      return small.length ? ` By contrast, ${small.join(", ").replace(/, ([^,]*)$/, " and $1")} barely change how often people talk about stopping.` : ""; })()}`)}`);
 
   /* ---------- 4 where ---------- */
   const oMax = Math.max(...D.outside.map(o=>o.pct)) * 1.1;

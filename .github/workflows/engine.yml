@@ -72,6 +72,15 @@ jobs:
           LLM_PROVIDER: ${{ inputs.provider }}
         run: python pipeline/golden.py --recode
 
+      - name: Held-out check (fresh posts never used for prompt tuning)
+        if: inputs.stage == 'heldout'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ inputs.model }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ inputs.provider }}
+        run: python pipeline/golden.py --recode --set heldout
+
       - name: Build site data (GitHub Pages)
         if: inputs.stage != 'collect'
         working-directory: pipeline

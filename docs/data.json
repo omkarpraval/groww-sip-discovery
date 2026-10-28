@@ -4,16 +4,17 @@
   "gemini-flash-lite-latest": 7365
  },
  "prompts": {
-  "coder-v1.1": 7365
+  "coder-v1.2": 7125,
+  "coder-v1.1": 240
  },
  "funnel": {
   "collected": 104349,
   "unique": 61672,
   "sip": 8935,
   "coded": 7365,
-  "relevant_ok": 4004,
-  "early": 1913,
-  "early_drops": 675,
+  "relevant_ok": 3546,
+  "early": 1476,
+  "early_drops": 377,
   "by_source": [
    {
     "source": "App Store",
@@ -51,8 +52,8 @@
   {
    "name": "Can't tell if my SIP is working",
    "desc": "Red or flat returns, doubting their fund choice, conflicting advice.",
-   "n": 248,
-   "pct": 36.7,
+   "n": 150,
+   "pct": 39.8,
    "quotes": [
     {
      "text": "I panicked. I had no mentor, no knowledge, just fear. So I did the single stupidest thing I can do I stopped the SIP.",
@@ -61,30 +62,30 @@
      "url": "https://www.reddit.com/r/StockMarketIndia/comments/1r86sf8/"
     },
     {
-     "text": "My first instinct was to pause my SIPs for a while until things calm down.",
-     "source": "Reddit",
-     "emotion": "Anxious",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1rrikls/"
+     "text": "One major mistake i did was panicking during Covid fall and redeemed.",
+     "source": "YouTube",
+     "emotion": "Regretful",
+     "url": "https://www.youtube.com/watch?v=l9XKj5iMVrc&lc=UgxBugyIkCYHe1ud8xx4AaABAg"
     },
     {
-     "text": "Lost 30% of my portfolio in 6 months",
+     "text": "I had to pause SIPs for 2 months because of a cash crunch.",
      "source": "Reddit",
-     "emotion": "Frustrated",
+     "emotion": "Confused",
      "url": "https://www.reddit.com/r/IndianStockMarket/comments/1sbi166/"
     },
     {
-     "text": "returns I see is not convincing me anymore",
+     "text": "I stopped my SIP in it because I wasn’t happy with its performance",
      "source": "Reddit",
-     "emotion": "Disappointed",
-     "url": "https://www.reddit.com/r/mutualfunds/comments/1xdybj4/"
+     "emotion": "Confused",
+     "url": "https://www.reddit.com/r/mutualfunds/comments/1w8pj9b/"
     }
    ]
   },
   {
    "name": "App friction or distrust",
    "desc": "Refund delays, duplicate SIPs, units not allocated, support loops.",
-   "n": 133,
-   "pct": 19.7,
+   "n": 95,
+   "pct": 25.2,
    "quotes": [
     {
      "text": "my order got cancelled and it's been more than 2 weeks but my refund has still not credited",
@@ -93,21 +94,21 @@
      "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
     },
     {
-     "text": "if I have to increase the amount it amounts to 2 sips. It has happened with me thrice now and getting frustrated",
+     "text": "groww app without my permission shared my number",
      "source": "Play Store",
      "emotion": "Frustrated",
      "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
     },
     {
-     "text": "then later after few months I saw so many charges on from account without me knowing",
-     "source": "Play Store",
-     "emotion": "Frustrated",
-     "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
+     "text": "can I choose manual mutual fund SIP deduction instead of auto deduction",
+     "source": "YouTube",
+     "emotion": "Confused",
+     "url": "https://www.youtube.com/watch?v=qxu7CBYR864&lc=UgwcPMGN54NFjZ8Rz6p4AaABAg"
     },
     {
-     "text": "my money got hold & now i have to wait 5-7 days for refund",
+     "text": "i got only 525. what is happening. then i mind to deleted my account",
      "source": "Play Store",
-     "emotion": "Frustrated",
+     "emotion": "Confused",
      "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
     }
    ]
@@ -115,20 +116,14 @@
   {
    "name": "Money got tight / life changed",
    "desc": "Unplanned expenses, weddings, low balance on debit day.",
-   "n": 92,
-   "pct": 13.6,
+   "n": 49,
+   "pct": 13.0,
    "quotes": [
     {
      "text": "hit with multiple 500rs penalties because I couldn't Autopay the SIP",
      "source": "Reddit",
-     "emotion": "Disappointed",
+     "emotion": "Regretful",
      "url": "https://www.reddit.com/r/personalfinanceindia/comments/1varaq2/"
-    },
-    {
-     "text": "Should I pause my SIP for a while since this trip was not planned for.",
-     "source": "Reddit",
-     "emotion": "Confused",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1c4hdkj/"
     },
     {
      "text": "Currently I have stopped my SIP as I was laid off.",
@@ -137,131 +132,132 @@
      "url": "https://www.reddit.com/r/mutualfunds/comments/1vbp369/"
     },
     {
-     "text": "with my baby coming in my priorities are going to change",
+     "text": "Sadly I skipped for 2 months because of some other sudden expenses.",
      "source": "Reddit",
      "emotion": "Anxious",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1jwel65/"
+     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1tyke7q/"
+    },
+    {
+     "text": "I started my first SIP not long ago and I keep wondering how common it is to lose steam in the first year.",
+     "source": "Reddit",
+     "emotion": "Anxious",
+     "url": "https://www.reddit.com/r/mutualfunds/comments/1xd3gs4/"
     }
    ]
   },
   {
    "name": "Debit or mandate failed",
    "desc": "Autopay errors and bounce charges they didn’t see coming.",
-   "n": 69,
-   "pct": 10.2,
+   "n": 46,
+   "pct": 12.2,
    "quotes": [
     {
-     "text": "There was some issue with auto pay, I received Notifications as there is some technical error in payment.",
+     "text": "delay in processing my 2nd SIP installment",
+     "source": "Play Store",
+     "emotion": "Disappointed",
+     "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
+    },
+    {
+     "text": "unable to set autoplay for my SIP for a month they showed me \"something went wrong\"",
      "source": "Play Store",
      "emotion": "Frustrated",
      "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
     },
     {
-     "text": "it's takes more than weeks to take order and also they rejected my sip still they didn't refund my amount",
-     "source": "Play Store",
-     "emotion": "Frustrated",
-     "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-    },
-    {
-     "text": "transaction are getting reverse every month without notifying to me",
-     "source": "Play Store",
-     "emotion": "Frustrated",
-     "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-    },
-    {
-     "text": "Due to insufficient balance in my account, an penalty of 1500 rupees was cut",
+     "text": "My first SIP amount was supposed to be deducted today via UPI mandate",
      "source": "Reddit",
-     "emotion": "Frustrated",
-     "url": "https://www.reddit.com/r/mutualfunds/comments/1septyi/"
+     "emotion": "Confused",
+     "url": "https://www.reddit.com/r/mutualfunds/comments/1k451cb/"
+    },
+    {
+     "text": "i have already done first sip payment. now there is a message about need of mandate",
+     "source": "YouTube",
+     "emotion": "Anxious",
+     "url": "https://www.youtube.com/watch?v=L0yTgTagvL8&lc=UgyD3kbNvNDMelOHjpB4AaABAg"
     }
    ]
   },
   {
    "name": "No reason to stay",
    "desc": "No goal, social doubt, “SIP is an illusion” posts.",
-   "n": 50,
-   "pct": 7.4,
+   "n": 21,
+   "pct": 5.6,
    "quotes": [
     {
-     "text": "I often see SIP is mocked and made fun of as an illusion to creating wealth/money.",
+     "text": "I stopped the SIPs because, under the new tax regime, I can't get deductions on them.",
      "source": "Reddit",
      "emotion": "Confused",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1ua3fqs/"
+     "url": "https://www.reddit.com/r/IndianStockMarket/comments/1drmjw8/"
     },
     {
-     "text": "want to know what is the best time to exit the fund. I'm doing it to gain some experience, didn't have any goal Should I continue or stop it??",
+     "text": "If I start an SIP and investments are subsequently halted due to the applicable limit being reached, will the existing SIP continue, or will it also be stopped?",
      "source": "Reddit",
      "emotion": "Confused",
-     "url": "https://www.reddit.com/r/IndianStockMarket/comments/1ug4su1/"
+     "url": "https://www.reddit.com/r/mutualfunds/comments/1vv7lzv/"
     },
     {
-     "text": "I came across posts on Reddit saying that the commissions/charges can eat into the returns.",
+     "text": "I feel like I should stop investing in mutual funds and start buying physical gold coins instead",
      "source": "Reddit",
-     "emotion": "Confused",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1vucfqd/"
+     "emotion": "Anxious",
+     "url": "https://www.reddit.com/r/IndianStockMarket/comments/1pw90zc/"
     },
     {
-     "text": "should I stop the SIP now and invest later",
+     "text": "Can I cancel my SIP before paying my first order?",
      "source": "Reddit",
-     "emotion": "Confused",
-     "url": "https://www.reddit.com/r/StockMarketIndia/comments/1kf37bf/"
+     "emotion": "Anxious",
+     "url": "https://www.reddit.com/comments/bjhee4/_/ondxsp5"
     }
    ]
   }
  ],
- "no_reason_pct": 24.3,
+ "no_reason_pct": 19.4,
  "emotion": [
   [
    "Confused",
-   45.5
+   52.5
   ],
   [
    "Neutral",
-   23.3
+   14.3
   ],
   [
    "Frustrated",
-   13.5
+   13.0
   ],
   [
    "Anxious",
-   9.6
+   10.3
   ],
   [
    "Disappointed",
-   5.5
+   6.4
   ],
   [
    "Other",
-   2.6
+   3.5
   ]
  ],
  "actions": {
-  "considering_stop": 447,
-  "stopped_or_cancelled": 113,
-  "failed_involuntary": 43,
-  "paused_or_skipped": 42,
-  "redeemed": 18,
-  "reduced": 12
+  "considering_stop": 233,
+  "stopped_or_cancelled": 71,
+  "failed_involuntary": 38,
+  "paused_or_skipped": 16,
+  "reduced": 10,
+  "redeemed": 9
  },
  "segments": [
   {
    "title": "How they earn",
    "rows": [
     {
-     "label": "Variable or business income",
-     "n": 51,
-     "dropoff": 41.2
-    },
-    {
      "label": "Student / no income",
-     "n": 119,
-     "dropoff": 35.3
+     "n": 113,
+     "dropoff": 20.4
     },
     {
      "label": "Salaried",
-     "n": 634,
-     "dropoff": 23.3
+     "n": 523,
+     "dropoff": 19.1
     }
    ]
   },
@@ -270,23 +266,23 @@
    "rows": [
     {
      "label": "Friend or family",
-     "n": 126,
-     "dropoff": 37.3
+     "n": 102,
+     "dropoff": 27.5
     },
     {
      "label": "YouTube finfluencer",
-     "n": 281,
-     "dropoff": 35.6
-    },
-    {
-     "label": "Own research",
-     "n": 757,
-     "dropoff": 25.1
+     "n": 286,
+     "dropoff": 26.6
     },
     {
      "label": "App or ad",
-     "n": 88,
-     "dropoff": 25.0
+     "n": 84,
+     "dropoff": 17.9
+    },
+    {
+     "label": "Own research",
+     "n": 736,
+     "dropoff": 17.9
     }
    ]
   },
@@ -294,19 +290,19 @@
    "title": "Age",
    "rows": [
     {
-     "label": "Under 25",
-     "n": 443,
-     "dropoff": 25.7
+     "label": "25–34",
+     "n": 287,
+     "dropoff": 20.2
     },
     {
-     "label": "25–34",
-     "n": 275,
-     "dropoff": 21.8
+     "label": "Under 25",
+     "n": 359,
+     "dropoff": 18.9
     },
     {
      "label": "35–44",
-     "n": 78,
-     "dropoff": 20.5
+     "n": 74,
+     "dropoff": 17.6
     }
    ]
   },
@@ -314,179 +310,179 @@
    "title": "Investing before?",
    "rows": [
     {
-     "label": "First-time investor",
-     "n": 1356,
-     "dropoff": 33.6
+     "label": "Has invested before",
+     "n": 522,
+     "dropoff": 20.9
     },
     {
-     "label": "Has invested before",
-     "n": 1105,
-     "dropoff": 26.6
+     "label": "First-time investor",
+     "n": 846,
+     "dropoff": 20.7
     }
    ]
   }
  ],
- "baseline_dropoff": 34.9,
+ "baseline_dropoff": 28.6,
  "outside": [
   {
    "label": "Reddit / forums",
-   "n": 614,
-   "pct": 32.1
+   "n": 753,
+   "pct": 51.0
   },
   {
    "label": "YouTube finfluencers",
-   "n": 229,
-   "pct": 12.0
+   "n": 209,
+   "pct": 14.2
   },
   {
    "label": "Customer support",
-   "n": 135,
-   "pct": 7.1
+   "n": 83,
+   "pct": 5.6
   },
   {
    "label": "Friends & family",
-   "n": 88,
-   "pct": 4.6
-  },
-  {
-   "label": "Fund house / other app",
-   "n": 35,
-   "pct": 1.8
+   "n": 83,
+   "pct": 5.6
   },
   {
    "label": "Advisor",
-   "n": 28,
-   "pct": 1.5
+   "n": 21,
+   "pct": 1.4
   },
   {
    "label": "Google / news",
-   "n": 12,
-   "pct": 0.6
+   "n": 14,
+   "pct": 0.9
+  },
+  {
+   "label": "Fund house / other app",
+   "n": 10,
+   "pct": 0.7
   }
  ],
- "outside_any_pct": 47.3,
+ "outside_any_pct": 65.2,
  "checking": {
-  "n": 201,
-  "daily_pct": 45.3,
-  "rarely_pct": 36.8
+  "n": 203,
+  "daily_pct": 43.3,
+  "rarely_pct": 36.9
  },
  "themes": [
   {
    "label": "App friction",
-   "mentions": 764,
-   "reach": 19.1,
-   "proximity": 33.2,
-   "early": 28.7,
+   "mentions": 773,
+   "reach": 21.8,
+   "proximity": 26.3,
+   "early": 21.7,
    "addr": 1.0,
-   "score": 12.5
-  },
-  {
-   "label": "Returns feel too slow",
-   "mentions": 317,
-   "reach": 7.9,
-   "proximity": 42.9,
-   "early": 53.3,
-   "addr": 0.8,
-   "score": 6.08
-  },
-  {
-   "label": "Debit / mandate failed",
-   "mentions": 215,
-   "reach": 5.4,
-   "proximity": 80.9,
-   "early": 41.9,
-   "addr": 0.9,
-   "score": 5.81
-  },
-  {
-   "label": "Money got tight",
-   "mentions": 231,
-   "reach": 5.8,
-   "proximity": 62.8,
-   "early": 57.6,
-   "addr": 0.8,
-   "score": 5.6
+   "score": 11.93
   },
   {
    "label": "Doubts the platform",
-   "mentions": 464,
-   "reach": 11.6,
-   "proximity": 62.3,
-   "early": 21.3,
+   "mentions": 505,
+   "reach": 14.2,
+   "proximity": 54.7,
+   "early": 16.6,
    "addr": 0.6,
-   "score": 5.57
+   "score": 5.96
+  },
+  {
+   "label": "Debit / mandate failed",
+   "mentions": 200,
+   "reach": 5.6,
+   "proximity": 79.5,
+   "early": 28.0,
+   "addr": 0.9,
+   "score": 5.13
+  },
+  {
+   "label": "Returns feel too slow",
+   "mentions": 230,
+   "reach": 6.5,
+   "proximity": 39.1,
+   "early": 50.0,
+   "addr": 0.8,
+   "score": 4.62
+  },
+  {
+   "label": "Money got tight",
+   "mentions": 180,
+   "reach": 5.1,
+   "proximity": 52.2,
+   "early": 52.8,
+   "addr": 0.8,
+   "score": 4.27
   },
   {
    "label": "Portfolio in the red",
-   "mentions": 320,
-   "reach": 8.0,
-   "proximity": 43.1,
-   "early": 48.8,
+   "mentions": 275,
+   "reach": 7.8,
+   "proximity": 32.7,
+   "early": 46.2,
    "addr": 0.6,
-   "score": 4.41
+   "score": 3.7
   },
   {
    "label": "Doubts own fund choice",
-   "mentions": 473,
-   "reach": 11.8,
-   "proximity": 45.9,
-   "early": 57.7,
+   "mentions": 422,
+   "reach": 11.9,
+   "proximity": 35.5,
+   "early": 54.5,
    "addr": 0.3,
-   "score": 3.66
+   "score": 3.19
   },
   {
    "label": "Expected something else",
-   "mentions": 86,
-   "reach": 2.1,
-   "proximity": 50.0,
-   "early": 68.6,
+   "mentions": 69,
+   "reach": 1.9,
+   "proximity": 43.5,
+   "early": 69.6,
    "addr": 0.9,
-   "score": 2.29
-  },
-  {
-   "label": "No goal / disengaged",
-   "mentions": 42,
-   "reach": 1.0,
-   "proximity": 47.6,
-   "early": 71.4,
-   "addr": 0.9,
-   "score": 1.12
-  },
-  {
-   "label": "Lock-in or tax",
-   "mentions": 66,
-   "reach": 1.6,
-   "proximity": 71.2,
-   "early": 39.4,
-   "addr": 0.5,
-   "score": 0.89
-  },
-  {
-   "label": "Life event",
-   "mentions": 96,
-   "reach": 2.4,
-   "proximity": 50.0,
-   "early": 41.7,
-   "addr": 0.4,
-   "score": 0.88
+   "score": 1.96
   },
   {
    "label": "Conflicting advice",
-   "mentions": 41,
-   "reach": 1.0,
-   "proximity": 56.1,
-   "early": 63.4,
+   "mentions": 44,
+   "reach": 1.2,
+   "proximity": 38.6,
+   "early": 59.1,
    "addr": 0.6,
-   "score": 0.74
+   "score": 0.72
+  },
+  {
+   "label": "Lock-in or tax",
+   "mentions": 52,
+   "reach": 1.5,
+   "proximity": 59.6,
+   "early": 30.8,
+   "addr": 0.5,
+   "score": 0.65
+  },
+  {
+   "label": "Life event",
+   "mentions": 62,
+   "reach": 1.7,
+   "proximity": 58.1,
+   "early": 33.9,
+   "addr": 0.4,
+   "score": 0.63
   },
   {
    "label": "Others stopped",
-   "mentions": 61,
-   "reach": 1.5,
-   "proximity": 47.5,
-   "early": 70.5,
+   "mentions": 45,
+   "reach": 1.3,
+   "proximity": 26.7,
+   "early": 75.6,
    "addr": 0.4,
-   "score": 0.72
+   "score": 0.49
+  },
+  {
+   "label": "No goal / disengaged",
+   "mentions": 20,
+   "reach": 0.6,
+   "proximity": 30.0,
+   "early": 65.0,
+   "addr": 0.9,
+   "score": 0.47
   }
  ],
  "golden": {
@@ -494,34 +490,34 @@
    "file": "golden_report_corpus.json",
    "mode": "corpus",
    "n": 22,
-   "prompt_version": "coder-v1.1",
+   "prompt_version": "coder-v1.1,coder-v1.2",
    "models": {
     "gemini-flash-lite-latest": 22
    },
    "fields": {
     "relevant": {
      "agreement": 86.4,
-     "kappa": 0.673,
+     "kappa": 0.718,
      "target": 90
     },
     "sip_action": {
-     "agreement": 40.9,
-     "kappa": 0.259,
+     "agreement": 59.1,
+     "kappa": 0.416,
      "target": 80
     },
     "primary_trigger": {
      "agreement": 86.4,
-     "kappa": 0.756,
+     "kappa": 0.714,
      "target": 70
     },
     "first_time": {
-     "agreement": 72.7,
-     "kappa": 0.506,
+     "agreement": 86.4,
+     "kappa": 0.665,
      "target": null
     },
     "emotion": {
-     "agreement": 77.3,
-     "kappa": 0.679,
+     "agreement": 59.1,
+     "kappa": 0.407,
      "target": null
     }
    }
@@ -603,34 +599,34 @@
     "file": "golden_report_corpus.json",
     "mode": "corpus",
     "n": 22,
-    "prompt_version": "coder-v1.1",
+    "prompt_version": "coder-v1.1,coder-v1.2",
     "models": {
      "gemini-flash-lite-latest": 22
     },
     "fields": {
      "relevant": {
       "agreement": 86.4,
-      "kappa": 0.673,
+      "kappa": 0.718,
       "target": 90
      },
      "sip_action": {
-      "agreement": 40.9,
-      "kappa": 0.259,
+      "agreement": 59.1,
+      "kappa": 0.416,
       "target": 80
      },
      "primary_trigger": {
       "agreement": 86.4,
-      "kappa": 0.756,
+      "kappa": 0.714,
       "target": 70
      },
      "first_time": {
-      "agreement": 72.7,
-      "kappa": 0.506,
+      "agreement": 86.4,
+      "kappa": 0.665,
       "target": null
      },
      "emotion": {
-      "agreement": 77.3,
-      "kappa": 0.679,
+      "agreement": 59.1,
+      "kappa": 0.407,
       "target": null
      }
     }
@@ -639,47 +635,46 @@
   "items": 24,
   "corrections": [
    {
-    "gid": "G22",
-    "text": "It was very good in the beginning... now there r more restrictions... they restriction telling us to cancel our previous sip and open one in groww... or else it won't be shown.",
+    "gid": "G19",
+    "text": "25 M. Need advice on Investing | Hi, this is my first post here so apologies if I am missing any required info I save 40k every month from my salary. This is after all the expenditure of Family, Personal hobbies and insurances. Cu…",
     "ai": "considering_stop",
     "human": "none"
    },
    {
-    "gid": "G05",
-    "text": "Great point about starting early - I actually calculated this for ₹500 SIP, 5yr = ∼41k, 20yr = ∼4.95L at assumed 12%. The 5th date auto-debit tip really helps salaried beginners stick to it.",
-    "ai": "considering_stop",
+    "gid": "G20",
+    "text": "very nice app groww trading es app per ek aam insan bhi sip ya ipo ya investment ker sakta hai",
+    "ai": "none",
     "human": "continuing"
    },
    {
-    "gid": "G19",
-    "text": "25 M. Need advice on Investing | Hi, this is my first post here so apologies if I am missing any required info I save 40k every month from my salary. This is after all the expenditure of Family, Personal hobbies and insurances. Cu…",
-    "ai": "considering_stop",
+    "gid": "G08",
+    "text": "very easy investment app specially for beginners, I'm using all categories like Bonds, mutual fund, IPOs and stock",
+    "ai": "started",
     "human": "none"
    }
   ]
  },
  "quality": {
-  "relevant_coded": 4304,
-  "failed_quote": 300,
+  "relevant_coded": 3882,
+  "failed_quote": 336,
   "schema_repairs": 0
  },
  "example": {
-  "text": "Bad experience. I wanted to try SIP in small amount here in groww app. So i did but then it showed in the app that my payment didn't work. So I thought it's fine that they have cancelled it maybe. But then later after few months I saw so many charges on from account without me knowing or no notification at all. Really horrible.",
-  "source": "Play Store",
-  "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww",
+  "text": "Agar 1 saal ke bad band karna he to kese kare",
+  "source": "YouTube",
+  "url": "https://www.youtube.com/watch?v=MExMf8_g4CE&lc=UgwMnr9WBFbiCZE4pRt4AaABAg",
   "labels": {
-   "Investor stage": "first_months",
-   "First-time?": "yes",
-   "What they did": "stopped_or_cancelled",
+   "Investor stage": "within_year",
+   "First-time?": "unknown",
+   "What they did": "considering_stop",
    "Why": [
-    "Doubts the platform",
-    "Debit / mandate failed"
+    "App friction"
    ],
-   "Emotion": "frustrated",
-   "Unmet need": "transparent payment status and no hidden charges"
+   "Emotion": "confused",
+   "Unmet need": "Know how to stop a SIP after 1 year"
   },
-  "quote": "then later after few months I saw so many charges on from account without me knowing",
+  "quote": "Agar 1 saal ke bad band karna he to kese kare",
   "model": "gemini-flash-lite-latest",
-  "prompt": "coder-v1.1"
+  "prompt": "coder-v1.2"
  }
 }

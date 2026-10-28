@@ -7,6 +7,7 @@ import pandas as pd
 from aggregate import load, CLUSTERS, quote_ok, to_num, ADDRESSABILITY, EARLY, ROOT
 
 OUT = os.path.join(ROOT, "docs", "data.json")
+HELD = os.path.join(ROOT, "data", "golden", "heldout_human.csv")
 TARGETS = {"primary_trigger": 70, "relevant": 90, "sip_action": 80}  # fixed before any scoring (see evidence log)
 FUND = re.compile(r"parikh|ppfas|quant|nippon|hdfc|icici|sbi|axis|kotak|mirae|tata|uti|dsp|motilal|bandhan|"
                   r"flexi|small ?cap|mid ?cap|large ?cap|nifty|sensex|elss|index fund|lic\b", re.I)
@@ -195,7 +196,9 @@ def main():
         "segments": segments, "baseline_dropoff": base,
         "outside": outside, "outside_any_pct": pct(any_out, len(early)), "checking": checking,
         "themes": themes,
-        "golden": {"primary": primary, "all": reports, "items": int(len(gold)), "corrections": corrections},
+        "golden": {"primary": primary, "all": reports, "items": int(len(gold)), "corrections": corrections,
+                   "heldout": [golden_summary(p) for p in sorted(glob.glob(os.path.join(ROOT, "outputs", "heldout_report_*.json")))],
+                   "heldout_items": int(len(pd.read_csv(HELD))) if os.path.exists(HELD) else 0},
         "quality": {"relevant_coded": int(df.relevant.sum()), "failed_quote": int((df.relevant & ~df.quote_ok).sum()),
                     "schema_repairs": int(df["_repaired"].notna().sum()) if "_repaired" in df else 0},
         "example": example,

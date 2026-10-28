@@ -83,4 +83,10 @@ def main(recode):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--recode", action="store_true")
-    main(ap.parse_args().recode)
+    ap.add_argument("--set", choices=["golden", "heldout"], default="golden",
+                    help="heldout = fresh posts labelled after prompt tuning; never used to write rules")
+    a = ap.parse_args()
+    if a.set == "heldout":
+        GOLD = os.path.join(ROOT, "data", "golden", "heldout_human.csv")
+        OUT = os.path.join(ROOT, "outputs", "heldout_report.json")
+    main(a.recode)

@@ -53,7 +53,8 @@ OUT = {"reddit_forum": "Reddit / forums", "youtube_finfluencer": "YouTube", "fri
        "amc_or_other_app": "Fund house / other app", "none_stated": "None stated"}
 SRC = {"play_store": "Play Store", "app_store": "App Store", "reddit_post": "Reddit", "reddit_comment": "Reddit",
        "tradingqna": "TradingQnA", "youtube": "YouTube"}
-FIELD = {"primary_trigger": ("Main reason for stopping", 70), "relevant": ("Is it about a SIP at all?", 90),
+FIELD = {"primary_trigger": ("Main reason for stopping", 70), "dropoff_moment": ("Spots a drop-off moment?", None),
+         "relevant": ("Is it about a SIP at all?", 90),
          "sip_action": ("What did they do?", 80), "emotion": ("How do they feel?", None),
          "first_time": ("First-time investor?", None)}
 E = html.escape
@@ -442,7 +443,7 @@ elif nav == "Validation":
                        f'<td class="k">{main["fields"][k]["kappa"]}</td><td class="k">{FIELD[k][1] and str(FIELD[k][1]) + "%" or "—"}</td>'
                        f'<td>{badge(main["fields"][k]["agreement"], FIELD[k][1])}</td></tr>'
                        for k in FIELD if k in main["fields"])
-        st.markdown(f"""<div class="card"><h3>Scorecard — {E(name(main))}</h3><p class="hint">{main['n']} items scored · κ above 0.6 = substantial agreement</p>
+        st.markdown(f"""<div class="card"><h3>Scorecard — {E(name(main))}</h3><p class="hint">{main['n']} items scored · κ above 0.6 = substantial agreement · “Spots a drop-off moment” was added after round one, so it has no pass mark</p>
 <table class="score stack"><tr class="h"><th>What the AI labels</th><th>Agreement</th><th>Cohen’s κ</th><th>Pass mark</th><th>Result</th></tr>{rows}</table></div>""",
                     unsafe_allow_html=True)
         if len(reports) > 1:
@@ -471,9 +472,10 @@ elif nav == "Validation":
             cols = st.columns(len(corr))
             for col, c in zip(cols, corr):
                 col.markdown(f"""<div class="card"><p style="margin:0 0 12px;color:var(--ink-2)">“{E(c['text'])}”</p>
-<div class="row"><b>AI said</b><span style="text-decoration:line-through;color:var(--bad);font-weight:600">{E(ACT.get(c['ai'], c['ai']))}</span></div>
+<div class="row"><b>AI said ({E(c.get('ai_version', '').replace('coder-', ''))})</b><span style="text-decoration:line-through;color:var(--bad);font-weight:600">{E(ACT.get(c['ai'], c['ai']))}</span></div>
 <div class="row"><b>Human said</b><span style="color:var(--good);font-weight:700">{E(ACT.get(c['human'], c['human']))}</span></div>
-<p class="hint" style="margin:10px 0 0">Became an explicit rule in prompt v1.2</p></div>""", unsafe_allow_html=True)
+{f'<div class="row"><b>{E(c["now_version"].replace("coder-", ""))} now says</b><span style="font-weight:700;color:{"var(--good)" if c["now_ok"] else "var(--ink)"}">{E(ACT.get(c["now"], c["now"]))}{" ✓" if c["now_ok"] else ""}</span></div>' if c.get("now") else ""}
+<p class="hint" style="margin:10px 0 0">{("Fixed by the new rules" if c["now_ok"] else "No longer a false drop-off" if c["now_drop_ok"] else "Still wrong — logged") if c.get("now") else "Became an explicit rule in the next prompt"}</p></div>""", unsafe_allow_html=True)
 
 # ------------------------------------------------------------------ 4. Method
 else:

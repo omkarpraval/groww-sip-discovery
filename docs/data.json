@@ -1,5 +1,5 @@
 {
- "updated": "27 Oct 2026",
+ "updated": "28 Oct 2026",
  "models": {
   "gemini-flash-lite-latest": 7365
  },
@@ -527,6 +527,42 @@
    }
   },
   "all": [
+   {
+    "file": "golden_report_coder-v1.2_gemini.json",
+    "mode": "recode",
+    "n": 24,
+    "prompt_version": "coder-v1.2",
+    "models": {
+     "gemini-flash-lite-latest": 24
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 95.8,
+      "kappa": 0.903,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 62.5,
+      "kappa": 0.502,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 83.3,
+      "kappa": 0.729,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 87.5,
+      "kappa": 0.739,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 70.8,
+      "kappa": 0.618,
+      "target": null
+     }
+    }
+   },
    {
     "file": "golden_report_coder-v1.2_groq.json",
     "mode": "recode",

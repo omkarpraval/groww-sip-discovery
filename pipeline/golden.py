@@ -10,7 +10,10 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 GOLD = os.path.join(ROOT, "data", "golden", "golden_human.csv")
 CODED = os.path.join(ROOT, "data", "coded", "coded.jsonl")
 OUT = os.path.join(ROOT, "outputs", "golden_report.json")
-FIELDS = ["relevant", "sip_action", "primary_trigger", "first_time", "emotion"]
+FIELDS = ["relevant", "sip_action", "primary_trigger", "first_time", "emotion", "dropoff_moment"]
+# dropoff_moment is derived from sip_action (stop / pause / reduce / redeem / failed debit / considering stopping).
+# Added after the first scoring round, so it has no pre-set pass mark; it is the field every headline number uses.
+DROP = {"considering_stop", "paused_or_skipped", "reduced", "stopped_or_cancelled", "redeemed", "failed_involuntary"}
 
 
 def kappa(a, b):
@@ -50,7 +53,9 @@ def main(recode):
         e_vals = {"relevant": str(bool(e["relevant"])).lower(), "sip_action": e["sip_action"],
                   "primary_trigger": (e["triggers"] or ["none"])[0], "first_time": e["first_time"],
                   "emotion": e["emotion"]}
-        h_vals = {f: str(getattr(r, f)).strip().lower() for f in FIELDS}
+        e_vals["dropoff_moment"] = str(e_vals["sip_action"] in DROP).lower()
+        h_vals = {f: str(getattr(r, f)).strip().lower() for f in FIELDS if f != "dropoff_moment"}
+        h_vals["dropoff_moment"] = str(h_vals["sip_action"] in DROP).lower()
         rows.append((r.id, h_vals, e_vals, e.get("confidence")))
     report["n"] = len(rows)
     for f in FIELDS:

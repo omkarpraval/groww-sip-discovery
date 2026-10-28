@@ -51,9 +51,29 @@ def short_url(u):
     return m.group(1) if m else u
 
 
+DROP_ACTIONS = {"considering_stop", "paused_or_skipped", "reduced", "stopped_or_cancelled", "redeemed", "failed_involuntary"}
+
+
+def derive_dropoff(r):
+    """Older reports predate the dropoff_moment field. When every golden item was scored, the engine's action per
+    item is fully recoverable (human label unless listed as a disagreement), so the field can be derived exactly."""
+    gold = pd.read_csv(os.path.join(ROOT, "data", "golden", "golden_human.csv"), dtype=str).fillna("")
+    if r.get("n") != len(gold):
+        return None
+    eng = {d["id"]: d["diff"]["sip_action"]["engine"] for d in r.get("disagreements", []) if "sip_action" in d["diff"]}
+    h = [str(a in DROP_ACTIONS).lower() for a in gold.sip_action.str.strip().str.lower()]
+    e = [str(eng.get(i, a) in DROP_ACTIONS).lower() for i, a in zip(gold.id, gold.sip_action.str.strip().str.lower())]
+    from golden import kappa
+    return {"agreement_pct": round(100 * sum(x == y for x, y in zip(h, e)) / len(h), 1), "cohens_kappa": kappa(h, e)}
+
+
 def golden_summary(path):
     r = json.load(open(path))
-    f = r.get("fields", {})
+    f = dict(r.get("fields", {}))
+    if "dropoff_moment" not in f:
+        d = derive_dropoff(r)
+        if d:
+            f["dropoff_moment"] = d
     return {"file": os.path.basename(path), "mode": r.get("mode", "corpus"), "n": r.get("n"),
             "prompt_version": r.get("prompt_version", ""), "models": r.get("models", {}),
             "fields": {k: {"agreement": v["agreement_pct"], "kappa": v["cohens_kappa"], "target": TARGETS.get(k)}
@@ -118,12 +138,19 @@ def main():
 
     reports = [golden_summary(p) for p in sorted(glob.glob(os.path.join(ROOT, "outputs", "golden_report_*.json")))]
     primary = next((r for r in reports if r["mode"] == "corpus"), None)
+    # an archived copy duplicates the live report until the corpus moves to a newer prompt
+    reports = [r for r in reports if not (r["mode"] == "archived" and primary and r["prompt_version"] == primary["prompt_version"])]
 
     # where the AI was wrong: golden-set disagreements on the hardest field, shown openly on the site
     gold = pd.read_csv(os.path.join(ROOT, "data", "golden", "golden_human.csv"), dtype=str).fillna("")
     corrections = []
-    if primary:
-        rep = json.load(open(os.path.join(ROOT, "outputs", primary["file"])))
+    # cases come from the first (v1.1) run, then we show what the newest Gemini prompt says for the same post
+    first = os.path.join(ROOT, "outputs", "golden_report_coder-v1.1_gemini.json")
+    newest = sorted([r for r in reports if r["mode"] == "recode" and not any(m.startswith("groq:") for m in r["models"])],
+                    key=lambda r: r["prompt_version"])
+    newest_rep = json.load(open(os.path.join(ROOT, "outputs", newest[-1]["file"]))) if newest else None
+    if os.path.exists(first) or primary:
+        rep = json.load(open(first if os.path.exists(first) else os.path.join(ROOT, "outputs", primary["file"])))
         for d in rep["disagreements"]:
             if "sip_action" not in d["diff"]:
                 continue
@@ -131,8 +158,14 @@ def main():
             if g.empty or FUND.search(g.text.iat[0]):
                 continue
             t = g.text.iat[0]
-            corrections.append({"gid": g.gid.iat[0], "text": (t[:230] + "…") if len(t) > 230 else t,
-                                "ai": d["diff"]["sip_action"]["engine"], "human": d["diff"]["sip_action"]["human"]})
+            c = {"gid": g.gid.iat[0], "text": (t[:230] + "…") if len(t) > 230 else t, "ai_version": rep.get("prompt_version", ""),
+                 "ai": d["diff"]["sip_action"]["engine"], "human": d["diff"]["sip_action"]["human"]}
+            if newest_rep and newest_rep.get("n") == len(gold):
+                nd = {x["id"]: x["diff"] for x in newest_rep["disagreements"]}
+                now = nd.get(d["id"], {}).get("sip_action", {}).get("engine", c["human"])
+                c.update({"now": now, "now_version": newest_rep.get("prompt_version", ""),
+                          "now_ok": now == c["human"], "now_drop_ok": (now in DROP_ACTIONS) == (c["human"] in DROP_ACTIONS)})
+            corrections.append(c)
         corrections = sorted(corrections, key=lambda c: (c["ai"] != "considering_stop", len(c["text"])))[:3]
 
     ex = early[early.drop_event & early.quote_ok & (early.evidence_quote.str.len() > 40)]

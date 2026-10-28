@@ -3,7 +3,7 @@ so mentors test exactly the same prompt/model that coded the corpus."""
 import json, os, time, requests
 
 MODEL = os.getenv("GEMINI_MODEL") if os.getenv("GEMINI_MODEL") not in (None, "", "auto") else "gemini-3.8-flash"
-PROMPT_VERSION = "coder-v1.2"
+PROMPT_VERSION = "coder-v1.3"
 API = "https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent"
 
 E = lambda *v: {"type": "STRING", "enum": list(v)}
@@ -61,7 +61,8 @@ Rules:
 - If the text is not relevant, still return the object with relevant=false, sip_action="none",
   triggers=["none"], and all other fields unknown/neutral, confidence reflecting certainty it is irrelevant.
 - sip_action=considering_stop ONLY if the author states they are thinking of stopping/pausing/cancelling/
-  redeeming THEIR OWN SIP. Seeking advice or reassurance is not considering_stop.
+  redeeming THEIR OWN SIP. Seeking advice or reassurance is not considering_stop - BUT an explicit question about
+  stopping or pausing their own SIP ("should I stop my SIP?", "continue or stop?") IS considering_stop.
 - first_time=yes ONLY when the author explicitly says they are new/first-time; otherwise unknown.
 - Advice written for someone else, with no first-person SIP behaviour -> relevant=false, sip_action="none".
 - Step-up / top-up / added more -> increased; cut the amount -> reduced (never "continuing").

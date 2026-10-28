@@ -1,4 +1,4 @@
-# Codebook — SIP continuation discovery (v1.2)
+# Codebook — SIP continuation discovery (v1.3)
 
 Unit of analysis: one review / post / comment. The coder answers **only from what the text says**;
 anything not stated is `unknown`. Built from a 110-item open-coding read of real Play Store and
@@ -28,6 +28,9 @@ v1.2 decision rules (from golden-set failures, see AI Evidence Log):
 - `considering_stop` ONLY when the author says they are thinking of stopping, pausing, cancelling or
   redeeming **their own** SIP. Asking "is this normal?", "should I switch fund?" or "what should I do?"
   without stating an intent to stop is `continuing` (if they still run the SIP) or `none`.
+- **v1.3:** an explicit question about stopping or pausing **their own** SIP ("should I stop my SIP?",
+  "should I pause it for a while?", "continue or stop?") IS `considering_stop` — the person is weighing it.
+  (Decided by the human labeller during adjudication, before v1.3 was scored.)
 - A step-up, top-up, lump-sum add or "increased my SIP" → `increased`; a cut in amount → `reduced`.
   Do not collapse these into `continuing`.
 - Actions described for another person (advice, a friend's story with no first-person behaviour) → `none`.

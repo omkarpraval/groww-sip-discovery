@@ -193,6 +193,11 @@
           "neutral": 9
         }
       }
+    },
+    "dropoff_moment": {
+      "agreement_pct": 63.6,
+      "cohens_kappa": 0.162,
+      "note": "derived from sip_action; computed when this metric was introduced"
     }
   },
   "disagreements": [

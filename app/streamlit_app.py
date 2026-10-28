@@ -466,6 +466,16 @@ elif nav == "Validation":
             st.markdown(f"""<div class="card"><h3>Every model and prompt, same test</h3><p class="hint">Agreement with human labels · ✓ meets the pass mark</p>
 <div class="tablewrap cmp-d"><table class="score"><tr><th>Model · prompt</th>{head}</tr>{body}</table></div>
 <div class="cmp-m">{mob}</div></div>""", unsafe_allow_html=True)
+        held = sorted((DATA.get("golden") or {}).get("heldout", []), key=lambda r: r["prompt_version"], reverse=True)
+        if held and len(reports) > 1:  # reuses the cell helpers defined for the comparison table
+            HK = ["primary_trigger", "dropoff_moment", "relevant", "sip_action"]
+            head = "".join(f"<th>{FIELD[k][0]}</th>" for k in HK)
+            body = "".join(f'<tr><td>{E(name(r))} · {r["n"]} posts</td>{"".join(cell(r, k) for k in HK)}</tr>' for r in held)
+            mob = "".join(f'<div class="mrow"><b>{E(name(r))} · {r["n"]} posts</b><div>{"".join(mcell(r, k) for k in HK)}</div></div>' for r in held)
+            st.markdown(f"""<div class="card"><h3>Held-out check: {DATA["golden"].get("heldout_items", 15)} brand-new posts</h3>
+<p class="hint">Labelled by hand after the prompt rules were written, so the AI could not have been tuned on them. Small sample: read it as direction, not precision.</p>
+<div class="tablewrap cmp-d"><table class="score"><tr><th>Model · prompt</th>{head}</tr>{body}</table></div>
+<div class="cmp-m">{mob}</div></div>""", unsafe_allow_html=True)
         corr = (DATA.get("golden") or {}).get("corrections", [])
         if corr:
             st.markdown('<h3 style="margin:18px 0 10px">Where the AI was wrong — and what changed</h3>', unsafe_allow_html=True)

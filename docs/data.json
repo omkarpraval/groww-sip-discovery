@@ -1,5 +1,5 @@
 {
- "updated": "28 Oct 2026",
+ "updated": "29 Oct 2026",
  "models": {
   "gemini-flash-lite-latest": 7365
  },
@@ -524,6 +524,47 @@
   },
   "all": [
    {
+    "file": "golden_report_coder-v1.1_gemini.json",
+    "mode": "archived",
+    "n": 22,
+    "prompt_version": "coder-v1.1",
+    "models": {
+     "gemini-flash-lite-latest": 22
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 86.4,
+      "kappa": 0.673,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 40.9,
+      "kappa": 0.259,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 86.4,
+      "kappa": 0.756,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 72.7,
+      "kappa": 0.506,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 77.3,
+      "kappa": 0.679,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 63.6,
+      "kappa": 0.162,
+      "target": null
+     }
+    }
+   },
+   {
     "file": "golden_report_coder-v1.2_gemini.json",
     "mode": "recode",
     "n": 24,
@@ -555,6 +596,11 @@
      "emotion": {
       "agreement": 70.8,
       "kappa": 0.618,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 87.5,
+      "kappa": 0.5,
       "target": null
      }
     }
@@ -591,6 +637,52 @@
      "emotion": {
       "agreement": 62.5,
       "kappa": 0.41,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 87.5,
+      "kappa": 0.5,
+      "target": null
+     }
+    }
+   },
+   {
+    "file": "golden_report_coder-v1.3_gemini.json",
+    "mode": "recode",
+    "n": 24,
+    "prompt_version": "coder-v1.3",
+    "models": {
+     "gemini-flash-lite-latest": 24
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 95.8,
+      "kappa": 0.903,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 58.3,
+      "kappa": 0.443,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 83.3,
+      "kappa": 0.707,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 91.7,
+      "kappa": 0.791,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 70.8,
+      "kappa": 0.609,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 83.3,
+      "kappa": 0.238,
       "target": null
      }
     }
@@ -635,24 +727,124 @@
   "items": 24,
   "corrections": [
    {
+    "gid": "G22",
+    "text": "It was very good in the beginning... now there r more restrictions... they restriction telling us to cancel our previous sip and open one in groww... or else it won't be shown.",
+    "ai_version": "coder-v1.1",
+    "ai": "considering_stop",
+    "human": "none",
+    "now": "continuing",
+    "now_version": "coder-v1.3",
+    "now_ok": false,
+    "now_drop_ok": true
+   },
+   {
+    "gid": "G05",
+    "text": "Great point about starting early - I actually calculated this for ₹500 SIP, 5yr = ∼41k, 20yr = ∼4.95L at assumed 12%. The 5th date auto-debit tip really helps salaried beginners stick to it.",
+    "ai_version": "coder-v1.1",
+    "ai": "considering_stop",
+    "human": "continuing",
+    "now": "continuing",
+    "now_version": "coder-v1.3",
+    "now_ok": true,
+    "now_drop_ok": true
+   },
+   {
     "gid": "G19",
     "text": "25 M. Need advice on Investing | Hi, this is my first post here so apologies if I am missing any required info I save 40k every month from my salary. This is after all the expenditure of Family, Personal hobbies and insurances. Cu…",
+    "ai_version": "coder-v1.1",
     "ai": "considering_stop",
-    "human": "none"
-   },
-   {
-    "gid": "G20",
-    "text": "very nice app groww trading es app per ek aam insan bhi sip ya ipo ya investment ker sakta hai",
-    "ai": "none",
-    "human": "continuing"
-   },
-   {
-    "gid": "G08",
-    "text": "very easy investment app specially for beginners, I'm using all categories like Bonds, mutual fund, IPOs and stock",
-    "ai": "started",
-    "human": "none"
+    "human": "none",
+    "now": "started",
+    "now_version": "coder-v1.3",
+    "now_ok": false,
+    "now_drop_ok": true
    }
-  ]
+  ],
+  "heldout": [
+   {
+    "file": "heldout_report_coder-v1.1_gemini.json",
+    "mode": "archived",
+    "n": 13,
+    "prompt_version": "coder-v1.1",
+    "models": {
+     "gemini-flash-lite-latest": 13
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 84.6,
+      "kappa": 0.567,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 61.5,
+      "kappa": 0.519,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 53.8,
+      "kappa": 0.418,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 69.2,
+      "kappa": 0.358,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 84.6,
+      "kappa": 0.79,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 76.9,
+      "kappa": 0.541,
+      "target": null
+     }
+    }
+   },
+   {
+    "file": "heldout_report_coder-v1.2_gemini.json",
+    "mode": "corpus",
+    "n": 13,
+    "prompt_version": "coder-v1.2",
+    "models": {
+     "gemini-flash-lite-latest": 13
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 92.3,
+      "kappa": 0.806,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 61.5,
+      "kappa": 0.515,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 53.8,
+      "kappa": 0.361,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 84.6,
+      "kappa": 0.6,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 92.3,
+      "kappa": 0.891,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 76.9,
+      "kappa": 0.53,
+      "target": null
+     }
+    }
+   }
+  ],
+  "heldout_items": 15
  },
  "quality": {
   "relevant_coded": 3882,

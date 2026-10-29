@@ -1,41 +1,33 @@
 {
-  "n": 22,
-  "mode": "corpus",
+  "n": 24,
+  "mode": "recode",
   "fields": {
     "relevant": {
-      "agreement_pct": 86.4,
-      "cohens_kappa": 0.718,
+      "agreement_pct": 95.8,
+      "cohens_kappa": 0.903,
       "confusion": {
         "false": {
           "false": 7,
-          "true": 3
+          "true": 1
         },
         "true": {
           "false": 0,
-          "true": 12
+          "true": 16
         }
       }
     },
     "sip_action": {
-      "agreement_pct": 59.1,
-      "cohens_kappa": 0.416,
+      "agreement_pct": 58.3,
+      "cohens_kappa": 0.443,
       "confusion": {
-        "considering_stop": {
-          "continuing": 0,
-          "failed_involuntary": 0,
-          "increased": 0,
-          "none": 1,
-          "reduced": 0,
-          "restarted": 0,
-          "stopped_or_cancelled": 0
-        },
         "continuing": {
-          "continuing": 1,
+          "continuing": 3,
           "failed_involuntary": 0,
           "increased": 1,
-          "none": 0,
-          "reduced": 0,
+          "none": 3,
+          "reduced": 1,
           "restarted": 0,
+          "started": 0,
           "stopped_or_cancelled": 0
         },
         "failed_involuntary": {
@@ -45,6 +37,7 @@
           "none": 1,
           "reduced": 0,
           "restarted": 0,
+          "started": 0,
           "stopped_or_cancelled": 0
         },
         "increased": {
@@ -54,24 +47,17 @@
           "none": 0,
           "reduced": 0,
           "restarted": 0,
+          "started": 0,
           "stopped_or_cancelled": 0
         },
         "none": {
-          "continuing": 2,
+          "continuing": 1,
           "failed_involuntary": 0,
           "increased": 0,
-          "none": 8,
+          "none": 7,
           "reduced": 0,
           "restarted": 0,
-          "stopped_or_cancelled": 0
-        },
-        "reduced": {
-          "continuing": 0,
-          "failed_involuntary": 0,
-          "increased": 0,
-          "none": 0,
-          "reduced": 1,
-          "restarted": 0,
+          "started": 0,
           "stopped_or_cancelled": 0
         },
         "restarted": {
@@ -81,91 +67,116 @@
           "none": 0,
           "reduced": 0,
           "restarted": 1,
+          "started": 0,
           "stopped_or_cancelled": 0
         },
         "started": {
+          "continuing": 0,
+          "failed_involuntary": 1,
+          "increased": 0,
+          "none": 1,
+          "reduced": 0,
+          "restarted": 0,
+          "started": 1,
+          "stopped_or_cancelled": 0
+        },
+        "stopped_or_cancelled": {
           "continuing": 0,
           "failed_involuntary": 0,
           "increased": 0,
           "none": 1,
           "reduced": 0,
           "restarted": 0,
-          "stopped_or_cancelled": 0
-        },
-        "stopped_or_cancelled": {
-          "continuing": 0,
-          "failed_involuntary": 1,
-          "increased": 0,
-          "none": 2,
-          "reduced": 0,
-          "restarted": 0,
+          "started": 0,
           "stopped_or_cancelled": 1
         }
       }
     },
     "primary_trigger": {
-      "agreement_pct": 86.4,
-      "cohens_kappa": 0.714,
+      "agreement_pct": 83.3,
+      "cohens_kappa": 0.707,
       "confusion": {
         "app_ux_or_control_gap": {
-          "app_ux_or_control_gap": 1,
+          "app_ux_or_control_gap": 2,
+          "none": 0,
+          "payment_mandate_failure": 1,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "expectation_mismatch": {
+          "app_ux_or_control_gap": 0,
           "none": 0,
           "payment_mandate_failure": 0,
-          "platform_trust_doubt": 0
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 1
         },
         "none": {
-          "app_ux_or_control_gap": 2,
+          "app_ux_or_control_gap": 1,
           "none": 14,
           "payment_mandate_failure": 0,
-          "platform_trust_doubt": 0
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
         },
         "payment_mandate_failure": {
           "app_ux_or_control_gap": 0,
           "none": 0,
           "payment_mandate_failure": 3,
-          "platform_trust_doubt": 0
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
         },
         "platform_trust_doubt": {
           "app_ux_or_control_gap": 0,
           "none": 0,
           "payment_mandate_failure": 0,
-          "platform_trust_doubt": 1
+          "platform_trust_doubt": 1,
+          "wrong_fund_doubt": 0
         },
         "wrong_fund_doubt": {
           "app_ux_or_control_gap": 0,
           "none": 1,
           "payment_mandate_failure": 0,
-          "platform_trust_doubt": 0
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
         }
       }
     },
     "first_time": {
-      "agreement_pct": 86.4,
-      "cohens_kappa": 0.665,
+      "agreement_pct": 91.7,
+      "cohens_kappa": 0.791,
       "confusion": {
         "no": {
-          "no": 2,
-          "unknown": 1,
+          "no": 1,
+          "unknown": 0,
           "yes": 0
         },
         "unknown": {
-          "no": 0,
-          "unknown": 15,
-          "yes": 1
+          "no": 1,
+          "unknown": 17,
+          "yes": 0
         },
         "yes": {
           "no": 0,
           "unknown": 1,
-          "yes": 2
+          "yes": 4
         }
       }
     },
     "emotion": {
-      "agreement_pct": 59.1,
-      "cohens_kappa": 0.407,
+      "agreement_pct": 70.8,
+      "cohens_kappa": 0.609,
       "confusion": {
+        "anxious": {
+          "anxious": 2,
+          "confident": 0,
+          "confused": 0,
+          "disappointed": 0,
+          "frustrated": 0,
+          "indifferent": 0,
+          "neutral": 0
+        },
         "confident": {
-          "confident": 2,
+          "anxious": 0,
+          "confident": 3,
           "confused": 0,
           "disappointed": 0,
           "frustrated": 0,
@@ -173,36 +184,54 @@
           "neutral": 1
         },
         "confused": {
+          "anxious": 0,
           "confident": 0,
-          "confused": 2,
+          "confused": 3,
           "disappointed": 0,
           "frustrated": 0,
           "indifferent": 0,
           "neutral": 2
         },
-        "frustrated": {
-          "confident": 0,
-          "confused": 0,
-          "disappointed": 1,
-          "frustrated": 2,
-          "indifferent": 0,
-          "neutral": 1
-        },
-        "indifferent": {
+        "disappointed": {
+          "anxious": 0,
           "confident": 0,
           "confused": 0,
           "disappointed": 0,
-          "frustrated": 0,
+          "frustrated": 1,
+          "indifferent": 0,
+          "neutral": 0
+        },
+        "frustrated": {
+          "anxious": 0,
+          "confident": 0,
+          "confused": 0,
+          "disappointed": 1,
+          "frustrated": 1,
           "indifferent": 0,
           "neutral": 1
         },
         "neutral": {
-          "confident": 1,
-          "confused": 1,
+          "anxious": 0,
+          "confident": 0,
+          "confused": 0,
           "disappointed": 0,
           "frustrated": 0,
           "indifferent": 1,
-          "neutral": 7
+          "neutral": 8
+        }
+      }
+    },
+    "dropoff_moment": {
+      "agreement_pct": 83.3,
+      "cohens_kappa": 0.238,
+      "confusion": {
+        "false": {
+          "false": 19,
+          "true": 2
+        },
+        "true": {
+          "false": 2,
+          "true": 1
         }
       }
     }
@@ -224,67 +253,71 @@
     },
     {
       "id": "tradingqna:5e1347357209",
-      "engine_confidence": 0.95,
+      "engine_confidence": 0.9,
       "diff": {
         "sip_action": {
           "human": "failed_involuntary",
-          "engine": "stopped_or_cancelled"
+          "engine": "started"
+        },
+        "dropoff_moment": {
+          "human": "true",
+          "engine": "false"
         }
       }
     },
     {
       "id": "play_store:fe6486dec88c",
-      "engine_confidence": 0.9,
+      "engine_confidence": 0.85,
       "diff": {
         "sip_action": {
           "human": "none",
           "engine": "stopped_or_cancelled"
         },
-        "first_time": {
-          "human": "unknown",
-          "engine": "no"
-        }
-      }
-    },
-    {
-      "id": "youtube:057e6ce42da4",
-      "engine_confidence": 0.95,
-      "diff": {
-        "relevant": {
-          "human": "true",
-          "engine": "false"
-        },
-        "sip_action": {
-          "human": "continuing",
-          "engine": "none"
-        },
-        "emotion": {
-          "human": "confident",
-          "engine": "neutral"
+        "dropoff_moment": {
+          "human": "false",
+          "engine": "true"
         }
       }
     },
     {
       "id": "play_store:387236fc1095",
-      "engine_confidence": 0.95,
+      "engine_confidence": 0.9,
       "diff": {
         "sip_action": {
           "human": "none",
           "engine": "failed_involuntary"
+        },
+        "emotion": {
+          "human": "frustrated",
+          "engine": "disappointed"
+        },
+        "dropoff_moment": {
+          "human": "false",
+          "engine": "true"
         }
       }
     },
     {
       "id": "play_store:dfda98c3e701",
-      "engine_confidence": 0.9,
+      "engine_confidence": 0.85,
       "diff": {
         "sip_action": {
           "human": "none",
-          "engine": "started"
+          "engine": "continuing"
         },
         "first_time": {
           "human": "unknown",
           "engine": "yes"
+        }
+      }
+    },
+    {
+      "id": "reddit_post:671e2f2a422d",
+      "engine_confidence": 0.9,
+      "diff": {
+        "primary_trigger": {
+          "human": "payment_mandate_failure",
+          "engine": "app_ux_or_control_gap"
         }
       }
     },
@@ -300,15 +333,11 @@
     },
     {
       "id": "app_store:97eb1ea6c9a5",
-      "engine_confidence": 1.0,
+      "engine_confidence": 0.9,
       "diff": {
-        "relevant": {
-          "human": "true",
-          "engine": "false"
-        },
-        "primary_trigger": {
-          "human": "app_ux_or_control_gap",
-          "engine": "none"
+        "sip_action": {
+          "human": "none",
+          "engine": "continuing"
         },
         "emotion": {
           "human": "neutral",
@@ -327,20 +356,40 @@
         "primary_trigger": {
           "human": "app_ux_or_control_gap",
           "engine": "none"
-        },
-        "emotion": {
-          "human": "confused",
-          "engine": "neutral"
         }
       }
     },
     {
       "id": "reddit_comment:ceaa6d04b9af",
-      "engine_confidence": 0.85,
+      "engine_confidence": 0.9,
       "diff": {
-        "emotion": {
-          "human": "neutral",
-          "engine": "indifferent"
+        "sip_action": {
+          "human": "reduced",
+          "engine": "continuing"
+        },
+        "dropoff_moment": {
+          "human": "true",
+          "engine": "false"
+        }
+      }
+    },
+    {
+      "id": "reddit_post:46625a069b36",
+      "engine_confidence": 0.95,
+      "diff": {
+        "primary_trigger": {
+          "human": "wrong_fund_doubt",
+          "engine": "expectation_mismatch"
+        }
+      }
+    },
+    {
+      "id": "app_store:6d178a916926",
+      "engine_confidence": 0.9,
+      "diff": {
+        "first_time": {
+          "human": "no",
+          "engine": "unknown"
         }
       }
     },
@@ -350,11 +399,7 @@
       "diff": {
         "sip_action": {
           "human": "none",
-          "engine": "considering_stop"
-        },
-        "first_time": {
-          "human": "yes",
-          "engine": "unknown"
+          "engine": "started"
         },
         "emotion": {
           "human": "neutral",
@@ -364,7 +409,7 @@
     },
     {
       "id": "play_store:851332b48014",
-      "engine_confidence": 1.0,
+      "engine_confidence": 0.9,
       "diff": {
         "relevant": {
           "human": "true",
@@ -373,7 +418,13 @@
         "sip_action": {
           "human": "continuing",
           "engine": "none"
-        },
+        }
+      }
+    },
+    {
+      "id": "youtube:73496fee1fb5",
+      "engine_confidence": 0.9,
+      "diff": {
         "emotion": {
           "human": "neutral",
           "engine": "confident"
@@ -382,11 +433,11 @@
     },
     {
       "id": "play_store:127e0effc62e",
-      "engine_confidence": 0.95,
+      "engine_confidence": 0.9,
       "diff": {
         "sip_action": {
           "human": "none",
-          "engine": "stopped_or_cancelled"
+          "engine": "continuing"
         },
         "emotion": {
           "human": "disappointed",
@@ -395,8 +446,8 @@
       }
     }
   ],
-  "prompt_version": "coder-v1.1,coder-v1.2",
+  "prompt_version": "coder-v1.3",
   "models": {
-    "gemini-flash-lite-latest": 22
+    "gemini-flash-lite-latest": 24
   }
 }

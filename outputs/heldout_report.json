@@ -1,0 +1,387 @@
+{
+  "n": 15,
+  "mode": "recode",
+  "fields": {
+    "relevant": {
+      "agreement_pct": 86.7,
+      "cohens_kappa": 0.659,
+      "confusion": {
+        "false": {
+          "false": 3,
+          "true": 1
+        },
+        "true": {
+          "false": 1,
+          "true": 10
+        }
+      }
+    },
+    "sip_action": {
+      "agreement_pct": 66.7,
+      "cohens_kappa": 0.59,
+      "confusion": {
+        "considering_stop": {
+          "considering_stop": 2,
+          "continuing": 0,
+          "failed_involuntary": 0,
+          "none": 0,
+          "started": 0,
+          "stopped_or_cancelled": 0
+        },
+        "continuing": {
+          "considering_stop": 0,
+          "continuing": 1,
+          "failed_involuntary": 0,
+          "none": 2,
+          "started": 0,
+          "stopped_or_cancelled": 1
+        },
+        "failed_involuntary": {
+          "considering_stop": 0,
+          "continuing": 0,
+          "failed_involuntary": 1,
+          "none": 0,
+          "started": 0,
+          "stopped_or_cancelled": 0
+        },
+        "none": {
+          "considering_stop": 0,
+          "continuing": 0,
+          "failed_involuntary": 0,
+          "none": 4,
+          "started": 0,
+          "stopped_or_cancelled": 0
+        },
+        "redeemed": {
+          "considering_stop": 0,
+          "continuing": 0,
+          "failed_involuntary": 1,
+          "none": 0,
+          "started": 0,
+          "stopped_or_cancelled": 0
+        },
+        "started": {
+          "considering_stop": 0,
+          "continuing": 0,
+          "failed_involuntary": 0,
+          "none": 1,
+          "started": 1,
+          "stopped_or_cancelled": 0
+        },
+        "stopped_or_cancelled": {
+          "considering_stop": 0,
+          "continuing": 0,
+          "failed_involuntary": 0,
+          "none": 0,
+          "started": 0,
+          "stopped_or_cancelled": 1
+        }
+      }
+    },
+    "primary_trigger": {
+      "agreement_pct": 66.7,
+      "cohens_kappa": 0.561,
+      "confusion": {
+        "app_ux_or_control_gap": {
+          "app_ux_or_control_gap": 1,
+          "life_event": 0,
+          "none": 1,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "expectation_mismatch": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 1,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "life_event": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 1,
+          "none": 0,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "market_fall_negative_returns": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 1,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "none": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 5,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "payment_mandate_failure": {
+          "app_ux_or_control_gap": 1,
+          "life_event": 0,
+          "none": 0,
+          "payment_mandate_failure": 1,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "platform_trust_doubt": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 0,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 1,
+          "wrong_fund_doubt": 0
+        },
+        "underwhelming_returns": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 1,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 0
+        },
+        "wrong_fund_doubt": {
+          "app_ux_or_control_gap": 0,
+          "life_event": 0,
+          "none": 0,
+          "payment_mandate_failure": 0,
+          "platform_trust_doubt": 0,
+          "wrong_fund_doubt": 1
+        }
+      }
+    },
+    "first_time": {
+      "agreement_pct": 73.3,
+      "cohens_kappa": 0.474,
+      "confusion": {
+        "no": {
+          "no": 2,
+          "unknown": 2,
+          "yes": 0
+        },
+        "unknown": {
+          "no": 0,
+          "unknown": 8,
+          "yes": 1
+        },
+        "yes": {
+          "no": 0,
+          "unknown": 1,
+          "yes": 1
+        }
+      }
+    },
+    "emotion": {
+      "agreement_pct": 73.3,
+      "cohens_kappa": 0.653,
+      "confusion": {
+        "anxious": {
+          "confused": 0,
+          "frustrated": 0,
+          "neutral": 1,
+          "regretful": 0
+        },
+        "confident": {
+          "confused": 0,
+          "frustrated": 0,
+          "neutral": 2,
+          "regretful": 0
+        },
+        "confused": {
+          "confused": 5,
+          "frustrated": 0,
+          "neutral": 1,
+          "regretful": 0
+        },
+        "frustrated": {
+          "confused": 0,
+          "frustrated": 3,
+          "neutral": 0,
+          "regretful": 0
+        },
+        "neutral": {
+          "confused": 0,
+          "frustrated": 0,
+          "neutral": 2,
+          "regretful": 0
+        },
+        "regretful": {
+          "confused": 0,
+          "frustrated": 0,
+          "neutral": 0,
+          "regretful": 1
+        }
+      }
+    },
+    "dropoff_moment": {
+      "agreement_pct": 93.3,
+      "cohens_kappa": 0.857,
+      "confusion": {
+        "false": {
+          "false": 9,
+          "true": 1
+        },
+        "true": {
+          "false": 0,
+          "true": 5
+        }
+      }
+    }
+  },
+  "disagreements": [
+    {
+      "id": "reddit_comment:bfb50a35a66a",
+      "engine_confidence": 0.9,
+      "diff": {
+        "sip_action": {
+          "human": "none",
+          "engine": "started"
+        },
+        "first_time": {
+          "human": "yes",
+          "engine": "unknown"
+        }
+      }
+    },
+    {
+      "id": "play_store:57a48bd5d853",
+      "engine_confidence": 1.0,
+      "diff": {
+        "relevant": {
+          "human": "true",
+          "engine": "false"
+        },
+        "emotion": {
+          "human": "neutral",
+          "engine": "confident"
+        }
+      }
+    },
+    {
+      "id": "youtube:d44191e50bc8",
+      "engine_confidence": 0.9,
+      "diff": {
+        "primary_trigger": {
+          "human": "none",
+          "engine": "expectation_mismatch"
+        }
+      }
+    },
+    {
+      "id": "reddit_post:3a0b2df856e0",
+      "engine_confidence": 0.9,
+      "diff": {
+        "sip_action": {
+          "human": "stopped_or_cancelled",
+          "engine": "continuing"
+        },
+        "primary_trigger": {
+          "human": "none",
+          "engine": "underwhelming_returns"
+        },
+        "first_time": {
+          "human": "unknown",
+          "engine": "yes"
+        },
+        "dropoff_moment": {
+          "human": "true",
+          "engine": "false"
+        }
+      }
+    },
+    {
+      "id": "play_store:0b588707d91f",
+      "engine_confidence": 0.9,
+      "diff": {
+        "sip_action": {
+          "human": "none",
+          "engine": "continuing"
+        }
+      }
+    },
+    {
+      "id": "app_store:9dd86db3192a",
+      "engine_confidence": 1.0,
+      "diff": {
+        "emotion": {
+          "human": "neutral",
+          "engine": "confident"
+        }
+      }
+    },
+    {
+      "id": "reddit_post:97a4a506d166",
+      "engine_confidence": 0.95,
+      "diff": {
+        "primary_trigger": {
+          "human": "none",
+          "engine": "market_fall_negative_returns"
+        },
+        "first_time": {
+          "human": "unknown",
+          "engine": "no"
+        },
+        "emotion": {
+          "human": "neutral",
+          "engine": "anxious"
+        }
+      }
+    },
+    {
+      "id": "play_store:1eed56d14c65",
+      "engine_confidence": 0.95,
+      "diff": {
+        "primary_trigger": {
+          "human": "app_ux_or_control_gap",
+          "engine": "payment_mandate_failure"
+        }
+      }
+    },
+    {
+      "id": "app_store:0650137fea25",
+      "engine_confidence": 0.95,
+      "diff": {
+        "sip_action": {
+          "human": "failed_involuntary",
+          "engine": "redeemed"
+        },
+        "first_time": {
+          "human": "unknown",
+          "engine": "no"
+        }
+      }
+    },
+    {
+      "id": "tradingqna:0c54ae83e1c8",
+      "engine_confidence": 0.85,
+      "diff": {
+        "relevant": {
+          "human": "false",
+          "engine": "true"
+        },
+        "sip_action": {
+          "human": "none",
+          "engine": "continuing"
+        },
+        "primary_trigger": {
+          "human": "none",
+          "engine": "app_ux_or_control_gap"
+        },
+        "emotion": {
+          "human": "neutral",
+          "engine": "confused"
+        }
+      }
+    }
+  ],
+  "prompt_version": "coder-v1.3",
+  "models": {
+    "gemini-flash-lite-latest": 15
+  }
+}

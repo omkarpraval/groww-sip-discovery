@@ -842,6 +842,47 @@
       "target": null
      }
     }
+   },
+   {
+    "file": "heldout_report_coder-v1.3_gemini.json",
+    "mode": "recode",
+    "n": 15,
+    "prompt_version": "coder-v1.3",
+    "models": {
+     "gemini-flash-lite-latest": 15
+    },
+    "fields": {
+     "relevant": {
+      "agreement": 86.7,
+      "kappa": 0.659,
+      "target": 90
+     },
+     "sip_action": {
+      "agreement": 66.7,
+      "kappa": 0.59,
+      "target": 80
+     },
+     "primary_trigger": {
+      "agreement": 66.7,
+      "kappa": 0.561,
+      "target": 70
+     },
+     "first_time": {
+      "agreement": 73.3,
+      "kappa": 0.474,
+      "target": null
+     },
+     "emotion": {
+      "agreement": 73.3,
+      "kappa": 0.653,
+      "target": null
+     },
+     "dropoff_moment": {
+      "agreement": 93.3,
+      "kappa": 0.857,
+      "target": null
+     }
+    }
    }
   ],
   "heldout_items": 15

@@ -1,15 +1,15 @@
 {
-  "prompt_version": "coder-v1.2",
-  "time": "2026-10-28 14:38:21",
+  "prompt_version": "coder-v1.3",
+  "time": "2026-10-29 19:37:45",
   "ok": false,
   "model": "gemini-flash-lite-latest",
-  "coded_this_run": 7125,
+  "coded_this_run": 7124,
   "coded_by_model": {
-    "gemini-flash-lite-latest": 7125
+    "gemini-flash-lite-latest": 7124
   },
   "already": 0,
   "todo": 8935,
-  "error": "all providers failed for this batch: [{'dropped': 'gemini-flash-lite-latest', 'reason': 'Gemini daily quota: {\\n  \"error\": {\\n    \"code\": 429,\\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai', 'time': '14:38:21'}]",
+  "error": "all providers failed for this batch: [{'dropped': 'gemini-flash-lite-latest', 'reason': 'Gemini daily quota: {\\n  \"error\": {\\n    \"code\": 429,\\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai', 'time': '19:37:45'}]",
   "chain": [
     "gemini-flash-lite-latest"
   ],
@@ -17,14 +17,14 @@
     {
       "dropped": "gemini-flash-lite-latest",
       "reason": "Gemini daily quota: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
-      "time": "14:38:21"
+      "time": "19:37:45"
     }
   ],
   "probes": [
     {
       "model": "gemini-flash-lite-latest",
       "ok": true,
-      "seconds": 3.0
+      "seconds": 9.9
     }
   ]
 }

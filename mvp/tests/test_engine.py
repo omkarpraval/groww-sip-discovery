@@ -57,3 +57,16 @@ def test_attribution():
     assert E.attribution(10000, 9000, 9600) == "both"
     assert E.attribution(10000, 10100, 9000) == "not_red"
     assert E.attribution(10000, 9950, 10050) == "close"
+
+
+def test_time_machine_matches_history():
+    # The time machine is drawn from the same past SIPs as the history sentence, so their shares must agree.
+    from datetime import date
+    f = E.facts_from_fund(118778, 2024, 10, 5, 3000.0, as_of=date(2025, 3, 3), live=False)
+    n, P = f["months"], [p["p"] for p in f["_paths"]["paths"] if len(p["p"]) >= f["months"]]
+    red = [p for p in P if p[n - 1] < 0]
+    assert abs(100 * len(red) / len(P) - f["history"]["red_pct"]) <= 2
+    hz = f["history"]["horizons"][0]
+    seen = [p for p in red if len(p) >= hz["month"]]
+    assert abs(100 * sum(p[hz["month"] - 1] > 0 for p in seen) / len(seen) - hz["above_pct"]) <= 3
+    assert "_paths" not in __import__("mvp.core.writer", fromlist=["x"]).public_facts(f)

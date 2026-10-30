@@ -158,7 +158,13 @@ if r:
     </div><div class="cap">{f['months']} monthly instalments of {f['monthly_amount']}</div></div>""", unsafe_allow_html=True)
 
     h = f["history"]
-    vis = (dots(h["red_in_10"]) + f"<div class='cap'>● = past SIPs below what was put in at month {f['months']}, out of 10</div>") if h.get("available") else ""
+    if h.get("available") and f["direction"] == "down" and h.get("deep_in_10") is not None:
+        k = 0 if h.get("deep_rare") else h["deep_in_10"]
+        vis = dots(k) + f"<div class='cap'>● = past SIPs with a drop this big or bigger at month {f['months']}, out of 10</div>"
+    elif h.get("available"):
+        vis = dots(h["red_in_10"]) + f"<div class='cap'>● = past SIPs below what was put in at month {f['months']}, out of 10</div>"
+    else:
+        vis = ""
     st.markdown(f'<div class="card"><div class="qnum">1 of 3</div><h3>Is this normal for my stage?</h3>{vis}<p>{a["normal"]}</p></div>',
                 unsafe_allow_html=True)
 

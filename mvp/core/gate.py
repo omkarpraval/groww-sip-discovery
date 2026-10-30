@@ -19,6 +19,7 @@ PRESSURE = re.compile(
     r"\b(hurry|don.t miss|before it.s too late|act (now|fast)|urgent(ly)?|last chance|fomo|panic|crash(ing|ed)?|"
     r"lose everything|regret|missing out|scary|alarming|worrying|disaster)\b", re.I)
 LEAK = re.compile(r"\b[a-z]+_[a-z_0-9]+\b|\battribution\b|\bnot_red\b", re.I)  # raw field names
+COMMON = re.compile(r"\b(common|usual|typical|most people|happens often|very normal)\b", re.I)
 GAIN_WORDS = re.compile(r"\b(gain(s|ed)?|profit|earned|grew|growth of)\b", re.I)
 LOSS_WORDS = re.compile(r"\b(loss|lost|losing|drop(ped)?|fell|less than you put in)\b", re.I)
 JARGON = re.compile(r"\b(xirr|nav|cagr|alpha|beta|drawdown|volatility|benchmark|rolling returns?|sharpe|"
@@ -58,6 +59,11 @@ def check(ans, facts):
         wrong_dir.append("calls a loss a gain")
     if facts.get("direction") == "up" and LOSS_WORDS.search(ans["normal"]):
         wrong_dir.append("calls a gain a loss")
+    h = facts.get("history", {})
+    if h.get("available") and h.get("red_in_10", 10) < 3 and COMMON.search(ans["normal"]):
+        wrong_dir.append("calls a dip common when it was not")
+    if facts.get("direction") != "down" and re.search(r"\bdip\b|\bin the red\b", ans["normal"], re.I):
+        wrong_dir.append("talks about a dip on a SIP that is not down")
     res.append(("numbers_match", not bad and not wrong_dir,
                 "; ".join(([f"not in facts: {bad[:5]}"] if bad else []) + wrong_dir)))
 

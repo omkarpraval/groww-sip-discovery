@@ -60,7 +60,7 @@ def check(ans, facts):
     if facts.get("direction") == "up" and LOSS_WORDS.search(ans["normal"]):
         wrong_dir.append("calls a gain a loss")
     h = facts.get("history", {})
-    common_ok = h.get("deep_share_pct", 100) >= 30 if h.get("deep_share_pct") is not None else h.get("red_in_10", 10) >= 3
+    common_ok = h.get("deep_in_10", 0) >= 3 if h.get("deep_in_10") is not None else h.get("red_in_10", 10) >= 3
     if h.get("available") and not common_ok and COMMON.search(ans["normal"]):
         wrong_dir.append("calls a dip common when it was not")
     if facts.get("direction") != "down" and re.search(r"\bdip\b|\bin the red\b", ans["normal"], re.I):

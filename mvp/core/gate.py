@@ -18,6 +18,9 @@ PREDICT = re.compile(
 PRESSURE = re.compile(
     r"\b(hurry|don.t miss|before it.s too late|act (now|fast)|urgent(ly)?|last chance|fomo|panic|crash(ing|ed)?|"
     r"lose everything|regret|missing out|scary|alarming|worrying|disaster)\b", re.I)
+LEAK = re.compile(r"\b[a-z]+_[a-z_0-9]+\b|\battribution\b|\bnot_red\b", re.I)  # raw field names
+GAIN_WORDS = re.compile(r"\b(gain(s|ed)?|profit|earned|grew|growth of)\b", re.I)
+LOSS_WORDS = re.compile(r"\b(loss|lost|losing|drop(ped)?|fell|less than you put in)\b", re.I)
 JARGON = re.compile(r"\b(xirr|nav|cagr|alpha|beta|drawdown|volatility|benchmark|rolling returns?|sharpe|"
                     r"rupee[- ]cost averaging|standard deviation|expense ratio)\b", re.I)
 FUND_WORDS = re.compile(r"\b(parag|parikh|ppfas|quant|nippon|hdfc|icici|sbi|axis|kotak|mirae|tata|uti|dsp|"
@@ -50,7 +53,13 @@ def check(ans, facts):
     allt = " ".join(ans[k] for k in KEYS)
 
     bad = numbers_ok(allt, allowed)
-    res.append(("numbers_match", not bad, f"not in facts: {bad[:5]}" if bad else ""))
+    wrong_dir = []
+    if facts.get("direction") == "down" and GAIN_WORDS.search(ans["normal"]):
+        wrong_dir.append("calls a loss a gain")
+    if facts.get("direction") == "up" and LOSS_WORDS.search(ans["normal"]):
+        wrong_dir.append("calls a gain a loss")
+    res.append(("numbers_match", not bad and not wrong_dir,
+                "; ".join(([f"not in facts: {bad[:5]}"] if bad else []) + wrong_dir)))
 
     hits = [m.group(0) for m in ADVICE.finditer(allt)] + [m.group(0) for m in PREDICT.finditer(allt)]
     funds = [m.group(0) for m in FUND_WORDS.finditer(allt) if m.group(0).lower() not in own]
@@ -67,7 +76,7 @@ def check(ans, facts):
     res.append(("complete", not comp, "; ".join(comp)))
 
     long_ = [s for s in sentences(allt) if len(s.split()) > 25]
-    jar = [m.group(0) for m in JARGON.finditer(allt)]
+    jar = [m.group(0) for m in JARGON.finditer(allt)] + [m.group(0) for m in LEAK.finditer(allt)]
     res.append(("plain_words", not long_ and not jar,
-                (f"{len(long_)} long sentence(s) " if long_ else "") + (f"jargon {jar[:3]}" if jar else "")))
+                (f"{len(long_)} long sentence(s) " if long_ else "") + (f"jargon or field names {jar[:3]}" if jar else "")))
     return all(ok for _, ok, _ in res), res

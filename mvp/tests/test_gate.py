@@ -111,3 +111,32 @@ def test_catches_dropped_facts():
     # Found in eval run 4 (writer-v4): the AI dropped prepared sentences, e.g. the depth-of-drop line.
     ok, res = gate.check(good(), facts())
     assert not ok and not dict((n, p) for n, p, _ in res)["complete"]
+
+
+def test_v6_label_follows_shown_number():
+    # Found in human review of writer-v5: "about 1 in 10" was called "rare" in some answers, "happens" in others.
+    f = facts(); f["history"].update(deep_share_pct=8, deep_in_10=1, deep_rare=False)
+    assert "rare" not in template.meaning(f)
+    f["history"].update(deep_share_pct=3, deep_in_10=0, deep_rare=True)
+    assert "rare" in template.meaning(f)
+
+
+def test_v6_no_repeated_horizon_line():
+    # Found in human review of writer-v5: "all of them by month 24. By month 36, it was all of them."
+    f = facts()
+    for x in f["history"]["horizons"]:
+        x["above_in_10"] = 10
+    p = template.patience(f)
+    assert p.count("all of them") == 1 and "still true at month 36" in p
+
+
+def test_v6_typed_numbers_do_not_contradict():
+    # Found in human review of writer-v5: part 1 used the market, part 2 said "we can only compare with the market".
+    f = facts(manual=True)
+    assert "compare with the market" not in template.market_or_fund(f)
+    assert template.normal(f).count("Nifty 50") == 1
+
+
+def test_v6_index_shown_against_money_put_in():
+    a = template.market_or_fund(facts())
+    assert "less than you put in" in a

@@ -77,3 +77,15 @@ def test_catches_jargon_and_long_sentences():
     assert bad and not r["plain_words"][0]
     bad, r = failing("normal", " ".join(["word"] * 30) + ".")
     assert bad and not r["plain_words"][0]
+
+
+def test_catches_loss_called_gain():
+    # Found in eval run 1 (writer-v1, case M04): a loss described as "a gain of ₹1,639".
+    bad, r = failing("normal", "You have put in ₹24,000. It is worth ₹23,140, a gain of ₹860.")
+    assert bad and not r["numbers_match"][0]
+
+
+def test_catches_field_names():
+    # Found in eval run 1: raw field names such as not_above_in_10 and "attribution" leaked into answers.
+    bad, r = failing("market_or_fund", "The attribution is not_red for your fund.")
+    assert bad and not r["plain_words"][0]

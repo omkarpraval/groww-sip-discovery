@@ -5,19 +5,31 @@ def _plural(n, word):
     return f"{n} {word}" + ("" if n == 1 else "s")
 
 
-def normal(f):
+UNCERTAIN = "The past cannot promise what happens next, and markets can stay down for a long time."
+
+
+def your_numbers(f):
     m = _plural(f["months"], "month")
     if f["direction"] == "down":
-        s = f"You have put in {f['invested']} over {m}. Today it is worth {f['value']}, which is {f['gain_abs']} less."
-    elif f["direction"] == "up":
-        s = f"You have put in {f['invested']} over {m}. Today it is worth {f['value']}, which is {f['gain_abs']} more."
-    else:
-        s = f"You have put in {f['invested']} over {m}. Today it is worth about the same, {f['value']}."
+        return f"You have put in {f['invested']} over {m}. Today it is worth {f['value']}, which is {f['gain_abs']} less."
+    if f["direction"] == "up":
+        return f"You have put in {f['invested']} over {m}. Today it is worth {f['value']}, which is {f['gain_abs']} more."
+    return f"You have put in {f['invested']} over {m}. Today it is worth about the same, {f['value']}."
+
+
+def history_line(f):
     h = f["history"]
     if not h.get("available"):
-        return s + " The price history is too short to compare with past SIPs at this stage."
-    s += (f" Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what was"
-          f" put in after {m}.")
+        return "The price history is too short to compare with past SIPs at this stage."
+    return (f"Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what was"
+            f" put in after {_plural(f['months'], 'month')}.")
+
+
+def normal(f):
+    s = your_numbers(f) + " " + history_line(f)
+    h = f["history"]
+    if not h.get("available"):
+        return s
     if h["red_in_10"] >= 3:
         s += " So being in the red at this stage is common."
     elif h["red_in_10"] >= 1:
@@ -56,6 +68,14 @@ def market_or_fund(f):
     return f"Your SIP is not below what you put in. The same SIP in the {lab} would be worth {val}."
 
 
+def patience_lines(f):
+    h = f["history"]
+    hz = h.get("horizons") if h.get("available") else None
+    if not hz:
+        return "The price history is too short to show what usually came next for SIPs like yours."
+    return patience(f).replace(" " + UNCERTAIN, "")
+
+
 def patience(f):
     h = f["history"]
     hz = h.get("horizons") if h.get("available") else None
@@ -71,7 +91,7 @@ def patience(f):
         s += f" By month {hz[1]['month']}, it was {share(hz[1]['above_in_10'])}."
     if a["not_above_in_10"] > 0:
         s += f" About {a['not_above_in_10']} in 10 were still below at month {a['month']}."
-    s += " The past cannot promise what happens next, and markets can stay down for a long time."
+    s += " " + UNCERTAIN
     return s
 
 

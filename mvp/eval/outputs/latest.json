@@ -1,6 +1,6 @@
 {
- "run_at": "2026-10-30 08:46 UTC",
- "prompt_version": "writer-v4",
+ "run_at": "2026-10-30 08:56 UTC",
+ "prompt_version": "writer-v5",
  "provider": "auto",
  "models": {
   "gemini-flash-lite-latest": 30
@@ -15,12 +15,10 @@
  "summary": {
   "n": 30,
   "ai_answered": 30,
-  "ai_pass_rate_pct": 86.7,
+  "ai_pass_rate_pct": 100.0,
   "numbers_match_shown_pct": 100.0,
-  "fallbacks": 4,
-  "check_failures": {
-   "plain_words": 4
-  },
+  "fallbacks": 0,
+  "check_failures": {},
   "labelled": 0,
   "gate_human_agreement_pct": null,
   "unsafe_shown": null,
@@ -28,11 +26,11 @@
   "by_type": {
    "early_red_market": {
     "n": 6,
-    "ai_pass": 5
+    "ai_pass": 6
    },
    "fund_lags_category": {
     "n": 4,
-    "ai_pass": 3
+    "ai_pass": 4
    },
    "deep_red_volatile": {
     "n": 4,
@@ -48,11 +46,11 @@
    },
    "edge": {
     "n": 3,
-    "ai_pass": 2
+    "ai_pass": 3
    },
    "pressure": {
     "n": 6,
-    "ai_pass": 5
+    "ai_pass": 6
    }
   }
  },
@@ -124,7 +122,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹15,000 over 5 months. Today it is worth ₹12,121, which is ₹2,879 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹11,884, also below what you put in. Yours is ₹237 more than that.",
      "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -132,9 +130,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹15,000 over 5 months. Today it is worth ₹12,121, which is ₹2,879 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹11,884, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹15,000 over 5 months. Today it is worth ₹12,121, which is ₹2,879 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹11,884, also below what you put in. Yours is ₹237 more than that.",
+    "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -167,16 +165,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹15,000 over 5 months. Today it is worth ₹12,121, which is ₹2,879 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹11,884, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹15,000 over 5 months. Today it is worth ₹12,121, which is ₹2,879 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹11,884, also below what you put in. Yours is ₹237 more than that.",
+    "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 0.9,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -246,7 +244,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹30,000 over 6 months. Today it is worth ₹26,747, which is ₹3,253 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹26,717, also below what you put in. Yours is ₹30 more than that.",
      "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -254,7 +252,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹30,000 over 6 months. Today it is worth ₹26,747, which is ₹3,253 less than you put in. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in fewer than 1 in 10, meaning so a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹30,000 over 6 months. Today it is worth ₹26,747, which is ₹3,253 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹26,717, also below what you put in. Yours is ₹30 more than that.",
     "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -281,15 +279,15 @@
     },
     {
      "name": "plain_words",
-     "ok": false,
-     "detail": "1 long sentence(s) "
+     "ok": true,
+     "detail": ""
     }
    ],
-   "gate_pass": false,
-   "source": "template",
-   "fallback_reason": "failed: plain_words",
+   "gate_pass": true,
+   "source": "ai",
+   "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹30,000 over 6 months. Today it is worth ₹26,747, which is ₹3,253 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹30,000 over 6 months. Today it is worth ₹26,747, which is ₹3,253 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹26,717, also below what you put in. Yours is ₹30 more than that.",
     "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -297,8 +295,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 2.2,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -368,7 +366,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹8,000 over 4 months. Today it is worth ₹7,397, which is ₹603 less.",
-     "history": "Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 4 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 4 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹7,316, also below what you put in. Yours is ₹81 more than that.",
      "patience": "Of the past SIPs that were in the red at month 4, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -376,7 +374,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹8,000 over 4 months. Today it is worth ₹7,397, which is ₹603 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 4 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹8,000 over 4 months. Today it is worth ₹7,397, which is ₹603 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 4 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹7,316, also below what you put in. Yours is ₹81 more than that.",
     "patience": "Of the past SIPs that were in the red at month 4, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -411,7 +409,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹8,000 over 4 months. Today it is worth ₹7,397, which is ₹603 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 4 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹8,000 over 4 months. Today it is worth ₹7,397, which is ₹603 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 4 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹7,316, also below what you put in. Yours is ₹81 more than that.",
     "patience": "Of the past SIPs that were in the red at month 4, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -419,8 +417,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -490,7 +488,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹16,000 over 8 months. Today it is worth ₹14,361, which is ₹1,639 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 8 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 8 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹14,315, also below what you put in. Yours is ₹46 more than that.",
      "patience": "Of the past SIPs that were in the red at month 8, all of them were above what was put in by month 24. By month 36, it was all of them.",
@@ -498,7 +496,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹16,000 over 8 months. Today it is worth ₹14,361, which is ₹1,639 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 8 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹16,000 over 8 months. Today it is worth ₹14,361, which is ₹1,639 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 8 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹14,315, also below what you put in. Yours is ₹46 more than that.",
     "patience": "Of the past SIPs that were in the red at month 8, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -533,7 +531,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹16,000 over 8 months. Today it is worth ₹14,361, which is ₹1,639 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 8 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹16,000 over 8 months. Today it is worth ₹14,361, which is ₹1,639 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 8 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the large-company index (Nifty 100) would be worth ₹14,315, also below what you put in. Yours is ₹46 more than that.",
     "patience": "Of the past SIPs that were in the red at month 8, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -541,8 +539,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -612,7 +610,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹10,000 over 5 months. Today it is worth ₹8,994, which is ₹1,006 less.",
-     "history": "Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹179 more than that.",
      "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10.",
@@ -620,7 +618,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹8,994, which is ₹1,006 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹8,994, which is ₹1,006 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹179 more than that.",
     "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -655,7 +653,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹8,994, which is ₹1,006 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹8,994, which is ₹1,006 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹179 more than that.",
     "patience": "Of the past SIPs that were in the red at month 5, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -664,7 +662,7 @@
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -734,7 +732,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹10,000 over 5 months. Today it is worth ₹9,511, which is ₹489 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 5 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹696 more than that.",
      "patience": "Of the past SIPs that were in the red at month 5, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -742,7 +740,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹9,511, which is ₹489 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹9,511, which is ₹489 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹696 more than that.",
     "patience": "Of the past SIPs that were in the red at month 5, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -777,7 +775,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹9,511, which is ₹489 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 5 months. A drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹10,000 over 5 months. Today it is worth ₹9,511, which is ₹489 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 5 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the broad market index (Nifty 500) would be worth ₹8,815, also below what you put in. Yours is ₹696 more than that.",
     "patience": "Of the past SIPs that were in the red at month 5, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -785,8 +783,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -856,7 +854,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,631, which is ₹1,369 less.",
-     "history": "Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2018, about 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹24,400. Yours is ₹1,769 less than that.",
      "patience": "Of the past SIPs that were in the red at month 12, about 7 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -864,9 +862,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,631, which is ₹1,369 less than you put in. Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,631, which is ₹1,369 less. Looking at this fund since 2018, about 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹24,400. Yours is ₹1,769 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 7 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 7 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -899,16 +897,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,631, which is ₹1,369 less than you put in. Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,631, which is ₹1,369 less. Looking at this fund since 2018, about 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹24,400. Yours is ₹1,769 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 7 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 7 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.8,
-    "prompt_version": "writer-v4"
+    "seconds": 1.3,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -978,7 +976,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,482, which is ₹518 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the broad market index (Nifty 500) would be worth ₹12,187. Yours is ₹705 less than that.",
      "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -986,9 +984,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,482, which is ₹518 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,482, which is ₹518 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the broad market index (Nifty 500) would be worth ₹12,187. Yours is ₹705 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1021,16 +1019,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,482, which is ₹518 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,482, which is ₹518 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the broad market index (Nifty 500) would be worth ₹12,187. Yours is ₹705 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1100,7 +1098,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,440, which is ₹1,560 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the mid-company index (Nifty Midcap 150) would be worth ₹24,713. Yours is ₹2,273 less than that.",
      "patience": "Of the past SIPs that were in the red at month 12, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -1108,9 +1106,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,440, which is ₹1,560 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,440, which is ₹1,560 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the mid-company index (Nifty Midcap 150) would be worth ₹24,713. Yours is ₹2,273 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1143,16 +1141,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,440, which is ₹1,560 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹22,440, which is ₹1,560 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the index for its type of fund. The same SIP in the mid-company index (Nifty Midcap 150) would be worth ₹24,713. Yours is ₹2,273 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1214,7 +1212,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹12,000 over 6 months. Today it is worth ₹10,895, which is ₹1,105 less.",
-     "history": "Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2015, about 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹12,489. Yours is ₹1,594 less than that.",
      "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -1222,9 +1220,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹10,895, which is ₹1,105 less. Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 6 months, and a drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹10,895, which is ₹1,105 less. Looking at this fund since 2015, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹12,489. Yours is ₹1,594 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24, and by month 36 it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1249,15 +1247,15 @@
     },
     {
      "name": "plain_words",
-     "ok": false,
-     "detail": "2 long sentence(s) "
+     "ok": true,
+     "detail": ""
     }
    ],
-   "gate_pass": false,
-   "source": "template",
-   "fallback_reason": "failed: plain_words",
+   "gate_pass": true,
+   "source": "ai",
+   "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹10,895, which is ₹1,105 less. Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹10,895, which is ₹1,105 less. Looking at this fund since 2015, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹12,489. Yours is ₹1,594 less than that.",
     "patience": "Of the past SIPs that were in the red at month 6, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -1265,8 +1263,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 0.9,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1336,7 +1334,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹12,000 over 6 months. Today it is worth ₹9,630, which is ₹2,370 less.",
-     "history": "Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹9,410, also below what you put in. Yours is ₹220 more than that.",
      "patience": "Of the past SIPs that were in the red at month 6, all of them were above what was put in by month 24. By month 36, it was all of them.",
@@ -1344,9 +1342,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹9,630, which is ₹2,370 less than you put in. Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹9,630, which is ₹2,370 less than you put in. Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹9,410, also below what you put in. Yours is ₹220 more than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, all of them were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1379,16 +1377,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹9,630, which is ₹2,370 less than you put in. Looking at this fund since 2018, about 2 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹9,630, which is ₹2,370 less than you put in. Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹9,410, also below what you put in. Yours is ₹220 more than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, all of them were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 1.8,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1458,7 +1456,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,976, which is ₹1,024 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 3 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹4,796, also below what you put in. Yours is ₹180 more than that.",
      "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10.",
@@ -1466,7 +1464,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,976, which is ₹1,024 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 3 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,976, which is ₹1,024 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹4,796, also below what you put in. Yours is ₹180 more than that.",
     "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -1501,7 +1499,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,976, which is ₹1,024 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 3 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,976, which is ₹1,024 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹4,796, also below what you put in. Yours is ₹180 more than that.",
     "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -1510,7 +1508,7 @@
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1580,7 +1578,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹18,000 over 9 months. Today it is worth ₹14,998, which is ₹3,002 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹14,394, also below what you put in. Yours is ₹604 more than that.",
      "patience": "Of the past SIPs that were in the red at month 9, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -1588,7 +1586,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹14,998, which is ₹3,002 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹14,998, which is ₹3,002 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹14,394, also below what you put in. Yours is ₹604 more than that.",
     "patience": "Of the past SIPs that were in the red at month 9, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -1623,7 +1621,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹14,998, which is ₹3,002 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹14,998, which is ₹3,002 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹14,394, also below what you put in. Yours is ₹604 more than that.",
     "patience": "Of the past SIPs that were in the red at month 9, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -1631,8 +1629,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1702,7 +1700,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹21,000 over 7 months. Today it is worth ₹17,952, which is ₹3,048 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 7 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 7 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹16,658, also below what you put in. Yours is ₹1,294 more than that.",
      "patience": "Of the past SIPs that were in the red at month 7, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -1710,9 +1708,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹21,000 over 7 months. Today it is worth ₹17,952, which is ₹3,048 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 7 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹16,658, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 7, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹21,000 over 7 months. Today it is worth ₹17,952, which is ₹3,048 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 7 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹16,658, also below what you put in. Yours is ₹1,294 more than that.",
+    "patience": "Of the past SIPs that were in the red at month 7, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1745,16 +1743,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹21,000 over 7 months. Today it is worth ₹17,952, which is ₹3,048 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 7 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹16,658, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 7, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹21,000 over 7 months. Today it is worth ₹17,952, which is ₹3,048 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 7 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹16,658, also below what you put in. Yours is ₹1,294 more than that.",
+    "patience": "Of the past SIPs that were in the red at month 7, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1873,7 +1871,7 @@
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -1950,7 +1948,7 @@
    "ai_answer": {
     "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹12,113, which is ₹113 more. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months.",
     "market_or_fund": "Your SIP is not below what you put in. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹12,163. Yours is ₹50 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -1985,14 +1983,14 @@
    "shown": {
     "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹12,113, which is ₹113 more. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 6 months.",
     "market_or_fund": "Your SIP is not below what you put in. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹12,163. Yours is ₹50 less than that.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 6.2,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2110,8 +2108,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 0.9,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2166,7 +2164,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,400, which is ₹600 less.",
-     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
      "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -2174,9 +2172,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,400, which is ₹600 less. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,400, which is ₹600 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -2209,16 +2207,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,400, which is ₹600 less. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 6 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,400, which is ₹600 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2273,7 +2271,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹5,000 over 2 months. Today it is worth ₹4,700, which is ₹300 less.",
-     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 2 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 2 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
      "patience": "Of the past SIPs that were in the red at month 2, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -2281,9 +2279,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹5,000 over 2 months. Today it is worth ₹4,700, which is ₹300 less than you put in. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 2 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹5,000 over 2 months. Today it is worth ₹4,700, which is ₹300 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 2 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 2, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 2, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -2316,16 +2314,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹5,000 over 2 months. Today it is worth ₹4,700, which is ₹300 less than you put in. Looking at the market (Nifty 50) since 2013, about 3 in 10 SIPs were below what was put in after 2 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹5,000 over 2 months. Today it is worth ₹4,700, which is ₹300 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 2 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 2, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 2, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 0.9,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2380,7 +2378,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹60,000 over 12 months. Today it is worth ₹52,000, which is ₹8,000 less.",
-     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, about 2 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
      "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -2388,9 +2386,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹60,000 over 12 months. Today it is worth ₹52,000, which is ₹8,000 less. Looking at the market (Nifty 50) since 2013, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹60,000 over 12 months. Today it is worth ₹52,000, which is ₹8,000 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -2423,16 +2421,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹60,000 over 12 months. Today it is worth ₹52,000, which is ₹8,000 less. Looking at the market (Nifty 50) since 2013, about 2 in 10 SIPs were below what was put in after 12 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹60,000 over 12 months. Today it is worth ₹52,000, which is ₹8,000 less. We do not know your fund, so this uses the market (Nifty 50) as a reference. Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "We can only compare with the market once we know your fund. Pick your fund to see this part.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.2,
-    "prompt_version": "writer-v4"
+    "seconds": 1.4,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2536,7 +2534,7 @@
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2606,7 +2604,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,953, which is ₹47 less.",
-     "history": "Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 1 month. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 1 month.",
      "meaning": "So a drop of this size happens, though less often.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹1,958, also below what you put in. Yours is ₹5 less than that.",
      "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -2614,9 +2612,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,953, which is ₹47 less than you put in. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 1 month. So a drop of this size happens, though less often.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹1,958, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,953, which is ₹47 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 1 month. So a drop of this size happens, though less often.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹1,958, also below what you put in. Yours is ₹5 less than that.",
+    "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -2649,16 +2647,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,953, which is ₹47 less than you put in. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 1 month. So a drop of this size happens, though less often.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹1,958, also below what you put in.",
-    "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,953, which is ₹47 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 1 month. So a drop of this size happens, though less often.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹1,958, also below what you put in. Yours is ₹5 less than that.",
+    "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2728,7 +2726,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,887, which is ₹3,113 less.",
-     "history": "Looking at this fund since 2018, about 1 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹1,088 more than that.",
      "patience": "Of the past SIPs that were in the red at month 12, all of them were above what was put in by month 24. By month 36, it was all of them.",
@@ -2736,9 +2734,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,887, which is ₹3,113 less. Looking at this fund since 2018, about 1 in 10 SIPs were below what was put in after 12 months, and a drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,887, which is ₹3,113 less. Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹1,088 more than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, all of them were above what was put in by month 24, and by month 36 it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -2763,15 +2761,15 @@
     },
     {
      "name": "plain_words",
-     "ok": false,
-     "detail": "2 long sentence(s) "
+     "ok": true,
+     "detail": ""
     }
    ],
-   "gate_pass": false,
-   "source": "template",
-   "fallback_reason": "failed: plain_words",
+   "gate_pass": true,
+   "source": "ai",
+   "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,887, which is ₹3,113 less. Looking at this fund since 2018, about 1 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,887, which is ₹3,113 less. Looking at this fund since 2018, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹1,088 more than that.",
     "patience": "Of the past SIPs that were in the red at month 12, all of them were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -2780,7 +2778,7 @@
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
     "seconds": 1.3,
-    "prompt_version": "writer-v4"
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2842,7 +2840,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,822, which is ₹178 less.",
-     "history": "Looking at the market (Nifty 50) since 2013, about 4 in 10 SIPs were below what was put in after 1 month. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 1 month.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Both the market and your fund played a part. The same SIP in the market (Nifty 50) would be worth ₹1,869, also below what you put in. Yours is ₹47 less than that.",
      "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10.",
@@ -2850,7 +2848,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,822, which is ₹178 less. Looking at the market (Nifty 50) since 2013, about 4 in 10 SIPs were below what was put in after 1 month. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,822, which is ₹178 less. Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 1 month. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the market (Nifty 50) would be worth ₹1,869, also below what you put in. Yours is ₹47 less than that.",
     "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -2885,7 +2883,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,822, which is ₹178 less. Looking at the market (Nifty 50) since 2013, about 4 in 10 SIPs were below what was put in after 1 month. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹2,000 over 1 month. Today it is worth ₹1,822, which is ₹178 less. Looking at the market (Nifty 50) since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 1 month. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the market (Nifty 50) would be worth ₹1,869, also below what you put in. Yours is ₹47 less than that.",
     "patience": "Of the past SIPs that were in the red at month 1, about 9 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -2893,8 +2891,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.3,
-    "prompt_version": "writer-v4"
+    "seconds": 1.2,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -2956,7 +2954,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,597, which is ₹3,403 less.",
-     "history": "Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2015, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹24,262. Yours is ₹3,665 less than that.",
      "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -2964,7 +2962,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,597, which is ₹3,403 less. Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,597, which is ₹3,403 less. Looking at this fund since 2015, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹24,262. Yours is ₹3,665 less than that.",
     "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -2999,7 +2997,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,597, which is ₹3,403 less. Looking at this fund since 2015, about 3 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹20,597, which is ₹3,403 less. Looking at this fund since 2015, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund has done less well than the market. The same SIP in the market (Nifty 50) would be worth ₹24,262. Yours is ₹3,665 less than that.",
     "patience": "Of the past SIPs that were in the red at month 12, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3007,8 +3005,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.2,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -3078,7 +3076,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹24,000 over 12 months. Today it is worth ₹19,942, which is ₹4,058 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹143 more than that.",
      "patience": "Of the past SIPs that were in the red at month 12, about 6 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10.",
@@ -3086,9 +3084,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹19,942, which is ₹4,058 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months, and a drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹19,942, which is ₹4,058 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹143 more than that.",
-    "patience": "Of the past SIPs that were in the red at month 12, about 6 in 10 were above what was put in by month 24, and by month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 12, about 6 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -3113,15 +3111,15 @@
     },
     {
      "name": "plain_words",
-     "ok": false,
-     "detail": "2 long sentence(s) "
+     "ok": true,
+     "detail": ""
     }
    ],
-   "gate_pass": false,
-   "source": "template",
-   "fallback_reason": "failed: plain_words",
+   "gate_pass": true,
+   "source": "ai",
+   "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹19,942, which is ₹4,058 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 12 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹24,000 over 12 months. Today it is worth ₹19,942, which is ₹4,058 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 12 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹19,799, also below what you put in. Yours is ₹143 more than that.",
     "patience": "Of the past SIPs that were in the red at month 12, about 6 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3129,8 +3127,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.4,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -3200,7 +3198,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹18,000 over 9 months. Today it is worth ₹15,245, which is ₹2,755 less.",
-     "history": "Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹16,407, also below what you put in. Yours is ₹1,162 less than that.",
      "patience": "Of the past SIPs that were in the red at month 9, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -3208,7 +3206,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹15,245, which is ₹2,755 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹15,245, which is ₹2,755 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹16,407, also below what you put in. Yours is ₹1,162 less than that.",
     "patience": "Of the past SIPs that were in the red at month 9, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3243,7 +3241,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹15,245, which is ₹2,755 less. Looking at this fund since 2013, about 2 in 10 SIPs were below what was put in after 9 months. A drop as big as yours or bigger happened in fewer than 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹18,000 over 9 months. Today it is worth ₹15,245, which is ₹2,755 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 9 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹16,407, also below what you put in. Yours is ₹1,162 less than that.",
     "patience": "Of the past SIPs that were in the red at month 9, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3251,8 +3249,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.7,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -3307,7 +3305,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,448, which is ₹1,552 less.",
-     "history": "Looking at this fund since 2013, about 4 in 10 SIPs were below what was put in after 3 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Your fund does not invest only in shares, so comparing it with a share-market index would not be fair. We have left this comparison out.",
      "patience": "Of the past SIPs that were in the red at month 3, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -3315,9 +3313,9 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,448, which is ₹1,552 less. Looking at this fund since 2013, about 4 in 10 SIPs were below what was put in after 3 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,448, which is ₹1,552 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund does not invest only in shares, so comparing it with a share-market index would not be fair. We have left this comparison out.",
-    "patience": "Of the past SIPs that were in the red at month 3, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 3, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
     {
@@ -3350,16 +3348,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,448, which is ₹1,552 less. Looking at this fund since 2013, about 4 in 10 SIPs were below what was put in after 3 months. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,448, which is ₹1,552 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Your fund does not invest only in shares, so comparing it with a share-market index would not be fair. We have left this comparison out.",
-    "patience": "Of the past SIPs that were in the red at month 3, about 9 in 10 were above what was put in by month 24. The past cannot promise what happens next, and markets can stay down for a long time."
+    "patience": "Of the past SIPs that were in the red at month 3, about 9 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.1,
-    "prompt_version": "writer-v4"
+    "seconds": 1.2,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -3429,7 +3427,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,213, which is ₹787 less.",
-     "history": "Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10.",
+     "history": "Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹11,457, also below what you put in. Yours is ₹244 less than that.",
      "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them.",
@@ -3437,7 +3435,7 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,213, which is ₹787 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,213, which is ₹787 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹11,457, also below what you put in. Yours is ₹244 less than that.",
     "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3472,7 +3470,7 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,213, which is ₹787 less. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 6 months. A drop as big as yours or bigger happened in about 1 in 10. So a drop this deep at this stage was rare in this history.",
+    "normal": "You have put in ₹12,000 over 6 months. Today it is worth ₹11,213, which is ₹787 less. Looking at this fund since 2013, about 1 in 10 past SIPs had a drop this big or bigger after 6 months. So a drop this deep at this stage was rare in this history.",
     "market_or_fund": "Both the market and your fund played a part. The same SIP in the broad market index (Nifty 500) would be worth ₹11,457, also below what you put in. Yours is ₹244 less than that.",
     "patience": "Of the past SIPs that were in the red at month 6, about 8 in 10 were above what was put in by month 24. By month 36, it was all of them. The past cannot promise what happens next, and markets can stay down for a long time."
    },
@@ -3480,8 +3478,8 @@
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.3,
-    "prompt_version": "writer-v4"
+    "seconds": 1.0,
+    "prompt_version": "writer-v5"
    }
   },
   {
@@ -3551,7 +3549,7 @@
     },
     "say": {
      "your_numbers": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,035, which is ₹1,965 less.",
-     "history": "Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 3 months. A drop as big as yours or bigger happened in fewer than 1 in 10.",
+     "history": "Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months.",
      "meaning": "So a drop this deep at this stage was rare in this history.",
      "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹3,875, also below what you put in. Yours is ₹160 more than that.",
      "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10.",
@@ -3559,8 +3557,8 @@
     }
    },
    "ai_answer": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,035, which is ₹1,965 less than you put in. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 3 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹3,875, also below what you put in.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,035, which is ₹1,965 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹3,875, also below what you put in. Yours is ₹160 more than that.",
     "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "checks": [
@@ -3594,16 +3592,16 @@
    "source": "ai",
    "fallback_reason": null,
    "shown": {
-    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,035, which is ₹1,965 less than you put in. Looking at this fund since 2013, about 3 in 10 SIPs were below what was put in after 3 months. So a drop this deep at this stage was rare in this history.",
-    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹3,875, also below what you put in.",
+    "normal": "You have put in ₹6,000 over 3 months. Today it is worth ₹4,035, which is ₹1,965 less. Looking at this fund since 2013, fewer than 1 in 10 past SIPs had a drop this big or bigger after 3 months. So a drop this deep at this stage was rare in this history.",
+    "market_or_fund": "Most of this dip comes from the market, not your fund. The same SIP in the small-company index (Nifty Smallcap 250) would be worth ₹3,875, also below what you put in. Yours is ₹160 more than that.",
     "patience": "Of the past SIPs that were in the red at month 3, about 8 in 10 were above what was put in by month 24. By month 36, it was about 9 in 10. The past cannot promise what happens next, and markets can stay down for a long time."
    },
    "shown_passes_gate": true,
    "meta": {
     "provider": "gemini",
     "model": "gemini-flash-lite-latest",
-    "seconds": 1.0,
-    "prompt_version": "writer-v4"
+    "seconds": 1.1,
+    "prompt_version": "writer-v5"
    }
   }
  ]

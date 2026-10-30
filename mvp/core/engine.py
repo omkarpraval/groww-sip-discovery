@@ -138,12 +138,12 @@ def months_of(s):
 def pick_history(n, own=None, proxy=None, market=None):
     """Own fund history if it has enough past starts, else the category index, else the market."""
     need = horizons_for(n)[1] + MIN_STARTS
-    for label, s in (own, proxy, market):
-        if s is not None and months_of(s) >= need:
-            return label, s
-    for label, s in (market, proxy, own):  # fall back to the longest available
-        if s is not None and months_of(s) >= n + MIN_STARTS:
-            return label, s
+    for cand in (own, proxy, market):
+        if cand and months_of(cand[1]) >= need:
+            return cand
+    for cand in (market, proxy, own):  # fall back to whatever is long enough for "red at month n"
+        if cand and months_of(cand[1]) >= n + MIN_STARTS:
+            return cand
     return None, None
 
 
@@ -195,7 +195,9 @@ def facts_from_fund(code, start_y, start_m, day, amount, as_of=None, live=True):
     f = base_facts(inv, val, n, amount, as_of)
     f.update({"path": "fund", "fund_name": meta.get("scheme_name", ""), "category": meta.get("scheme_category", ""),
               "category_name": D.CATEGORY_NAMES.get(pkey, ""), "price_source": src, "is_index_fund": is_index})
-    f["compare"] = compare_block(inv, val, cmp_.get("market"), cat_v, pkey)
+    equity = "equity" in (meta.get("scheme_category") or "").lower()
+    f["compare"] = compare_block(inv, val, cmp_.get("market"), cat_v, pkey) if equity else \
+        {"available": False, "reason": "not an equity fund, so a share-market index is not a fair comparison"}
     f["history"] = history_block(n, lbl, hist)
     return finish(f)
 

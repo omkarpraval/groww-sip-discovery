@@ -4,7 +4,7 @@ import json, os, time
 
 import requests
 
-PROMPT_VERSION = "writer-v5"
+PROMPT_VERSION = "writer-v6"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-lite-latest"
 GROQ_MODEL = os.getenv("GROQ_MODEL") or "openai/gpt-oss-120b"
 

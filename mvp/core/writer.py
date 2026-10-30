@@ -4,15 +4,16 @@ import json, os, time
 
 import requests
 
-PROMPT_VERSION = "writer-v4"
+PROMPT_VERSION = "writer-v5"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-lite-latest"
 GROQ_MODEL = os.getenv("GROQ_MODEL") or "openai/gpt-oss-120b"
 
 SYSTEM = """You explain a first-time investor's own SIP numbers in plain, calm English for someone new to investing.
 You are NOT an adviser. You only explain the FACTS given to you.
 
-FACTS.say holds checked, plain sentences for each answer. Build each answer from them: you may join them and
-lightly reword them so they read warmly, but do NOT add any new claim, comparison or interpretation.
+FACTS.say holds checked, plain sentences for each answer. Build each answer from them: keep EVERY sentence and
+every number from say (an automatic checker rejects answers that leave one out); you may only join sentences and
+smooth the wording so they read warmly. Do NOT add any new claim, comparison or interpretation.
 The only interpretation allowed is say.meaning, used word for word (leave it out when it is empty).
 Keep every number exactly as written in FACTS.say. Never use field names (anything with an underscore).
 
@@ -20,7 +21,7 @@ Write three answers, 2-3 sentences each, every sentence under 22 words:
 - "normal": use say.your_numbers, say.history and say.meaning. If direction is "down" it is a LOSS: say "less than
   you put in", never "gain". If direction is "up" it is above what was put in; do not talk about a dip.
 - "market_or_fund": use say.market_or_fund only. Do not add words such as "both did less well".
-- "patience": use say.patience, then end with say.uncertainty word for word. Do not repeat a figure twice.
+- "patience": use say.patience, then end with say.uncertainty word for word.
 Never say "category"; say "the index for its type of fund" or use the index label.
 
 Hard rules (an automatic checker rejects any answer that breaks one):

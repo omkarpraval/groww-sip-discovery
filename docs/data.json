@@ -1,21 +1,19 @@
 {
- "updated": "29 Oct 2026",
+ "updated": "30 Oct 2026",
  "models": {
-  "gemini-flash-lite-latest": 7365
+  "gemini-flash-lite-latest": 8935
  },
  "prompts": {
-  "coder-v1.3": 7124,
-  "coder-v1.1": 240,
-  "coder-v1.2": 1
+  "coder-v1.3": 8935
  },
  "funnel": {
   "collected": 104349,
   "unique": 61672,
   "sip": 8935,
-  "coded": 7365,
-  "relevant_ok": 3670,
-  "early": 1521,
-  "early_drops": 461,
+  "coded": 8935,
+  "relevant_ok": 4441,
+  "early": 1824,
+  "early_drops": 558,
   "by_source": [
    {
     "source": "App Store",
@@ -53,8 +51,8 @@
   {
    "name": "Can't tell if my SIP is working",
    "desc": "Red or flat returns, doubting their fund choice, conflicting advice.",
-   "n": 205,
-   "pct": 44.5,
+   "n": 252,
+   "pct": 45.2,
    "quotes": [
     {
      "text": "I had to pause SIPs for 2 months because of a cash crunch.",
@@ -85,8 +83,8 @@
   {
    "name": "App friction or distrust",
    "desc": "Refund delays, duplicate SIPs, units not allocated, support loops.",
-   "n": 93,
-   "pct": 20.2,
+   "n": 115,
+   "pct": 20.6,
    "quotes": [
     {
      "text": "groww system isn't updated for new change & due to this my money got hold",
@@ -117,14 +115,20 @@
   {
    "name": "Money got tight / life changed",
    "desc": "Unplanned expenses, weddings, low balance on debit day.",
-   "n": 54,
-   "pct": 11.7,
+   "n": 64,
+   "pct": 11.5,
    "quotes": [
     {
      "text": "Can I go ahead and invest for 1 cr. Coming around ₹40k including the riders. And invest the 30k/year 10 years in SIP.",
      "source": "Reddit",
      "emotion": "Confused",
      "url": "https://www.reddit.com/r/personalfinanceindia/comments/1wratfa/"
+    },
+    {
+     "text": "Lost my job. Is it okay to stop my SIP for a few months?",
+     "source": "Reddit",
+     "emotion": "Anxious",
+     "url": "https://www.reddit.com/r/IndianStockMarket/comments/1v36ey9/"
     },
     {
      "text": "tried a lot to skip my sips for a month and it shows it can be done 2 days before sip date, but even before 2 days it doesn't work.",
@@ -137,20 +141,14 @@
      "source": "Reddit",
      "emotion": "Confused",
      "url": "https://www.reddit.com/r/personalfinanceindia/comments/1c4hdkj/"
-    },
-    {
-     "text": "Over the last 4 years, almost my entire salary went into repaying loans",
-     "source": "Reddit",
-     "emotion": "Anxious",
-     "url": "https://www.reddit.com/r/personalfinanceindia/comments/1r0t0ie/"
     }
    ]
   },
   {
    "name": "Debit or mandate failed",
    "desc": "Autopay errors and bounce charges they didn’t see coming.",
-   "n": 43,
-   "pct": 9.3,
+   "n": 56,
+   "pct": 10.0,
    "quotes": [
     {
      "text": "it showed in the app that my payment didn't work. So I thought it's fine that they have cancelled it maybe. But then later after few months I saw so many charges",
@@ -181,8 +179,8 @@
   {
    "name": "No reason to stay",
    "desc": "No goal, social doubt, “SIP is an illusion” posts.",
-   "n": 30,
-   "pct": 6.5,
+   "n": 35,
+   "pct": 6.3,
    "quotes": [
     {
      "text": "Got my first salary and every dinner feels like an investment tutorial, man.",
@@ -211,54 +209,59 @@
    ]
   }
  ],
- "no_reason_pct": 20.8,
+ "no_reason_pct": 20.4,
  "emotion": [
   [
    "Confused",
-   56.0
+   53.9
   ],
   [
    "Neutral",
-   13.4
+   14.2
   ],
   [
    "Frustrated",
-   9.8
+   9.9
   ],
   [
    "Anxious",
-   12.8
+   13.4
   ],
   [
    "Disappointed",
-   5.6
+   6.3
   ],
   [
    "Other",
-   2.4
+   2.3
   ]
  ],
  "actions": {
-  "considering_stop": 331,
-  "stopped_or_cancelled": 68,
-  "failed_involuntary": 34,
-  "paused_or_skipped": 13,
-  "redeemed": 10,
-  "reduced": 5
+  "considering_stop": 393,
+  "stopped_or_cancelled": 85,
+  "failed_involuntary": 43,
+  "paused_or_skipped": 16,
+  "redeemed": 11,
+  "reduced": 10
  },
  "segments": [
   {
    "title": "How they earn",
    "rows": [
     {
+     "label": "Variable or business income",
+     "n": 40,
+     "dropoff": 37.5
+    },
+    {
      "label": "Student / no income",
-     "n": 125,
-     "dropoff": 32.0
+     "n": 146,
+     "dropoff": 32.2
     },
     {
      "label": "Salaried",
-     "n": 549,
-     "dropoff": 21.1
+     "n": 656,
+     "dropoff": 23.2
     }
    ]
   },
@@ -267,23 +270,23 @@
    "rows": [
     {
      "label": "YouTube finfluencer",
-     "n": 292,
-     "dropoff": 36.0
+     "n": 348,
+     "dropoff": 33.9
     },
     {
      "label": "Friend or family",
-     "n": 115,
-     "dropoff": 30.4
-    },
-    {
-     "label": "App or ad",
-     "n": 51,
-     "dropoff": 29.4
+     "n": 138,
+     "dropoff": 31.2
     },
     {
      "label": "Own research",
-     "n": 886,
-     "dropoff": 23.5
+     "n": 1071,
+     "dropoff": 25.4
+    },
+    {
+     "label": "App or ad",
+     "n": 60,
+     "dropoff": 25.0
     }
    ]
   },
@@ -292,18 +295,18 @@
    "rows": [
     {
      "label": "25–34",
-     "n": 289,
-     "dropoff": 26.0
+     "n": 351,
+     "dropoff": 27.6
     },
     {
      "label": "Under 25",
-     "n": 376,
-     "dropoff": 24.7
+     "n": 445,
+     "dropoff": 26.1
     },
     {
      "label": "35–44",
-     "n": 76,
-     "dropoff": 22.4
+     "n": 85,
+     "dropoff": 23.5
     }
    ]
   },
@@ -311,219 +314,219 @@
    "title": "Investing before?",
    "rows": [
     {
-     "label": "First-time investor",
-     "n": 934,
-     "dropoff": 25.6
+     "label": "Has invested before",
+     "n": 744,
+     "dropoff": 26.9
     },
     {
-     "label": "Has invested before",
-     "n": 623,
-     "dropoff": 25.0
+     "label": "First-time investor",
+     "n": 1123,
+     "dropoff": 25.8
     }
    ]
   }
  ],
- "baseline_dropoff": 31.3,
+ "baseline_dropoff": 31.6,
  "outside": [
   {
    "label": "Reddit / forums",
-   "n": 696,
-   "pct": 45.8
+   "n": 837,
+   "pct": 45.9
   },
   {
    "label": "YouTube finfluencers",
-   "n": 214,
-   "pct": 14.1
+   "n": 250,
+   "pct": 13.7
   },
   {
    "label": "Customer support",
-   "n": 90,
-   "pct": 5.9
+   "n": 114,
+   "pct": 6.2
   },
   {
    "label": "Friends & family",
-   "n": 83,
+   "n": 100,
    "pct": 5.5
   },
   {
    "label": "Advisor",
    "n": 27,
-   "pct": 1.8
+   "pct": 1.5
   },
   {
    "label": "Google / news",
    "n": 11,
-   "pct": 0.7
+   "pct": 0.6
   },
   {
    "label": "Fund house / other app",
-   "n": 9,
+   "n": 11,
    "pct": 0.6
   }
  ],
  "outside_any_pct": 60.7,
  "checking": {
-  "n": 150,
-  "daily_pct": 53.3,
-  "rarely_pct": 14.7
+  "n": 186,
+  "daily_pct": 51.1,
+  "rarely_pct": 14.0
  },
  "themes": [
   {
    "label": "App friction",
-   "mentions": 877,
-   "reach": 23.9,
-   "proximity": 28.7,
-   "early": 23.8,
+   "mentions": 1103,
+   "reach": 24.8,
+   "proximity": 28.9,
+   "early": 23.9,
    "addr": 1.0,
-   "score": 13.89
+   "score": 14.49
   },
   {
    "label": "Doubts the platform",
-   "mentions": 472,
-   "reach": 12.9,
-   "proximity": 57.6,
-   "early": 16.9,
+   "mentions": 576,
+   "reach": 13.0,
+   "proximity": 55.7,
+   "early": 17.7,
    "addr": 0.6,
-   "score": 5.56
+   "score": 5.57
   },
   {
    "label": "Returns feel too slow",
-   "mentions": 261,
-   "reach": 7.1,
-   "proximity": 48.7,
-   "early": 47.1,
+   "mentions": 322,
+   "reach": 7.3,
+   "proximity": 49.7,
+   "early": 44.4,
    "addr": 0.8,
-   "score": 5.45
+   "score": 5.46
   },
   {
    "label": "Debit / mandate failed",
-   "mentions": 203,
-   "reach": 5.5,
-   "proximity": 72.4,
-   "early": 27.6,
+   "mentions": 247,
+   "reach": 5.6,
+   "proximity": 72.9,
+   "early": 28.7,
    "addr": 0.9,
-   "score": 4.73
+   "score": 4.84
   },
   {
    "label": "Money got tight",
-   "mentions": 197,
+   "mentions": 240,
    "reach": 5.4,
-   "proximity": 56.3,
-   "early": 48.2,
+   "proximity": 57.9,
+   "early": 47.1,
    "addr": 0.8,
-   "score": 4.49
+   "score": 4.53
   },
   {
    "label": "Portfolio in the red",
-   "mentions": 309,
-   "reach": 8.4,
-   "proximity": 35.6,
-   "early": 44.0,
+   "mentions": 378,
+   "reach": 8.5,
+   "proximity": 37.8,
+   "early": 45.2,
    "addr": 0.6,
-   "score": 4.07
+   "score": 4.27
   },
   {
    "label": "Doubts own fund choice",
-   "mentions": 468,
-   "reach": 12.8,
-   "proximity": 44.7,
-   "early": 57.9,
+   "mentions": 571,
+   "reach": 12.9,
+   "proximity": 45.9,
+   "early": 56.9,
    "addr": 0.3,
-   "score": 3.91
+   "score": 3.95
   },
   {
    "label": "Expected something else",
-   "mentions": 83,
-   "reach": 2.3,
-   "proximity": 44.6,
-   "early": 67.5,
+   "mentions": 99,
+   "reach": 2.2,
+   "proximity": 43.4,
+   "early": 64.6,
    "addr": 0.9,
-   "score": 2.26
+   "score": 2.15
   },
   {
    "label": "Conflicting advice",
-   "mentions": 41,
+   "mentions": 49,
    "reach": 1.1,
-   "proximity": 41.5,
-   "early": 70.7,
+   "proximity": 42.9,
+   "early": 69.4,
    "addr": 0.6,
-   "score": 0.74
-  },
-  {
-   "label": "Others stopped",
-   "mentions": 58,
-   "reach": 1.6,
-   "proximity": 43.1,
-   "early": 72.4,
-   "addr": 0.4,
-   "score": 0.72
+   "score": 0.73
   },
   {
    "label": "Life event",
-   "mentions": 70,
+   "mentions": 86,
    "reach": 1.9,
-   "proximity": 51.4,
-   "early": 37.1,
+   "proximity": 54.7,
+   "early": 34.9,
+   "addr": 0.4,
+   "score": 0.69
+  },
+  {
+   "label": "Others stopped",
+   "mentions": 68,
+   "reach": 1.5,
+   "proximity": 39.7,
+   "early": 72.1,
    "addr": 0.4,
    "score": 0.67
   },
   {
    "label": "Lock-in or tax",
-   "mentions": 54,
-   "reach": 1.5,
-   "proximity": 64.8,
-   "early": 24.1,
+   "mentions": 63,
+   "reach": 1.4,
+   "proximity": 66.7,
+   "early": 28.6,
    "addr": 0.5,
-   "score": 0.63
+   "score": 0.65
   },
   {
    "label": "No goal / disengaged",
-   "mentions": 29,
+   "mentions": 35,
    "reach": 0.8,
-   "proximity": 27.6,
-   "early": 48.3,
+   "proximity": 22.9,
+   "early": 42.9,
    "addr": 0.9,
-   "score": 0.54
+   "score": 0.48
   }
  ],
  "golden": {
   "primary": {
    "file": "golden_report_corpus.json",
    "mode": "corpus",
-   "n": 22,
-   "prompt_version": "coder-v1.1,coder-v1.2,coder-v1.3",
+   "n": 24,
+   "prompt_version": "coder-v1.3",
    "models": {
-    "gemini-flash-lite-latest": 22
+    "gemini-flash-lite-latest": 24
    },
    "fields": {
     "relevant": {
-     "agreement": 90.9,
-     "kappa": 0.79,
+     "agreement": 91.7,
+     "kappa": 0.798,
      "target": 90
     },
     "sip_action": {
-     "agreement": 54.5,
-     "kappa": 0.41,
+     "agreement": 58.3,
+     "kappa": 0.473,
      "target": 80
     },
     "primary_trigger": {
-     "agreement": 81.8,
-     "kappa": 0.659,
+     "agreement": 79.2,
+     "kappa": 0.648,
      "target": 70
     },
     "first_time": {
-     "agreement": 86.4,
-     "kappa": 0.705,
+     "agreement": 87.5,
+     "kappa": 0.737,
      "target": null
     },
     "emotion": {
-     "agreement": 63.6,
-     "kappa": 0.512,
+     "agreement": 66.7,
+     "kappa": 0.572,
      "target": null
     },
     "dropoff_moment": {
-     "agreement": 77.3,
-     "kappa": 0.433,
+     "agreement": 79.2,
+     "kappa": 0.444,
      "target": null
     }
    }
@@ -696,40 +699,40 @@
    {
     "file": "golden_report_corpus.json",
     "mode": "corpus",
-    "n": 22,
-    "prompt_version": "coder-v1.1,coder-v1.2,coder-v1.3",
+    "n": 24,
+    "prompt_version": "coder-v1.3",
     "models": {
-     "gemini-flash-lite-latest": 22
+     "gemini-flash-lite-latest": 24
     },
     "fields": {
      "relevant": {
-      "agreement": 90.9,
-      "kappa": 0.79,
+      "agreement": 91.7,
+      "kappa": 0.798,
       "target": 90
      },
      "sip_action": {
-      "agreement": 54.5,
-      "kappa": 0.41,
+      "agreement": 58.3,
+      "kappa": 0.473,
       "target": 80
      },
      "primary_trigger": {
-      "agreement": 81.8,
-      "kappa": 0.659,
+      "agreement": 79.2,
+      "kappa": 0.648,
       "target": 70
      },
      "first_time": {
-      "agreement": 86.4,
-      "kappa": 0.705,
+      "agreement": 87.5,
+      "kappa": 0.737,
       "target": null
      },
      "emotion": {
-      "agreement": 63.6,
-      "kappa": 0.512,
+      "agreement": 66.7,
+      "kappa": 0.572,
       "target": null
      },
      "dropoff_moment": {
-      "agreement": 77.3,
-      "kappa": 0.433,
+      "agreement": 79.2,
+      "kappa": 0.444,
       "target": null
      }
     }
@@ -899,8 +902,8 @@
   "heldout_items": 15
  },
  "quality": {
-  "relevant_coded": 3950,
-  "failed_quote": 280,
+  "relevant_coded": 4768,
+  "failed_quote": 326,
   "schema_repairs": 0
  },
  "example": {

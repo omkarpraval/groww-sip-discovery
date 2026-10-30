@@ -1,69 +1,68 @@
 {
   "early_dropoffs": {
     "clusters_pct": {
-      "Can't tell if my SIP is working": 44.5,
-      "Money got tight / life changed": 11.7,
-      "Debit or mandate failed": 9.3,
-      "App friction or distrust": 20.2,
-      "No reason to stay": 6.5
+      "Can't tell if my SIP is working": 45.2,
+      "Money got tight / life changed": 11.5,
+      "Debit or mandate failed": 10.0,
+      "App friction or distrust": 20.6,
+      "No reason to stay": 6.3
     },
-    "no_reason_stated_pct": 20.8,
-    "n_early_relevant": 1521,
-    "n_early_dropoffs": 461,
-    "early_dropoff_rate_pct": 30.3,
+    "no_reason_stated_pct": 20.4,
+    "n_early_relevant": 1824,
+    "n_early_dropoffs": 558,
+    "early_dropoff_rate_pct": 30.6,
     "actions": {
-      "considering_stop": 331,
-      "stopped_or_cancelled": 68,
-      "failed_involuntary": 34,
-      "paused_or_skipped": 13,
-      "redeemed": 10,
-      "reduced": 5
+      "considering_stop": 393,
+      "stopped_or_cancelled": 85,
+      "failed_involuntary": 43,
+      "paused_or_skipped": 16,
+      "redeemed": 11,
+      "reduced": 10
     },
     "emotion": {
-      "confused": 56.0,
-      "neutral": 13.4,
-      "anxious": 12.8,
-      "frustrated": 9.8,
-      "disappointed": 5.6,
+      "confused": 53.9,
+      "neutral": 14.2,
+      "anxious": 13.4,
+      "frustrated": 9.9,
+      "disappointed": 6.3,
       "regretful": 1.3,
-      "confident": 0.9,
-      "indifferent": 0.2
+      "confident": 1.1
     },
     "triggers_pct": {
-      "wrong_fund_doubt": 24.5,
-      "app_ux_or_control_gap": 14.1,
-      "underwhelming_returns": 13.9,
-      "cash_flow_squeeze": 11.5,
-      "market_fall_negative_returns": 10.4,
-      "platform_trust_doubt": 10.0,
-      "payment_mandate_failure": 9.3,
-      "expectation_mismatch": 6.5,
-      "social_influence": 3.7,
-      "life_event": 3.0,
-      "information_overload_conflict": 2.8,
-      "lock_in_or_tax": 2.0,
-      "goal_disconnect": 0.9
+      "wrong_fund_doubt": 24.9,
+      "app_ux_or_control_gap": 14.7,
+      "underwhelming_returns": 12.5,
+      "market_fall_negative_returns": 11.6,
+      "cash_flow_squeeze": 11.1,
+      "payment_mandate_failure": 10.0,
+      "platform_trust_doubt": 9.9,
+      "expectation_mismatch": 5.9,
+      "social_influence": 3.2,
+      "life_event": 2.9,
+      "information_overload_conflict": 2.7,
+      "lock_in_or_tax": 2.3,
+      "goal_disconnect": 0.7
     },
     "outside_app": [
       [
         "reddit_forum",
-        696
+        837
       ],
       [
         "none_stated",
-        520
+        616
       ],
       [
         "youtube_finfluencer",
-        214
+        250
       ],
       [
         "customer_support",
-        90
+        114
       ],
       [
         "friend_family",
-        83
+        100
       ],
       [
         "advisor_professional",
@@ -75,7 +74,7 @@
       ],
       [
         "amc_or_other_app",
-        9
+        11
       ]
     ],
     "quotes": {
@@ -97,6 +96,12 @@
           "unmet_need": "Simple, well-balanced portfolio without fund clutter",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/mutualfunds/comments/1w8pj9b/portfolio_review_investing_since_july_2023_1015/"
+        },
+        {
+          "evidence_quote": "I have stopped sip in both actively managed mutual funds",
+          "unmet_need": "Simpler index fund investing without tracking individual stocks",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/StockMarketIndia/comments/1l3ctv6/investing_since_the_last_1_year_portfolio_has/"
         },
         {
           "evidence_quote": "Should I continue or stop it??",
@@ -121,12 +126,6 @@
           "unmet_need": "guidance on whether to continue or stop volatile small cap fund",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1htwyyl/need_advice_sip_in_quant_small_cap_fund/"
-        },
-        {
-          "evidence_quote": "Stopped further SIP due to below average performance",
-          "unmet_need": "Want better performing funds when current ones show below average performance",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/IndiaInvestments/comments/1iio2tu/please_analyze_my_current_investments_strategy/"
         }
       ],
       "app_ux_or_control_gap": [
@@ -187,6 +186,12 @@
           "url": "https://www.reddit.com/r/mutualfunds/comments/1w8pj9b/portfolio_review_investing_since_july_2023_1015/"
         },
         {
+          "evidence_quote": "Almost 2 years of SIP , Should i continue ? which one i shd stop",
+          "unmet_need": "Know which funds to continue or stop",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/StockMarketIndia/comments/1n1dab2/almost_2_years_of_sip_should_i_continue_which_one/"
+        },
+        {
           "evidence_quote": "Should i move out ? And invest somewhere else",
           "unmet_need": "Understand why fund is performing poorly and if I should exit",
           "source": "reddit_post",
@@ -217,66 +222,10 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
-          "evidence_quote": "I'm planning to move the funds to another small cap fund which is low in AUM or stop the SIP",
-          "unmet_need": "Move funds between schemes without tax or redemption hassle",
+          "evidence_quote": "Thought of SIP but given flat returns in the market these past 1.5+ years, not hopeful.",
+          "unmet_need": "alternative investment options when domestic SIP returns are flat",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1wzcjg1/how_to_move_funds_from_one_fund_to_another/"
-        },
-        {
-          "evidence_quote": "I'm not interested in putting it in a Fixed Deposit (FD) because the returns seem quite low.",
-          "unmet_need": "Safe investment options offering better returns than FD for beginners",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1txm0e4/how_should_i_invest_10000_looking_for_safe/"
-        }
-      ],
-      "cash_flow_squeeze": [
-        {
-          "evidence_quote": "I had to pause SIPs for 2 months because of a cash crunch.",
-          "unmet_need": "emergency fund management and realistic return expectations",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1sbi166/lost_30_of_my_portfolio_in_6_months_but_i_didnt/"
-        },
-        {
-          "evidence_quote": "Can I go ahead and invest for 1 cr. Coming around \u20b940k including the riders. And invest the 30k/year 10 years in SIP.",
-          "unmet_need": "balance term insurance cost and SIP investment",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1wratfa/why_has_term_insurance_become_so_expensive_need/"
-        },
-        {
-          "evidence_quote": "tried a lot to skip my sips for a month and it shows it can be done 2 days before sip date, but even before 2 days it doesn't work.",
-          "unmet_need": "Reliable ability to skip SIP installment during sudden financial emergency",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-        },
-        {
-          "evidence_quote": "Should I pause my SIP for a while since this trip was not planned for.",
-          "unmet_need": "advice on whether to pause SIP for an unplanned trip",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1c4hdkj/europe_trip/"
-        },
-        {
-          "evidence_quote": "I did have to skip my SIP in June because of family and upcoming wedding-related expenses.",
-          "unmet_need": "Guidance on prioritizing emergency fund, marriage expenses, and SIPs",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/FIREIndia/comments/1ux79ul/24m_reached_my_first_1l_invested_milestone_after/"
-        },
-        {
-          "evidence_quote": "Over the last 4 years, almost my entire salary went into repaying loans",
-          "unmet_need": "Guidance on prioritizing financial steps after becoming debt free.",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1r0t0ie/26m_finally_debtfree_after_years_of_family_loans/"
-        },
-        {
-          "evidence_quote": "I used to do 30k SIP in mutual funds. But, stopped in last November.",
-          "unmet_need": "Guidance on managing salary and investment portfolio after life events",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1t2zmxb/i_feel_i_cant_manage_money_well/"
-        },
-        {
-          "evidence_quote": "Currently I have stopped my SIP as I was laid off.",
-          "unmet_need": "better returns and portfolio strategy guidance",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1vbp369/need_serious_advice_for_my_mf_investment/"
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1up1nyj/general_advice/"
         }
       ],
       "market_fall_negative_returns": [
@@ -293,6 +242,12 @@
           "url": "https://www.reddit.com/r/mutualfunds/comments/1v4kx7k/did_i_make_a_mistake_by_choosing_mutual_funds/"
         },
         {
+          "evidence_quote": "I have stopped sip in both actively managed mutual funds",
+          "unmet_need": "Simpler index fund investing without tracking individual stocks",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/StockMarketIndia/comments/1l3ctv6/investing_since_the_last_1_year_portfolio_has/"
+        },
+        {
           "evidence_quote": "I am a but scared to continue",
           "unmet_need": "guidance on whether to continue sip during market dip",
           "source": "reddit_post",
@@ -305,31 +260,87 @@
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1htwyyl/need_advice_sip_in_quant_small_cap_fund/"
         },
         {
+          "evidence_quote": "should I invest more ( increase the sip amount ) or should I stop and resume",
+          "unmet_need": "clear guidance on whether to stop or increase SIP during market sideways movement",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1tice4g/review_and_provide_some_insights/"
+        },
+        {
           "evidence_quote": "has the small cap rally went down? Just asking if can invest in mutual fund with small cap index like Nippon using SIP",
           "unmet_need": "Understand how to pick stocks and whether to invest in small cap index",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/StockMarketIndia/comments/1bx35r0/rate_my_portfolio/"
         },
         {
-          "evidence_quote": "First time investor. I invested 4L as lumpsum few months back and now it is at 18% loss.",
-          "unmet_need": "Want to know if cutting losses and reinvesting is advisable after a market drop",
+          "evidence_quote": "Is groww in buy zone or wait till 180 support zone? Planning to sip 2k a month",
+          "unmet_need": "Guidance on whether to buy the dip or wait before starting SIP",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1j2yyp4/lumpsum_mf_suggestion/"
-        },
-        {
-          "evidence_quote": "Started investing in 2023 and did a few lumpsum investments in small cap MFs back then. Currently, they have a negative XIRR",
-          "unmet_need": "better returns on small cap investments",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1qvpvdk/how_are_your_small_cap_investments_performing/"
-        },
-        {
-          "evidence_quote": "Since the market wasn\u2019t performing well and I suspected some irregularities, I decided to redeem my investment",
-          "unmet_need": "Transparent redemption process without suspicion of irregularities",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1vg1sne/buy_more_on_dip_or_wait/"
         }
       ],
-      "platform_trust_doubt": [
+      "cash_flow_squeeze": [
+        {
+          "evidence_quote": "I have some existing EMIs, so I can't invest huge amounts right now.",
+          "unmet_need": "Guidance on starting investments for a newborn with limited surplus income",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1uhqvvc/become_a_father_to_a_baby_girl/"
+        },
+        {
+          "evidence_quote": "I had to pause SIPs for 2 months because of a cash crunch.",
+          "unmet_need": "emergency fund management and realistic return expectations",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1sbi166/lost_30_of_my_portfolio_in_6_months_but_i_didnt/"
+        },
+        {
+          "evidence_quote": "Can I go ahead and invest for 1 cr. Coming around \u20b940k including the riders. And invest the 30k/year 10 years in SIP.",
+          "unmet_need": "balance term insurance cost and SIP investment",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1wratfa/why_has_term_insurance_become_so_expensive_need/"
+        },
+        {
+          "evidence_quote": "Lost my job. Is it okay to stop my SIP for a few months?",
+          "unmet_need": "guidance on whether to pause or stop SIPs during job loss",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1v36ey9/lost_my_job_is_it_okay_to_stop_my_sip_for_a_few/"
+        },
+        {
+          "evidence_quote": "tried a lot to skip my sips for a month and it shows it can be done 2 days before sip date, but even before 2 days it doesn't work.",
+          "unmet_need": "Reliable ability to skip SIP installment during sudden financial emergency",
+          "source": "play_store",
+          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
+        },
+        {
+          "evidence_quote": "Should I pause my SIP for a while since this trip was not planned for.",
+          "unmet_need": "advice on whether to pause SIP for an unplanned trip",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1c4hdkj/europe_trip/"
+        },
+        {
+          "evidence_quote": "I did have to skip my SIP in June because of family and upcoming wedding-related expenses.",
+          "unmet_need": "Emergency fund creation alongside ongoing SIP commitments",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/FIREIndia/comments/1ux79ul/24m_reached_my_first_1l_invested_milestone_after/"
+        },
+        {
+          "evidence_quote": "Over the last 4 years, almost my entire salary went into repaying loans",
+          "unmet_need": "Guidance on prioritizing financial steps after becoming debt free.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1r0t0ie/26m_finally_debtfree_after_years_of_family_loans/"
+        }
+      ],
+      "payment_mandate_failure": [
+        {
+          "evidence_quote": "fund stopped accepting money from March, SIP also stopped automatically",
+          "unmet_need": "Alternative US exposure funds open for investment after SIP stopped",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1tme9mo/any_alternative_for_nasdaq_100_index_fund/"
+        },
+        {
+          "evidence_quote": "it showed in the app that my payment didn't work. So I thought it's fine that they have cancelled it maybe. But then later after few months I saw so many charges",
+          "unmet_need": "Accurate payment status updates and avoidance of unexpected charges",
+          "source": "play_store",
+          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
+        },
         {
           "evidence_quote": "this is my first time experience in grow app",
           "unmet_need": "proper customer support and reliable sip order processing",
@@ -337,8 +348,8 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
-          "evidence_quote": "groww system isn't updated for new change & due to this my money got hold",
-          "unmet_need": "instant refunds for failed transactions due to regulatory changes",
+          "evidence_quote": "delay in processing my 2nd SIP installment",
+          "unmet_need": "Timely processing of SIP installments",
           "source": "play_store",
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
@@ -349,32 +360,20 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
-          "evidence_quote": "sip money deducted but after it climbed around 5%, they cancelled the order",
-          "unmet_need": "Reliable KYC and order execution without sudden cancellations",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-        },
-        {
-          "evidence_quote": "I am going to start as a new investor in US market",
-          "unmet_need": "clear platform comparison for international ETF investing",
+          "evidence_quote": "the first instalment payment failed, there is no specific reason mentioned",
+          "unmet_need": "clear explanation on failed payment and mandate status",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1wfh9l6/paasa_or_indmoney_for_ucits_etf/"
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1qy5uvi/failed_instalment_in_nasdaq_100_sip/"
         },
         {
-          "evidence_quote": "SBIMF deducted SIP amount despite cancellation of SIP 1 month ago",
-          "unmet_need": "want refund and reliable cancellation of regular SIPs",
+          "evidence_quote": "the Nasdaq 100 SIP stopped automatically, so both are currently stopped.",
+          "unmet_need": "Portfolio review and guidance",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1wxxz8t/sbimf_deducted_sip_amount_despite_cancellation_of/"
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1vql1q4/need_some_guidance_on_my_sip_portfolio/"
         },
         {
-          "evidence_quote": "my redeemed amount have not be credited back since 2 month",
-          "unmet_need": "timely credit of redeemed funds",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-        },
-        {
-          "evidence_quote": "payment is getting confirmed buy after 7-10 days payment got refunded",
-          "unmet_need": "Reliable payment processing and responsive customer support for failed investments",
+          "evidence_quote": "all were rejected due to reason 'kyc not validated'",
+          "unmet_need": "Quick KYC validation and responsive customer support",
           "source": "play_store",
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         }
@@ -382,95 +381,95 @@
     }
   },
   "quality_gate": {
-    "relevant_coded": 3950,
-    "failed_quote_check": 280,
-    "low_confidence": 0,
-    "confidence_min": 0.6,
+    "relevant_coded": 4768,
+    "failed_quote_check": 326,
+    "low_confidence": 1,
+    "confidence_min": 0.4,
     "schema_repairs": 0,
     "rows_by_model": {
-      "gemini-flash-lite-latest": 7365
+      "gemini-flash-lite-latest": 8935
     }
   },
   "funnel": {
-    "coded": 7365,
-    "relevant_high_conf": 3670,
-    "relevant_low_conf_review": 280,
-    "dropoff_events": 1147,
+    "coded": 8935,
+    "relevant_high_conf": 4441,
+    "relevant_low_conf_review": 327,
+    "dropoff_events": 1404,
     "by_source": {
-      "reddit_post": 1493,
-      "play_store": 1035,
-      "youtube": 562,
-      "reddit_comment": 260,
-      "tradingqna": 250,
-      "app_store": 70
+      "reddit_post": 1817,
+      "play_store": 1260,
+      "youtube": 672,
+      "reddit_comment": 306,
+      "tradingqna": 304,
+      "app_store": 82
     }
   },
   "sip_action": {
     "continuing": 45.1,
-    "started": 15.4,
-    "considering_stop": 13.3,
-    "stopped_or_cancelled": 8.3,
+    "started": 15.2,
+    "considering_stop": 13.6,
+    "stopped_or_cancelled": 8.2,
     "redeemed": 4.2,
-    "none": 3.9,
+    "none": 3.8,
     "increased": 3.6,
-    "failed_involuntary": 2.8,
-    "paused_or_skipped": 1.8,
-    "reduced": 0.9,
+    "failed_involuntary": 2.7,
+    "paused_or_skipped": 2.0,
+    "reduced": 1.0,
     "restarted": 0.8
   },
   "emotion_in_dropoffs": {
-    "confused": 37.2,
-    "frustrated": 31.2,
-    "neutral": 14.8,
-    "anxious": 8.4,
-    "disappointed": 6.2,
-    "regretful": 1.0,
-    "confident": 1.0,
-    "indifferent": 0.3
+    "confused": 36.4,
+    "frustrated": 30.9,
+    "neutral": 14.9,
+    "anxious": 9.3,
+    "disappointed": 6.5,
+    "regretful": 0.9,
+    "confident": 0.9,
+    "indifferent": 0.1
   },
   "checking": {
-    "daily_or_more": 53.3,
-    "monthly_statement": 29.3,
-    "rarely": 14.7,
-    "weekly": 2.7
+    "daily_or_more": 51.1,
+    "monthly_statement": 30.6,
+    "rarely": 14.0,
+    "weekly": 4.3
   },
   "checks_what": {
-    "unknown": 545,
-    "returns": 35,
-    "portfolio": 28,
-    "xirr": 23,
+    "unknown": 665,
+    "returns": 45,
+    "portfolio": 35,
+    "xirr": 29,
+    "none": 12,
     "portfolio allocation": 10,
-    "loss": 6,
-    "none": 6,
+    "portfolio value": 8,
+    "nav": 8,
     "holdings": 6,
-    "portfolio value": 6,
-    "nav": 6,
+    "loss": 6,
+    "dashboard": 6,
     "absolute p&l": 5,
+    "redemption status": 5,
     "payment status": 4,
-    "statement": 4,
-    "nothing": 4,
-    "gains": 4
+    "statement": 4
   },
   "outside_app": {
-    "none_stated": 1701,
-    "reddit_forum": 1098,
-    "customer_support": 457,
-    "youtube_finfluencer": 363,
-    "friend_family": 111,
-    "amc_or_other_app": 66,
-    "advisor_professional": 44,
-    "google_news": 28
+    "none_stated": 2044,
+    "reddit_forum": 1350,
+    "customer_support": 555,
+    "youtube_finfluencer": 424,
+    "friend_family": 134,
+    "amc_or_other_app": 72,
+    "advisor_professional": 48,
+    "google_news": 39
   },
   "themes": [
     {
       "theme": "app_ux_or_control_gap",
-      "mentions": 877,
-      "reach_pct": 23.9,
-      "dropoff_proximity_pct": 28.7,
-      "early_or_first_time_pct": 23.8,
+      "mentions": 1103,
+      "reach_pct": 24.8,
+      "dropoff_proximity_pct": 28.9,
+      "early_or_first_time_pct": 23.9,
       "sources_present": 6,
       "addressability": 1.0,
-      "opportunity_score": 13.89,
+      "opportunity_score": 14.49,
       "top_emotion": "frustrated",
       "top_needs": [
         "Cancel or stop external mutual funds within the app",
@@ -506,7 +505,7 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
-          "evidence_quote": "info displayed on screen (holdings/dashboard) is quite minimal",
+          "evidence_quote": "There is a lag in the orders in MF closer to EOD",
           "source": "play_store",
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         }
@@ -514,20 +513,20 @@
     },
     {
       "theme": "platform_trust_doubt",
-      "mentions": 472,
-      "reach_pct": 12.9,
-      "dropoff_proximity_pct": 57.6,
-      "early_or_first_time_pct": 16.9,
+      "mentions": 576,
+      "reach_pct": 13.0,
+      "dropoff_proximity_pct": 55.7,
+      "early_or_first_time_pct": 17.7,
       "sources_present": 6,
       "addressability": 0.6,
-      "opportunity_score": 5.56,
+      "opportunity_score": 5.57,
       "top_emotion": "frustrated",
       "top_needs": [
         "Accurate portfolio holdings display and responsive customer support",
         "investing in companies with genuine innovation rather than overvalued IPOs",
         "Timely refunds and reliable customer support for failed SIP transactions",
-        "timely customer support and unit allocation after deduction",
-        "Stable app performance and reliable selling"
+        "Fair market valuations without middlemen rent-seeking via SIPs.",
+        "Understand why salary savings disappear into mutual funds while returns lag behind gold"
       ],
       "quotes": [
         {
@@ -546,17 +545,17 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
+          "evidence_quote": "STOP YOUR SIP NOW. YOUR SIP IS a CASHCOW FOR diluting CEOS.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1rvymd2/we_failed_as_a_nation_because_we_gave_pe_to/"
+        },
+        {
+          "evidence_quote": "Please help me understand why my salary keeps disappearing.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1ttn9tf/sip_grew_from_nothing_to_21000_crore_month_thats/"
+        },
+        {
           "evidence_quote": "amount got deducted, but units are not allocated",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-        },
-        {
-          "evidence_quote": "Only good for long term SIP like things.",
-          "source": "play_store",
-          "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
-        },
-        {
-          "evidence_quote": "Creating Sip takes less than a minute and you cancel it immediately but cancellation takes 7 days",
           "source": "play_store",
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         }
@@ -564,20 +563,20 @@
     },
     {
       "theme": "underwhelming_returns",
-      "mentions": 261,
-      "reach_pct": 7.1,
-      "dropoff_proximity_pct": 48.7,
-      "early_or_first_time_pct": 47.1,
+      "mentions": 322,
+      "reach_pct": 7.3,
+      "dropoff_proximity_pct": 49.7,
+      "early_or_first_time_pct": 44.4,
       "sources_present": 5,
       "addressability": 0.8,
-      "opportunity_score": 5.45,
-      "top_emotion": "confused",
+      "opportunity_score": 5.46,
+      "top_emotion": "disappointed",
       "top_needs": [
         "sound long term investment process and mentorship",
-        "Understand why Indian SIP returns lag behind foreign markets",
+        "better returns compared to global markets",
         "Clean portfolio without fund clutter",
-        "better returns from direct stock picking vs SIP",
-        "understand why fund is underperforming and whether to continue"
+        "Understand why salary savings disappear into mutual funds while returns lag behind gold",
+        "better returns from direct stock picking vs SIP"
       ],
       "quotes": [
         {
@@ -596,6 +595,11 @@
           "url": "https://www.reddit.com/r/mutualfunds/comments/1tncz76/25y_old_can_i_hit_1cr_by_2030_end/"
         },
         {
+          "evidence_quote": "Please help me understand why my salary keeps disappearing.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1ttn9tf/sip_grew_from_nothing_to_21000_crore_month_thats/"
+        },
+        {
           "evidence_quote": "my sip portfolio xirr is 17%\u2026 why should I take headache for less returns",
           "source": "youtube",
           "url": "https://www.youtube.com/watch?v=oIAQsjJEwj8&lc=UgwZ89wYDSEFSezQpfh4AaABAg"
@@ -604,23 +608,18 @@
           "evidence_quote": "Why Parag Parikh Flexi Cap Fund isn\u2019t performing good? Should I continue this SIP?",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1vou3ck/why_parag_parikh_flexi_cap_fund_isnt_performing/"
-        },
-        {
-          "evidence_quote": "If the market is at all time high stop all SIPs (or at least decrease the investment amount by 50%)",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1sud9qj/my_mf_strategy_not_sip/"
         }
       ]
     },
     {
       "theme": "payment_mandate_failure",
-      "mentions": 203,
-      "reach_pct": 5.5,
-      "dropoff_proximity_pct": 72.4,
-      "early_or_first_time_pct": 27.6,
+      "mentions": 247,
+      "reach_pct": 5.6,
+      "dropoff_proximity_pct": 72.9,
+      "early_or_first_time_pct": 28.7,
       "sources_present": 6,
       "addressability": 0.9,
-      "opportunity_score": 4.73,
+      "opportunity_score": 4.84,
       "top_emotion": "frustrated",
       "top_needs": [
         "Timely refunds and reliable customer support for failed SIP transactions",
@@ -664,20 +663,20 @@
     },
     {
       "theme": "cash_flow_squeeze",
-      "mentions": 197,
+      "mentions": 240,
       "reach_pct": 5.4,
-      "dropoff_proximity_pct": 56.3,
-      "early_or_first_time_pct": 48.2,
+      "dropoff_proximity_pct": 57.9,
+      "early_or_first_time_pct": 47.1,
       "sources_present": 6,
       "addressability": 0.8,
-      "opportunity_score": 4.49,
+      "opportunity_score": 4.53,
       "top_emotion": "confused",
       "top_needs": [
         "Sufficient cash flow during market crashes to invest aggressively.",
         "Understanding how to balance high SIP commitments with lifestyle asset purchases",
         "Balancing modest salary between emergency savings and mutual fund investments",
-        "best way to invest to cover dad's debt and mum's future",
-        "Automated dip notification strategy for manual investing"
+        "Guidance on starting investments for a newborn with limited surplus income",
+        "best way to invest to cover dad's debt and mum's future"
       ],
       "quotes": [
         {
@@ -696,6 +695,11 @@
           "url": "https://www.reddit.com/r/personalfinanceindia/comments/1w8ojhw/people_earning_below_1_lpm/"
         },
         {
+          "evidence_quote": "I have some existing EMIs, so I can't invest huge amounts right now.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1uhqvvc/become_a_father_to_a_baby_girl/"
+        },
+        {
           "evidence_quote": "monthly sip of 3k in Parag flexi, 3k in tata pharma, 1k in boi flexi",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/personalfinanceindia/comments/1tkbsal/managing_dads_affair_past_his_death/"
@@ -704,30 +708,25 @@
           "evidence_quote": "I do not have an SIP and I'm not planning to start one either",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndiaInvestments/comments/1g0bggh/i_created_a_python_script_to_notify_me_of_falling/"
-        },
-        {
-          "evidence_quote": "I had to pause SIPs for 2 months because of a cash crunch.",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1sbi166/lost_30_of_my_portfolio_in_6_months_but_i_didnt/"
         }
       ]
     },
     {
       "theme": "market_fall_negative_returns",
-      "mentions": 309,
-      "reach_pct": 8.4,
-      "dropoff_proximity_pct": 35.6,
-      "early_or_first_time_pct": 44.0,
+      "mentions": 378,
+      "reach_pct": 8.5,
+      "dropoff_proximity_pct": 37.8,
+      "early_or_first_time_pct": 45.2,
       "sources_present": 5,
       "addressability": 0.6,
-      "opportunity_score": 4.07,
+      "opportunity_score": 4.27,
       "top_emotion": "anxious",
       "top_needs": [
         "Long term wealth creation through consistent investing",
         "sound long term investment process and mentorship",
         "none",
-        "none",
-        ""
+        "Reassurance during market corrections",
+        "none"
       ],
       "quotes": [
         {
@@ -746,6 +745,11 @@
           "url": "https://www.youtube.com/watch?v=wi8AGE0d63s&lc=UgzYIqB50Jdw2nW4Iux4AaABAg"
         },
         {
+          "evidence_quote": "DONT WORRY GUYS THIS IS NOTHING BIG GOING ON ITS CHINA",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1fy40c0/dont_worry_guys_this_is_nothing_big_going_on_its/"
+        },
+        {
           "evidence_quote": "Not going to stop SIP.",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1ixl5qc/17_lacs_of_profit_gone/"
@@ -754,30 +758,25 @@
           "evidence_quote": "It started with a boring consistency \u2014 SIP every month, no matter what.",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/mutualfunds/comments/1t6fn43/1st_achievement_5_lakh_portfolio/"
-        },
-        {
-          "evidence_quote": "One major mistake i did was panicking during Covid fall and redeemed.",
-          "source": "youtube",
-          "url": "https://www.youtube.com/watch?v=l9XKj5iMVrc&lc=UgxBugyIkCYHe1ud8xx4AaABAg"
         }
       ]
     },
     {
       "theme": "wrong_fund_doubt",
-      "mentions": 468,
-      "reach_pct": 12.8,
-      "dropoff_proximity_pct": 44.7,
-      "early_or_first_time_pct": 57.9,
+      "mentions": 571,
+      "reach_pct": 12.9,
+      "dropoff_proximity_pct": 45.9,
+      "early_or_first_time_pct": 56.9,
       "sources_present": 5,
       "addressability": 0.3,
-      "opportunity_score": 3.91,
+      "opportunity_score": 3.95,
       "top_emotion": "confused",
       "top_needs": [
         "Portfolio review to check if mid and small-cap allocation is too aggressive",
         "guidance on portfolio allocation during market down",
         "Portfolio review and validation for a beginner",
         "direct mutual fund management without high distributor commissions",
-        "Validation for fund selection"
+        "Understand how international ETFs work to switch my SIP"
       ],
       "quotes": [
         {
@@ -801,39 +800,44 @@
           "url": "https://www.reddit.com/r/mutualfunds/comments/1utfpjk/need_inputs_for_my_portfolio/"
         },
         {
-          "evidence_quote": "Is it worth to start sip of 10k in PPFCF?",
+          "evidence_quote": "If this actually works properly, I\u2019m probably going to stop my QQQM SIP and switch",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1u9x2cd/is_it_worth_to_start_sip_of_10k_in_ppfcf_pls/"
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1w769ej/ucits_etfs_on_indmoney_now/"
         },
         {
-          "evidence_quote": "this funds AUM is massive and they are sitting on a lot of cash so im planning to reduce SIPs in this",
+          "evidence_quote": "I have stopped investing in ICICI Next 50 and Motilal Midcap, didn't like their investment strategy.",
           "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1hip4r6/portfolio_review/"
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1vy9186/crossed_milestone_of_5_lakhs/"
         }
       ]
     },
     {
       "theme": "expectation_mismatch",
-      "mentions": 83,
-      "reach_pct": 2.3,
-      "dropoff_proximity_pct": 44.6,
-      "early_or_first_time_pct": 67.5,
+      "mentions": 99,
+      "reach_pct": 2.2,
+      "dropoff_proximity_pct": 43.4,
+      "early_or_first_time_pct": 64.6,
       "sources_present": 5,
       "addressability": 0.9,
-      "opportunity_score": 2.26,
+      "opportunity_score": 2.15,
       "top_emotion": "confused",
       "top_needs": [
         "Realistic long term wealth metrics adjusted for inflation and tax",
+        "Fair market valuations without middlemen rent-seeking via SIPs.",
         "Realistic expectations on long-term wealth creation from small SIPs",
         "Clear mathematical justification and benefits of step-up SIPs over regular SIPs",
-        "Get expected returns for goal down-payment within timeframe",
-        "Clarity on whether SIP wealth creation is an illusion"
+        "Get expected returns for goal down-payment within timeframe"
       ],
       "quotes": [
         {
           "evidence_quote": "calling SIPs a \u201cwealth creation tool\u201d feels like overselling it",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1pq27q4/exposing_mutual_funds/"
+        },
+        {
+          "evidence_quote": "STOP YOUR SIP NOW. YOUR SIP IS a CASHCOW FOR diluting CEOS.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1rvymd2/we_failed_as_a_nation_because_we_gave_pe_to/"
         },
         {
           "evidence_quote": "hoping a \u20b910,000 smallcap SIP will build generational wealth",
@@ -854,23 +858,18 @@
           "evidence_quote": "I often see SIP is mocked and made fun of as an illusion to creating wealth/money.",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/personalfinanceindia/comments/1ua3fqs/why_is_sip_so_vilified/"
-        },
-        {
-          "evidence_quote": "I want to start my investment journey with sips , as I'm completely beginner don't know much about trading",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1dgbrl0/i_want_to_invest_in_mutual_funds_pls_guide/"
         }
       ]
     },
     {
       "theme": "information_overload_conflict",
-      "mentions": 41,
+      "mentions": 49,
       "reach_pct": 1.1,
-      "dropoff_proximity_pct": 41.5,
-      "early_or_first_time_pct": 70.7,
+      "dropoff_proximity_pct": 42.9,
+      "early_or_first_time_pct": 69.4,
       "sources_present": 5,
       "addressability": 0.6,
-      "opportunity_score": 0.74,
+      "opportunity_score": 0.73,
       "top_emotion": "confused",
       "top_needs": [
         "Noise-free environment for long-term investing discipline",
@@ -913,21 +912,71 @@
       ]
     },
     {
+      "theme": "life_event",
+      "mentions": 86,
+      "reach_pct": 1.9,
+      "dropoff_proximity_pct": 54.7,
+      "early_or_first_time_pct": 34.9,
+      "sources_present": 5,
+      "addressability": 0.4,
+      "opportunity_score": 0.69,
+      "top_emotion": "confused",
+      "top_needs": [
+        "manage monthly cash flow after taking home loan",
+        "Guidance on starting investments for a newborn with limited surplus income",
+        "best way to invest to cover dad's debt and mum's future",
+        "Guidance on balancing aggressive savings with quality of life and family responsibilities",
+        ""
+      ],
+      "quotes": [
+        {
+          "evidence_quote": "Then in December 2024, I cut it to 25k as I took out a home loan.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/mutualfunds/comments/1uddmtr/the_boring_strategy_aka_sips/"
+        },
+        {
+          "evidence_quote": "I have some existing EMIs, so I can't invest huge amounts right now.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1uhqvvc/become_a_father_to_a_baby_girl/"
+        },
+        {
+          "evidence_quote": "monthly sip of 3k in Parag flexi, 3k in tata pharma, 1k in boi flexi",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1tkbsal/managing_dads_affair_past_his_death/"
+        },
+        {
+          "evidence_quote": "Should I continue SIPs aggressively or focus on safer things like FD/RD for near-term goals",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1td4fmg/26m_earning_14lpm_but_still_scared_to_spend_money/"
+        },
+        {
+          "evidence_quote": "My kids didn\u2019t take away my FIRE goals. They made them stronger",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1mrmdt4/kids_dont_derail_financial_planning_but_give_it_a/"
+        },
+        {
+          "evidence_quote": "Lost my job. Is it okay to stop my SIP for a few months?",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1v36ey9/lost_my_job_is_it_okay_to_stop_my_sip_for_a_few/"
+        }
+      ]
+    },
+    {
       "theme": "social_influence",
-      "mentions": 58,
-      "reach_pct": 1.6,
-      "dropoff_proximity_pct": 43.1,
-      "early_or_first_time_pct": 72.4,
+      "mentions": 68,
+      "reach_pct": 1.5,
+      "dropoff_proximity_pct": 39.7,
+      "early_or_first_time_pct": 72.1,
       "sources_present": 4,
       "addressability": 0.4,
-      "opportunity_score": 0.72,
+      "opportunity_score": 0.67,
       "top_emotion": "confused",
       "top_needs": [
         "want family to take long term financial planning seriously",
         "FOMO motivation to start SIP for future generations",
+        "Balance family real estate pressure with aggressive mutual fund investments",
         "Advice on optimal number of SIPs and asset allocation",
-        "Get expected returns for goal down-payment within timeframe",
-        "fair domestic compensation and trust in Indian markets"
+        "Get expected returns for goal down-payment within timeframe"
       ],
       "quotes": [
         {
@@ -939,6 +988,11 @@
           "evidence_quote": "\u0905\u0917\u0930 \u0906\u091c \u092e\u0948\u0928\u0947 SIP \u0928\u0939\u0940\u0902 \u0915\u0940 \u0924\u094b \u092e\u0947\u0930\u0940 \u0906\u0928\u0947 \u0935\u093e\u0932\u0940 \u092a\u0940\u0922\u093c\u0940 \u092f\u0939\u0940 \u0915\u0939\u0947\u0917\u0940 \u091c\u092c \u0926\u0941\u0928\u093f\u092f\u093e sip \u0915\u0930 \u0930\u0939\u0940 \u0925\u0940 \u0924\u094b \u092e\u0947\u0930\u0947 \u0926\u093e\u0926\u093e \u091c\u0940 \u0915\u0939\u093e \u0925\u0947",
           "source": "youtube",
           "url": "https://www.youtube.com/watch?v=oIhGHb30rWo&lc=UgwGYyIjn6ystPftZzZ4AaABAg"
+        },
+        {
+          "evidence_quote": "Mom is pushing me to buy a plot now with a 50K EMI for 15 years.",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1u4p7zj/mom_wants_me_to_buy_a_plot_now_i_want_to_invest/"
         },
         {
           "evidence_quote": "I heard from a CA friend that I only need to invest 2K into 3 SIPs and not more cuz it's unnecessary.",
@@ -954,73 +1008,18 @@
           "evidence_quote": "If you want corruption to stop and Lala Ji to pay US-level salaries in India, then stop your SIP",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1r61ym0/tell_me_one_reason_to_buy_indian_stocks/"
-        },
-        {
-          "evidence_quote": "Dad trying to get me to buy LIC policy.",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1i6iheq/dad_trying_to_get_me_to_buy_lic_policy/"
-        }
-      ]
-    },
-    {
-      "theme": "life_event",
-      "mentions": 70,
-      "reach_pct": 1.9,
-      "dropoff_proximity_pct": 51.4,
-      "early_or_first_time_pct": 37.1,
-      "sources_present": 5,
-      "addressability": 0.4,
-      "opportunity_score": 0.67,
-      "top_emotion": "confused",
-      "top_needs": [
-        "manage monthly cash flow after taking home loan",
-        "best way to invest to cover dad's debt and mum's future",
-        "Guidance on balancing aggressive savings with quality of life and family responsibilities",
-        "financial guidance on major expenses vs ongoing investments",
-        ""
-      ],
-      "quotes": [
-        {
-          "evidence_quote": "Then in December 2024, I cut it to 25k as I took out a home loan.",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/mutualfunds/comments/1uddmtr/the_boring_strategy_aka_sips/"
-        },
-        {
-          "evidence_quote": "monthly sip of 3k in Parag flexi, 3k in tata pharma, 1k in boi flexi",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1tkbsal/managing_dads_affair_past_his_death/"
-        },
-        {
-          "evidence_quote": "Should I continue SIPs aggressively or focus on safer things like FD/RD for near-term goals",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1td4fmg/26m_earning_14lpm_but_still_scared_to_spend_money/"
-        },
-        {
-          "evidence_quote": "Should I buy a car (ranging 8-9lakhs) or continue using cab?",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1rjwp2p/should_i_buy_a_car_not_a_car_fan/"
-        },
-        {
-          "evidence_quote": "My kids didn\u2019t take away my FIRE goals. They made them stronger",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1mrmdt4/kids_dont_derail_financial_planning_but_give_it_a/"
-        },
-        {
-          "evidence_quote": "then some SIP for investment. Would this be a wise decision to go for the loan at my age?",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1r7s7a8/5060l_home_loan_for_parents_at_the_age_of_26/"
         }
       ]
     },
     {
       "theme": "lock_in_or_tax",
-      "mentions": 54,
-      "reach_pct": 1.5,
-      "dropoff_proximity_pct": 64.8,
-      "early_or_first_time_pct": 24.1,
+      "mentions": 63,
+      "reach_pct": 1.4,
+      "dropoff_proximity_pct": 66.7,
+      "early_or_first_time_pct": 28.6,
       "sources_present": 5,
       "addressability": 0.5,
-      "opportunity_score": 0.63,
+      "opportunity_score": 0.65,
       "top_emotion": "confused",
       "top_needs": [
         "Realistic long term wealth metrics adjusted for inflation and tax",
@@ -1064,20 +1063,20 @@
     },
     {
       "theme": "goal_disconnect",
-      "mentions": 29,
+      "mentions": 35,
       "reach_pct": 0.8,
-      "dropoff_proximity_pct": 27.6,
-      "early_or_first_time_pct": 48.3,
+      "dropoff_proximity_pct": 22.9,
+      "early_or_first_time_pct": 42.9,
       "sources_present": 5,
       "addressability": 0.9,
-      "opportunity_score": 0.54,
+      "opportunity_score": 0.48,
       "top_emotion": "neutral",
       "top_needs": [
         "Understand how to balance aggressive saving with a meaningful daily life",
         "financial discipline through systematic investing",
         "",
         "Goal based grouping and basket tagging for existing mutual fund investments",
-        "Clear guidance on when to exit a small cap fund and whether to hold without a goal."
+        "strategic framework for goal-based asset allocation"
       ],
       "quotes": [
         {
@@ -1101,154 +1100,154 @@
           "url": "https://play.google.com/store/apps/details?id=com.nextbillion.groww"
         },
         {
+          "evidence_quote": "built via active SIPs",
+          "source": "reddit_post",
+          "url": "https://www.reddit.com/r/personalfinanceindia/comments/1wzo52i/40m_36f_with_15_cr_corpus_and_5l_monthly_income/"
+        },
+        {
           "evidence_quote": "Should I continue or stop it??",
           "source": "reddit_post",
           "url": "https://www.reddit.com/r/IndianStockMarket/comments/1ug4su1/best_time_to_exit_small_cap_fund/"
-        },
-        {
-          "evidence_quote": "I randomly picked the SBI Nifty Next 50 Index Fund \u2013 Direct Growth and invested \u20b91,000 just to get started",
-          "source": "reddit_post",
-          "url": "https://www.reddit.com/r/IndianStockMarket/comments/1v0xuc0/i_started_a_random_sip_how_bad_is_it/"
         }
       ]
     }
   ],
   "stage_x_trigger": {
     "beyond_year": {
-      "app_ux_or_control_gap": 12.7,
-      "cash_flow_squeeze": 9.3,
-      "expectation_mismatch": 1.8,
-      "goal_disconnect": 1.7,
-      "information_overload_conflict": 0.8,
-      "life_event": 6.0,
-      "lock_in_or_tax": 4.0,
-      "market_fall_negative_returns": 15.0,
-      "payment_mandate_failure": 1.1,
+      "app_ux_or_control_gap": 13.6,
+      "cash_flow_squeeze": 9.2,
+      "expectation_mismatch": 2.3,
+      "goal_disconnect": 1.8,
+      "information_overload_conflict": 0.9,
+      "life_event": 5.8,
+      "lock_in_or_tax": 3.4,
+      "market_fall_negative_returns": 14.5,
+      "payment_mandate_failure": 1.3,
       "platform_trust_doubt": 9.5,
-      "social_influence": 2.0,
-      "underwhelming_returns": 15.8,
-      "wrong_fund_doubt": 20.4
+      "social_influence": 1.7,
+      "underwhelming_returns": 16.4,
+      "wrong_fund_doubt": 19.5
     },
     "considering": {
-      "app_ux_or_control_gap": 23.3,
-      "cash_flow_squeeze": 11.6,
-      "expectation_mismatch": 12.0,
-      "goal_disconnect": 1.2,
-      "information_overload_conflict": 6.4,
-      "life_event": 2.0,
-      "lock_in_or_tax": 2.0,
-      "market_fall_negative_returns": 4.8,
-      "payment_mandate_failure": 0.8,
-      "platform_trust_doubt": 7.2,
-      "social_influence": 5.2,
-      "underwhelming_returns": 3.6,
-      "wrong_fund_doubt": 19.7
+      "app_ux_or_control_gap": 23.6,
+      "cash_flow_squeeze": 11.5,
+      "expectation_mismatch": 11.1,
+      "goal_disconnect": 1.0,
+      "information_overload_conflict": 5.9,
+      "life_event": 2.6,
+      "lock_in_or_tax": 2.3,
+      "market_fall_negative_returns": 5.2,
+      "payment_mandate_failure": 1.0,
+      "platform_trust_doubt": 7.5,
+      "social_influence": 3.9,
+      "underwhelming_returns": 3.0,
+      "wrong_fund_doubt": 21.3
     },
     "first_months": {
-      "app_ux_or_control_gap": 25.3,
-      "cash_flow_squeeze": 5.5,
+      "app_ux_or_control_gap": 25.8,
+      "cash_flow_squeeze": 5.7,
       "expectation_mismatch": 2.5,
-      "goal_disconnect": 1.3,
+      "goal_disconnect": 1.2,
       "information_overload_conflict": 1.7,
-      "life_event": 0.8,
-      "lock_in_or_tax": 0.4,
-      "market_fall_negative_returns": 12.0,
+      "life_event": 0.7,
+      "lock_in_or_tax": 0.5,
+      "market_fall_negative_returns": 11.5,
       "payment_mandate_failure": 10.5,
       "platform_trust_doubt": 9.9,
-      "social_influence": 3.2,
-      "underwhelming_returns": 6.1,
-      "wrong_fund_doubt": 20.7
+      "social_influence": 3.4,
+      "underwhelming_returns": 6.2,
+      "wrong_fund_doubt": 20.4
     },
     "unknown": {
-      "app_ux_or_control_gap": 42.8,
+      "app_ux_or_control_gap": 43.7,
       "cash_flow_squeeze": 3.4,
-      "expectation_mismatch": 1.3,
+      "expectation_mismatch": 1.1,
       "goal_disconnect": 0.4,
       "information_overload_conflict": 0.5,
-      "life_event": 0.5,
-      "lock_in_or_tax": 1.2,
-      "market_fall_negative_returns": 6.4,
-      "payment_mandate_failure": 10.1,
-      "platform_trust_doubt": 24.1,
+      "life_event": 0.6,
+      "lock_in_or_tax": 1.1,
+      "market_fall_negative_returns": 6.1,
+      "payment_mandate_failure": 9.8,
+      "platform_trust_doubt": 23.8,
       "social_influence": 0.4,
       "underwhelming_returns": 3.3,
-      "wrong_fund_doubt": 5.6
+      "wrong_fund_doubt": 5.9
     },
     "within_year": {
-      "app_ux_or_control_gap": 6.6,
-      "cash_flow_squeeze": 9.3,
-      "expectation_mismatch": 3.0,
-      "goal_disconnect": 0.8,
+      "app_ux_or_control_gap": 6.7,
+      "cash_flow_squeeze": 8.8,
+      "expectation_mismatch": 2.8,
+      "goal_disconnect": 0.7,
       "information_overload_conflict": 1.4,
-      "life_event": 4.1,
-      "lock_in_or_tax": 1.4,
-      "market_fall_negative_returns": 14.8,
-      "payment_mandate_failure": 1.1,
-      "platform_trust_doubt": 3.3,
-      "social_influence": 3.3,
-      "underwhelming_returns": 20.6,
-      "wrong_fund_doubt": 30.2
+      "life_event": 3.7,
+      "lock_in_or_tax": 1.6,
+      "market_fall_negative_returns": 16.7,
+      "payment_mandate_failure": 1.4,
+      "platform_trust_doubt": 3.5,
+      "social_influence": 3.5,
+      "underwhelming_returns": 20.0,
+      "wrong_fund_doubt": 29.2
     }
   },
   "segments": {
     "income_type": [
       {
         "income_type": "salaried",
-        "n": 549,
-        "dropoff_pct": 21.1,
-        "early_pct": 55.6,
+        "n": 656,
+        "dropoff_pct": 23.2,
+        "early_pct": 54.7,
         "top_triggers": [
           [
             "cash_flow_squeeze",
-            108
+            134
           ],
           [
             "wrong_fund_doubt",
-            91
+            110
           ],
           [
             "life_event",
-            41
+            53
           ]
         ]
       },
       {
         "income_type": "student_or_no_income",
-        "n": 125,
-        "dropoff_pct": 32.0,
+        "n": 146,
+        "dropoff_pct": 32.2,
         "early_pct": 95.2,
         "top_triggers": [
           [
             "cash_flow_squeeze",
-            21
+            25
           ],
           [
             "wrong_fund_doubt",
-            13
+            17
           ],
           [
             "underwhelming_returns",
-            10
+            13
           ]
         ]
       },
       {
         "income_type": "variable_or_business",
-        "n": 34,
-        "dropoff_pct": 32.4,
-        "early_pct": 67.6,
+        "n": 40,
+        "dropoff_pct": 37.5,
+        "early_pct": 70.0,
         "top_triggers": [
           [
             "cash_flow_squeeze",
-            11
+            14
           ],
           [
             "market_fall_negative_returns",
-            5
+            7
           ],
           [
             "wrong_fund_doubt",
-            3
+            4
           ]
         ]
       }
@@ -1256,69 +1255,69 @@
     "money_source": [
       {
         "money_source": "salary",
-        "n": 600,
-        "dropoff_pct": 22.8,
-        "early_pct": 56.3,
+        "n": 709,
+        "dropoff_pct": 24.5,
+        "early_pct": 55.0,
         "top_triggers": [
           [
             "cash_flow_squeeze",
-            114
+            139
           ],
           [
             "wrong_fund_doubt",
-            98
+            119
           ],
           [
             "underwhelming_returns",
-            48
+            60
           ]
         ]
       },
       {
         "money_source": "family_or_pocket_money",
-        "n": 92,
+        "n": 108,
         "dropoff_pct": 25.0,
-        "early_pct": 94.6,
+        "early_pct": 94.4,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            11
+            14
           ],
           [
             "cash_flow_squeeze",
-            10
+            13
           ],
           [
             "underwhelming_returns",
-            9
+            12
           ]
         ]
       },
       {
         "money_source": "business",
-        "n": 33,
-        "dropoff_pct": 36.4,
-        "early_pct": 66.7,
+        "n": 39,
+        "dropoff_pct": 41.0,
+        "early_pct": 69.2,
         "top_triggers": [
           [
             "cash_flow_squeeze",
-            11
+            14
           ],
           [
             "market_fall_negative_returns",
-            3
+            5
           ],
           [
             "wrong_fund_doubt",
-            3
+            4
           ]
         ]
       },
       {
         "money_source": "windfall_bonus",
-        "n": 14,
-        "dropoff_pct": 42.9,
-        "early_pct": 64.3,
+        "n": 15,
+        "dropoff_pct": 46.7,
+        "early_pct": 66.7,
         "top_triggers": [
           [
             "market_fall_negative_returns",
@@ -1338,77 +1337,77 @@
     "influencer": [
       {
         "influencer": "self_research",
-        "n": 886,
-        "dropoff_pct": 23.5,
-        "early_pct": 65.0,
+        "n": 1071,
+        "dropoff_pct": 25.4,
+        "early_pct": 64.9,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            201
+            248
+          ],
+          [
+            "cash_flow_squeeze",
+            96
           ],
           [
             "underwhelming_returns",
-            78
-          ],
-          [
-            "market_fall_negative_returns",
-            78
+            95
           ]
         ]
       },
       {
         "influencer": "finfluencer_youtube",
-        "n": 292,
-        "dropoff_pct": 36.0,
-        "early_pct": 62.0,
+        "n": 348,
+        "dropoff_pct": 33.9,
+        "early_pct": 62.1,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            46
-          ],
-          [
-            "app_ux_or_control_gap",
-            36
+            57
           ],
           [
             "market_fall_negative_returns",
-            32
+            43
+          ],
+          [
+            "app_ux_or_control_gap",
+            40
           ]
         ]
       },
       {
         "influencer": "friend_family",
-        "n": 115,
-        "dropoff_pct": 30.4,
-        "early_pct": 75.7,
+        "n": 138,
+        "dropoff_pct": 31.2,
+        "early_pct": 73.2,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            33
+            39
           ],
           [
             "social_influence",
-            32
+            39
           ],
           [
             "underwhelming_returns",
-            22
+            26
           ]
         ]
       },
       {
         "influencer": "app_or_ad",
-        "n": 51,
-        "dropoff_pct": 29.4,
-        "early_pct": 68.6,
+        "n": 60,
+        "dropoff_pct": 25.0,
+        "early_pct": 68.3,
         "top_triggers": [
           [
             "app_ux_or_control_gap",
-            20
+            21
           ],
           [
             "platform_trust_doubt",
-            13
+            17
           ],
           [
             "payment_mandate_failure",
@@ -1436,73 +1435,73 @@
     "age_band": [
       {
         "age_band": "<25",
-        "n": 376,
-        "dropoff_pct": 24.7,
-        "early_pct": 92.8,
+        "n": 445,
+        "dropoff_pct": 26.1,
+        "early_pct": 93.0,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            70
+            91
           ],
           [
             "cash_flow_squeeze",
-            38
+            50
           ],
           [
             "underwhelming_returns",
-            30
+            38
           ]
         ]
       },
       {
         "age_band": "25-34",
-        "n": 289,
-        "dropoff_pct": 26.0,
-        "early_pct": 51.2,
+        "n": 351,
+        "dropoff_pct": 27.6,
+        "early_pct": 49.3,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            69
+            82
           ],
           [
             "cash_flow_squeeze",
-            49
+            63
           ],
           [
             "life_event",
-            26
+            34
           ]
         ]
       },
       {
         "age_band": "35-44",
-        "n": 76,
-        "dropoff_pct": 22.4,
-        "early_pct": 30.3,
+        "n": 85,
+        "dropoff_pct": 23.5,
+        "early_pct": 32.9,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            19
+            21
           ],
           [
             "cash_flow_squeeze",
-            8
+            9
           ],
           [
             "underwhelming_returns",
-            6
+            8
           ]
         ]
       },
       {
         "age_band": "45+",
-        "n": 10,
-        "dropoff_pct": 50.0,
-        "early_pct": 40.0,
+        "n": 12,
+        "dropoff_pct": 41.7,
+        "early_pct": 33.3,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            3
+            4
           ],
           [
             "expectation_mismatch",
@@ -1518,46 +1517,46 @@
     "first_time": [
       {
         "first_time": "yes",
-        "n": 934,
-        "dropoff_pct": 25.6,
+        "n": 1123,
+        "dropoff_pct": 25.8,
         "early_pct": 100.0,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            147
+            179
           ],
           [
             "app_ux_or_control_gap",
-            104
+            130
           ],
           [
             "market_fall_negative_returns",
-            77
+            94
           ]
         ]
       },
       {
         "first_time": "no",
-        "n": 623,
-        "dropoff_pct": 25.0,
-        "early_pct": 19.3,
+        "n": 744,
+        "dropoff_pct": 26.9,
+        "early_pct": 19.2,
         "top_triggers": [
           [
             "wrong_fund_doubt",
-            135
+            158
           ],
           [
             "underwhelming_returns",
-            82
+            101
           ],
           [
             "market_fall_negative_returns",
-            76
+            94
           ]
         ]
       }
     ]
   },
   "model": "gemini-flash-lite-latest",
-  "prompt_version": "coder-v1.1"
+  "prompt_version": "coder-v1.3"
 }

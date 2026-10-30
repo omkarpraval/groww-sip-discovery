@@ -1,30 +1,24 @@
 {
   "prompt_version": "coder-v1.3",
-  "time": "2026-10-29 19:37:45",
-  "ok": false,
+  "time": "2026-10-30 08:25:47",
+  "ok": true,
   "model": "gemini-flash-lite-latest",
-  "coded_this_run": 7124,
+  "coded_this_run": 1811,
   "coded_by_model": {
-    "gemini-flash-lite-latest": 7124
+    "gemini-flash-lite-latest": 1811
   },
-  "already": 0,
-  "todo": 8935,
-  "error": "all providers failed for this batch: [{'dropped': 'gemini-flash-lite-latest', 'reason': 'Gemini daily quota: {\\n  \"error\": {\\n    \"code\": 429,\\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai', 'time': '19:37:45'}]",
+  "already": 7124,
+  "todo": 1811,
+  "error": null,
   "chain": [
     "gemini-flash-lite-latest"
   ],
-  "switches": [
-    {
-      "dropped": "gemini-flash-lite-latest",
-      "reason": "Gemini daily quota: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
-      "time": "19:37:45"
-    }
-  ],
+  "switches": [],
   "probes": [
     {
       "model": "gemini-flash-lite-latest",
       "ok": true,
-      "seconds": 9.9
+      "seconds": 1.2
     }
   ]
 }

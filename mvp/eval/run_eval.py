@@ -24,7 +24,7 @@ def facts_for(c):
 
 
 def load_labels():
-    p = os.path.join(HERE, "labels.csv")
+    p = os.path.join(HERE, f"labels_{writer.PROMPT_VERSION}.csv")  # human labels are per prompt version
     if not os.path.exists(p):
         return {}
     return {r["id"]: r for r in csv.DictReader(open(p, encoding="utf-8"))}

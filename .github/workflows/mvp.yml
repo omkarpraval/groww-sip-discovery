@@ -1,0 +1,46 @@
+name: MVP (price cache + eval)
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "cache | eval | both"
+        default: "both"
+      provider:
+        description: "auto | gemini | groq"
+        default: "auto"
+  schedule:
+    - cron: "17 2 * * 1"   # weekly price-cache refresh (Mon 07:47 IST)
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r mvp/requirements.txt pytest
+      - name: Unit tests (SIP maths)
+        run: python -m pytest -q mvp/tests
+      - name: Refresh price cache
+        if: github.event_name == 'schedule' || inputs.stage == 'cache' || inputs.stage == 'both'
+        run: python mvp/refresh_cache.py
+      - name: Golden-set eval
+        if: inputs.stage == 'eval' || inputs.stage == 'both'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ inputs.provider }}
+        run: python mvp/eval/run_eval.py
+      - name: Commit
+        run: |
+          git config user.name "mvp-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add mvp/cache mvp/eval/outputs 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "mvp run: ${{ inputs.stage || 'cache' }}"
+          git pull --rebase -q && git push

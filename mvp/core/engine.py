@@ -85,7 +85,7 @@ def count_instalments(s, y, m, day, as_of):
         n += 1
 
 
-def replay(s, n, horizons, day=5):
+def replay(s, n, horizons, day=5, loss_ratio=None):
     """Every past monthly SIP start in `s`: share red after n instalments (measured on the day the next
     instalment would be due), and of those red, share above invested at each horizon."""
     if not s.pts:
@@ -93,7 +93,7 @@ def replay(s, n, horizons, day=5):
     y0, m0 = s.dates[0].year, s.dates[0].month
     y0, m0 = add_months(y0, m0, 1)  # first full month
     last = s.dates[-1]
-    starts, red_starts = 0, []
+    starts, red_starts, deep = 0, [], 0
     k = 0
     while True:
         y, m = add_months(y0, m0, k)
@@ -108,8 +108,10 @@ def replay(s, n, horizons, day=5):
         starts += 1
         if r[1] < r[0]:
             red_starts.append((y, m))
+        if loss_ratio is not None and r[1] / r[0] <= loss_ratio:
+            deep += 1
     out = {"starts": starts, "red": len(red_starts), "red_share": (len(red_starts) / starts) if starts else None,
-           "horizons": []}
+           "deep_share": (deep / starts) if (starts and loss_ratio is not None) else None, "horizons": []}
     for h in horizons:
         seen = above = 0
         for (y, m) in red_starts:
@@ -198,7 +200,7 @@ def facts_from_fund(code, start_y, start_m, day, amount, as_of=None, live=True):
     equity = "equity" in (meta.get("scheme_category") or "").lower()
     f["compare"] = compare_block(inv, val, cmp_.get("market"), cat_v, pkey) if equity else \
         {"available": False, "reason": "not an equity fund, so a share-market index is not a fair comparison"}
-    f["history"] = history_block(n, lbl, hist)
+    f["history"] = history_block(n, lbl, hist, loss_ratio=(val / inv) if val < inv else None)
     return finish(f)
 
 
@@ -212,11 +214,12 @@ def facts_from_manual(invested, value, months, as_of=None, live=True):
               "is_index_fund": False})
     f["compare"] = {"available": False, "reason": "no fund chosen"}
     lbl, hist = pick_history(months, None, None, (D.PROXIES["market"]["label"], market))
-    f["history"] = history_block(months, lbl, hist)
+    f["history"] = history_block(months, lbl, hist, loss_ratio=(value / invested) if value < invested else None)
     return finish(f)
 
 
 def base_facts(inv, val, n, amount, as_of):
+    inv, val = round(inv), round(val)
     gain = val - inv
     return {"months": n, "monthly_amount": inr(amount), "invested": inr(inv), "value": inr(val),
             "gain": inr(gain), "gain_abs": inr(abs(gain)), "direction": "down" if gain < -0.5 else ("up" if gain > 0.5 else "flat"),
@@ -225,30 +228,39 @@ def base_facts(inv, val, n, amount, as_of):
 
 
 def compare_block(inv, val, mkt_v, cat_v, pkey):
+    inv, val = round(inv), round(val)
+    mkt_v = round(mkt_v) if mkt_v is not None else None
+    cat_v = round(cat_v) if cat_v is not None else None
     if mkt_v is None and cat_v is None:
         return {"available": False, "reason": "no index prices"}
     c = {"available": True, "attribution": attribution(inv, val, cat_v, mkt_v)}
     if mkt_v is not None:
         c.update({"market_label": D.PROXIES["market"]["label"], "market_value": inr(mkt_v),
                   "market_gain": inr(mkt_v - inv), "market_gain_abs": inr(abs(mkt_v - inv)),
-                  "market_direction": "down" if mkt_v < inv else "up", "_mkt": mkt_v})
+                  "market_direction": "down" if mkt_v < inv else "up", "_mkt": mkt_v,
+                  "fund_vs_market_abs": inr(abs(val - mkt_v)), "fund_above_market": val >= mkt_v})
     if cat_v is not None and pkey != "market":
         c.update({"category_label": D.PROXIES[pkey]["label"], "category_value": inr(cat_v),
                   "category_gain": inr(cat_v - inv), "category_gain_abs": inr(abs(cat_v - inv)),
                   "category_direction": "down" if cat_v < inv else "up", "_cat": cat_v,
-                  "fund_vs_category": inr(val - cat_v), "fund_vs_category_abs": inr(abs(val - cat_v))})
+                  "fund_vs_category": inr(val - cat_v), "fund_vs_category_abs": inr(abs(val - cat_v)),
+                  "fund_above_category": val >= cat_v})
     return c
 
 
-def history_block(n, label, s):
+def history_block(n, label, s, loss_ratio=None):
     if s is None:
         return {"available": False, "reason": "price history too short"}
     hz = horizons_for(n)
-    r = replay(s, n, hz)
+    r = replay(s, n, hz, loss_ratio=loss_ratio)
     if not r or r["starts"] < MIN_STARTS:
         return {"available": False, "reason": "price history too short"}
     h = {"available": True, "series": label, "since_year": s.dates[0].year, "past_starts": r["starts"],
          "red_in_10": in10(r["red_share"]), "red_pct": round(100 * r["red_share"]), "horizons": []}
+    if r.get("deep_share") is not None:
+        h["deep_share_pct"] = round(100 * r["deep_share"])
+        h["deep_in_10"] = in10(r["deep_share"])
+        h["deep_rare"] = r["deep_share"] < 0.05
     for x in r["horizons"]:
         if x["red_starts_seen"] >= 5:
             h["horizons"].append({"month": x["month"], "red_starts_seen": x["red_starts_seen"],

@@ -261,7 +261,7 @@ def finish(f):
     """Attach plain-language phrases (so the AI rewords instead of interpreting raw fields) and the list of
     numbers the AI is allowed to use (the gate checks against it)."""
     from . import template
-    f["say"] = {"your_numbers": template.your_numbers(f), "history": template.history_line(f),
+    f["say"] = {"your_numbers": template.your_numbers(f), "history": template.history_line(f), "meaning": template.meaning(f),
                 "market_or_fund": template.market_or_fund(f), "patience": template.patience_lines(f),
                 "uncertainty": template.UNCERTAIN}
     f["allowed_numbers"] = sorted(numbers_in(f))

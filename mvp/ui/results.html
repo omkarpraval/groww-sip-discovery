@@ -1,0 +1,302 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14213D;--muted:#5B6474;--line:#E2E7EF;--bg:#F4F7FB;--card:#fff;--blue:#0072B2;--sky:#56B4E9;--orange:#D55E00;--amber:#E69F00;--soft-blue:#E6F2F9;--soft-orange:#FBEDE4}
+*{box-sizing:border-box}html,body{margin:0;background:transparent;font-family:Inter,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:2px 2px 8px}
+/* summary */
+.sum{background:linear-gradient(135deg,#14213D 0%,#1D3557 60%,#0B4F75 100%);color:#fff;border-radius:20px;padding:16px 18px 14px;position:relative;overflow:hidden}
+.sum:after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(86,180,233,.35),transparent 70%)}
+.sum .who{font-size:.78rem;opacity:.8;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sum .row{display:flex;gap:10px}
+.sum .row>div{flex:1}
+.sum .l{font-size:.72rem;opacity:.75;text-transform:uppercase;letter-spacing:.05em}
+.sum .v{font-size:1.32rem;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.sum .v.down{color:#FFB38A}.sum .v.up{color:#9DD6F5}
+.sum .foot{font-size:.76rem;opacity:.75;margin-top:6px}
+/* stepper */
+.steps{display:flex;gap:6px;margin:14px 0 10px}
+.chip{flex:1;border:0;background:#E8EDF4;border-radius:12px;padding:8px 4px 7px;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer;position:relative;transition:all .25s}
+.chip .n{display:block;font-size:.95rem;font-weight:800}
+.chip.on{background:var(--ink);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(20,33,61,.18)}
+.chip.done{background:var(--soft-blue);color:var(--blue)}
+.prog{height:4px;background:#E8EDF4;border-radius:4px;overflow:hidden;margin-bottom:12px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));transition:width .45s ease;width:25%}
+.stage{position:relative}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 24px rgba(20,33,61,.06);display:none}
+.card.show{display:block;animation:in .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.q{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h2{font-size:1.18rem;margin:4px 0 12px;line-height:1.3}
+p.a{font-size:1rem;line-height:1.6;margin:12px 0 0}
+.cap{font-size:.8rem;color:var(--muted);line-height:1.45}
+/* people dots */
+.people{display:flex;gap:7px;flex-wrap:wrap;margin:6px 0 6px}
+.person{width:26px;height:34px;opacity:0;transform:scale(.4);animation:pop .4s forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.person circle,.person path{fill:#CDD5E0}
+.person.hit circle,.person.hit path{fill:var(--orange)}
+.person.up circle,.person.up path{fill:var(--blue)}
+.person.faint circle,.person.faint path{fill:#F3C2A3}
+/* bars */
+.bars{margin:6px 0}
+.br{margin:10px 0}
+.br .t{display:flex;justify-content:space-between;font-size:.86rem;margin-bottom:4px}
+.br .t b{font-variant-numeric:tabular-nums}
+.track{height:16px;background:#EEF2F7;border-radius:8px;position:relative}
+.fill{position:absolute;top:0;height:16px;border-radius:8px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1),left .9s cubic-bezier(.2,.8,.2,1)}
+.mid{position:absolute;left:50%;top:-5px;width:2px;height:26px;background:var(--ink);border-radius:2px}
+.legend{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:2px}
+/* time machine */
+.tm{background:linear-gradient(180deg,#F7FAFD,#fff);border:1px solid var(--line);border-radius:16px;padding:10px 10px 8px;margin-top:4px}
+.tm svg{width:100%;height:auto;display:block}
+.tmtop{display:flex;align-items:center;gap:8px;margin:8px 2px 4px}
+.play{border:0;background:var(--ink);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:.9rem;flex:none;box-shadow:0 4px 12px rgba(20,33,61,.25)}
+input[type=range]{flex:1;accent-color:var(--blue);height:28px}
+.mlabel{font-weight:800;font-size:.9rem;min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+.read{min-height:64px;background:var(--soft-blue);border-radius:12px;padding:10px 12px;font-size:.92rem;line-height:1.45;margin-top:6px}
+.read b{color:var(--blue)}
+.seg{display:inline-flex;background:#EEF2F7;border-radius:10px;padding:3px;margin-top:8px}
+.seg button{border:0;background:transparent;padding:6px 10px;border-radius:8px;font-size:.75rem;font-weight:600;color:var(--muted);cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+/* options */
+.opt{border:1px solid var(--line);border-radius:16px;margin:10px 0;overflow:hidden;transition:box-shadow .2s}
+.opt:hover{box-shadow:0 6px 18px rgba(20,33,61,.08)}
+.opt>button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;padding:14px;box-sizing:border-box}
+.opt .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.1rem;flex:none}
+.opt .tt{font-weight:700}.opt .sub{font-size:.82rem;color:var(--muted)}
+.opt .chev{margin-left:auto;transition:transform .25s;color:var(--muted)}
+.opt.open .chev{transform:rotate(90deg)}
+.opt .body{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 14px}
+.opt.open .body{max-height:200px;padding:0 14px 14px}
+.opt .body div{font-size:.92rem;line-height:1.5}
+/* glossary */
+.term{all:unset;cursor:help;border-bottom:2px dotted var(--sky);font-weight:600;color:inherit}
+.tip{position:fixed;z-index:9;max-width:260px;background:var(--ink);color:#fff;font-size:.84rem;line-height:1.45;padding:10px 12px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s}
+.tip.on{opacity:1}
+.tip b{color:#9DD6F5}
+/* nav + badge */
+.nav{display:flex;gap:10px;margin-top:14px}
+.nav button{flex:1;border:0;border-radius:14px;min-height:46px;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .15s}
+.nav button:active{transform:scale(.97)}
+.back{background:#E8EDF4;color:var(--ink)}
+.next{background:linear-gradient(135deg,var(--blue),#0A5C8F);color:#fff;box-shadow:0 6px 16px rgba(0,114,178,.3)}
+.nav button:disabled{opacity:.35;cursor:default}
+.badge{display:flex;align-items:center;gap:8px;border-radius:12px;padding:9px 12px;font-size:.82rem;margin-top:12px;cursor:pointer;border:1px solid}
+.badge.ok{background:var(--soft-blue);border-color:#9CCBE6}
+.badge.std{background:#F1F3F6;border-color:#D3D9E1}
+.checks{display:none;font-size:.82rem;line-height:1.7;padding:8px 12px 0;color:var(--muted)}
+.checks.on{display:block}
+.hint{font-size:.72rem;color:var(--muted);text-align:center;margin-top:8px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.person{opacity:1;transform:none}}
+</style></head><body>
+<div class="wrap">
+  <div class="sum" id="sum"></div>
+  <div class="steps" id="chips"></div>
+  <div class="prog"><i id="prog"></i></div>
+  <div class="stage" id="stage"></div>
+  <div id="navbox"><div class="nav"><button class="back" id="back">Back</button><button class="next" id="next">Next</button></div>
+  <div class="hint">Tap the <span style="border-bottom:2px dotted #56B4E9;font-weight:600">dotted words</span> for a plain meaning · use ← → keys too</div></div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const D = __DATA__;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const in10 = x => x <= 0 ? 0 : x >= 1 ? 10 : Math.min(9, Math.max(1, Math.round(x * 10)));
+const share = k => k === 10 ? "all of them" : k === 0 ? "none of them" : `about ${k} in 10`;
+
+/* ---------- glossary: plain meanings, longest match first ---------- */
+const G = D.glossary;
+const keys = Object.keys(G).sort((a, b) => b.length - a.length);
+const rx = new RegExp("(" + keys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+function gloss(text, seen = new Set()) {
+  return esc(text).replace(rx, m => {
+    const k = keys.find(k => k.toLowerCase() === m.toLowerCase());
+    if (!k || seen.has(k)) return m;
+    seen.add(k);
+    return `<button class="term" data-k="${esc(k)}">${m}</button>`;
+  });
+}
+const tip = $("#tip");
+document.addEventListener("click", e => {
+  const t = e.target.closest(".term");
+  if (!t) { tip.classList.remove("on"); return; }
+  e.stopPropagation();
+  const k = t.dataset.k, r = t.getBoundingClientRect();
+  tip.innerHTML = `<b>${esc(k)}</b><br>${esc(G[k])}`;
+  tip.classList.add("on");
+  const w = Math.min(260, window.innerWidth - 20);
+  tip.style.maxWidth = w + "px";
+  tip.style.left = Math.max(10, Math.min(r.left, window.innerWidth - w - 10)) + "px";
+  const below = r.bottom + 8, h = tip.offsetHeight;
+  tip.style.top = (below + h > window.innerHeight ? r.top - h - 8 : below) + "px";
+});
+
+/* ---------- summary with count-up ---------- */
+const S = D.summary;
+$("#sum").innerHTML = `<div class="who">${esc(S.who)}</div><div class="row">
+  <div><div class="l">You put in</div><div class="v" data-n="${S.inv}">₹0</div></div>
+  <div><div class="l">Worth today</div><div class="v" data-n="${S.val}">₹0</div></div>
+  <div><div class="l">Difference</div><div class="v ${S.dir}" data-n="${Math.abs(S.val - S.inv)}" data-s="${S.val < S.inv ? "−" : S.val > S.inv ? "+" : ""}">₹0</div></div>
+  </div><div class="foot">${esc(S.foot)}</div>`;
+const fmt = n => "₹" + Math.round(n).toLocaleString("en-IN");
+document.querySelectorAll(".sum .v").forEach(el => {
+  const n = +el.dataset.n, s = el.dataset.s || "", t0 = performance.now();
+  const tick = t => { const p = Math.min(1, (t - t0) / 900), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = s + fmt(n * e); if (p < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+});
+
+/* ---------- step builders ---------- */
+const person = (cls, i) => `<svg class="person ${cls}" style="animation-delay:${i * 60}ms" viewBox="0 0 26 34"><circle cx="13" cy="8" r="6.5"/><path d="M2 33c0-8 4.8-13 11-13s11 5 11 13z"/></svg>`;
+function people(k, cls, rare) { let h = ""; for (let i = 0; i < 10; i++) h += person(i < k ? cls : (rare && i === 0 ? "faint" : ""), i); return `<div class="people">${h}</div>`; }
+
+function step1() {
+  const v = D.normal;
+  let vis = "";
+  if (v.k !== null) vis = people(v.k, v.cls, v.rare) + `<div class="cap">${esc(v.cap)}</div>`;
+  return `<div class="q">Question 1 of 3</div><h2>Is this normal for my stage?</h2>${vis}<p class="a">${gloss(D.answer.normal, new Set())}</p>`;
+}
+
+function step2() {
+  const c = D.compare, seen = new Set();
+  let vis = "";
+  if (c.rows.length) {
+    const big = Math.max(...c.rows.map(r => Math.abs(r.gain))) || 1;
+    vis = `<div class="bars">` + c.rows.map((r, i) => {
+      const w = Math.max(0.8, Math.abs(r.gain) / big * 50);
+      return `<div class="br"><div class="t"><span>${gloss(r.label, seen)}</span><b style="color:${r.gain < 0 ? "var(--orange)" : "var(--blue)"}">${r.gain < 0 ? "−" : "+"}${fmt(Math.abs(r.gain))}</b></div>
+        <div class="track"><div class="fill" data-w="${w}" data-l="${r.gain < 0 ? 50 - w : 50}" style="left:50%;background:${r.you ? (r.gain < 0 ? "var(--orange)" : "var(--blue)") : "#9AA6B6"}"></div><div class="mid"></div></div></div>`;
+    }).join("") + `<div class="legend"><span>◀ below what you put in</span><span>above ▶</span></div></div>
+    <div class="cap">The dark centre line is what you put in (${fmt(D.summary.inv)}).</div>`;
+  }
+  return `<div class="q">Question 2 of 3</div><h2>Is it the market or my fund?</h2>${vis}<p class="a">${gloss(D.answer.market_or_fund, seen)}</p>`;
+}
+
+function step3() {
+  const P = D.paths;
+  let vis = "";
+  if (P && P.paths.length) {
+    vis = `<div class="tm"><div class="cap" style="font-weight:700;color:var(--ink)">⏳ Time machine: past SIPs, not a forecast</div>
+      <svg id="tmsvg" viewBox="0 0 340 200" role="img" aria-label="Past SIPs over time"></svg>
+      <div class="tmtop"><button class="play" id="play" aria-label="Play">▶</button>
+      <input type="range" id="slider" min="1" max="${P.max_m}" value="${D.n}"><span class="mlabel" id="mlab"></span></div>
+      <div class="seg" id="seg"><button data-v="red" class="on">Red at month ${D.n}, like yours</button><button data-v="all">All past SIPs</button></div>
+      <div class="read" id="read"></div>
+      <div class="cap" style="margin-top:6px">Each faint line is a SIP started in a different month since ${P.since}, run on the real prices of ${esc(P.series)}. <span style="color:var(--blue);font-weight:700">Blue</span> = above what was put in at that month, <span style="color:var(--orange);font-weight:700">orange</span> = below. The dark line is you.</div></div>`;
+  }
+  return `<div class="q">Question 3 of 3</div><h2>What does patience look like?</h2>${vis}<p class="a">${gloss(D.answer.patience)}</p>`;
+}
+
+function step4() {
+  const seen = new Set();
+  const icons = ["⏭️", "🔧", "⏹️"], tints = ["var(--soft-blue)", "#EEF6E9", "var(--soft-orange)"];
+  return `<div class="q">Your choices</div><h2>What can I do?</h2><div class="cap">Shown side by side so you can see what each one does. None of them is a suggestion, and staying as you are is a choice too.</div>` +
+    D.options.map((o, i) => `<div class="opt"><button aria-expanded="false"><span class="ic" style="background:${tints[i]}">${icons[i]}</span>
+      <span><div class="tt">${esc(o.t)}</div><div class="sub">${esc(o.short)}</div></span><span class="chev">›</span></button>
+      <div class="body"><div>${gloss(o.what, seen)}</div><div class="cap" style="margin-top:6px">${esc(o.note)}</div></div></div>`).join("") +
+    `<div class="cap" style="margin-top:8px">${esc(D.options_note)}</div>`;
+}
+
+/* ---------- time machine drawing ---------- */
+let filt = "red", month = D.n, playing = null;
+function drawTM() {
+  const P = D.paths, svg = $("#tmsvg"); if (!svg) return;
+  const W = 340, H = 200, L = 30, R = 8, T = 10, B = 22;
+  let set = P.paths.filter(p => p.p.length >= D.n);
+  if (filt === "red") set = set.filter(p => p.p[D.n - 1] < 0);
+  const vals = set.flatMap(p => p.p).concat(P.you.filter(v => v !== null)).sort((a, b) => a - b);
+  const q = f => vals.length ? vals[Math.floor(f * (vals.length - 1))] : 0;
+  let lo = Math.min(-10, q(0.02)), hi = Math.max(10, q(0.98));
+  const x = m => L + (m - 1) / (P.max_m - 1) * (W - L - R);
+  const y = v => T + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (H - T - B);
+  let g = `<rect x="${L}" y="${T}" width="${W - L - R}" height="${y(0) - T}" fill="#56B4E9" opacity=".06"/>
+    <rect x="${L}" y="${y(0)}" width="${W - L - R}" height="${H - B - y(0)}" fill="#D55E00" opacity=".05"/>`;
+  [lo, 0, hi].forEach(t => g += `<text x="${L - 4}" y="${y(t) + 3}" font-size="8" text-anchor="end" fill="#5B6474">${t > 0 ? "+" : ""}${Math.round(t)}%</text>`);
+  [1, 12, 24, 36, 48, 60].filter(m => m <= P.max_m).forEach(m => g += `<text x="${x(m)}" y="${H - 8}" font-size="8" text-anchor="middle" fill="#5B6474">m${m}</text>`);
+  set.forEach(p => {
+    const k = Math.min(month, p.p.length); if (k < 1) return;
+    const pts = p.p.slice(0, k).map((v, i) => `${x(i + 1).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    const last = p.p[k - 1];
+    g += `<polyline points="${pts}" fill="none" stroke="${last >= 0 ? "#0072B2" : "#D55E00"}" stroke-width="1" opacity="${set.length > 60 ? .22 : .38}"/>`;
+  });
+  g += `<line x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="#14213D" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <text x="${W - R}" y="${y(0) - 4}" font-size="8" text-anchor="end" fill="#14213D" font-weight="700">what was put in</text>`;
+  g += `<line x1="${x(month)}" x2="${x(month)}" y1="${T}" y2="${H - B}" stroke="#14213D" stroke-width="1" opacity=".5"/>`;
+  const you = P.you.map((v, i) => v === null ? null : [x(i + 1), y(v)]).filter(Boolean);
+  if (you.length > 1) g += `<polyline points="${you.map(p => p.join(",")).join(" ")}" fill="none" stroke="#14213D" stroke-width="3" stroke-linejoin="round"/>`;
+  if (you.length) { const e = you[you.length - 1];
+    g += `<circle cx="${e[0]}" cy="${e[1]}" r="5" fill="#14213D" stroke="#fff" stroke-width="2"/><text x="${e[0] + 7}" y="${e[1] + 3}" font-size="9" font-weight="800" fill="#14213D">You</text>`; }
+  svg.innerHTML = g;
+  const at = set.filter(p => p.p.length >= month);
+  const up = at.filter(p => p.p[month - 1] > 0).length;
+  $("#mlab").textContent = `Month ${month}`;
+  if (!at.length) { $("#read").innerHTML = `Not enough history to show month ${month}.`; return; }
+  const who = filt === "red" ? `past SIPs that were in the red at month ${D.n}` : `all past SIPs`;
+  $("#read").innerHTML = month === D.n && filt === "red" ? `These are the ${at.length} ${who}. Press ▶ to see where they were later.`
+    : `At <b>month ${month}</b>, ${in10(up / at.length) === 10 ? `all ${at.length}` : `${share(in10(up / at.length))} of the ${at.length}`} ${who} were <b>above</b> what was put in.`;
+}
+function bindTM() {
+  const s = $("#slider"); if (!s) return;
+  s.oninput = () => { month = +s.value; stop(); drawTM(); };
+  $("#seg").onclick = e => { const b = e.target.closest("button"); if (!b) return; filt = b.dataset.v;
+    document.querySelectorAll("#seg button").forEach(x => x.classList.toggle("on", x === b)); drawTM(); };
+  $("#play").onclick = () => playing ? stop() : play();
+  drawTM();
+}
+function stop() { clearInterval(playing); playing = null; const b = $("#play"); if (b) b.textContent = "▶"; }
+function play() {
+  const s = $("#slider"); if (month >= D.paths.max_m) month = D.n;
+  $("#play").textContent = "❚❚";
+  playing = setInterval(() => { month++; s.value = month; drawTM(); if (month >= D.paths.max_m) stop(); }, 140);
+}
+
+/* ---------- stepper ---------- */
+const STEPS = [["1", "Normal?", step1], ["2", "Market or fund?", step2], ["3", "Patience", step3], ["4", "My choices", step4]];
+let cur = 0; const seenTM = { done: false };
+$("#chips").innerHTML = STEPS.map((s, i) => `<button class="chip" data-i="${i}"><span class="n">${s[0]}</span>${s[1]}</button>`).join("");
+$("#stage").innerHTML = STEPS.map((s, i) => `<div class="card" id="c${i}">${s[2]()}${i < 3 ? badge() : ""}</div>`).join("");
+function badge() {
+  const ok = D.source === "ai";
+  return `<div class="badge ${ok ? "ok" : "std"}" onclick="this.nextElementSibling.classList.toggle('on')"><span>${ok ? "✓ <b>Checked answer</b> · numbers match your data, no advice, plain words" : "● <b>Standard answer</b> · built directly from your numbers"}</span><span style="margin-left:auto">ⓘ</span></div>
+    <div class="checks">${D.checks.map(c => `${c.ok ? "✓" : "✗"} ${esc(c.name)}`).join("<br>")}${D.source === "ai" ? "" : "<br>The AI's wording didn't pass every check (or was unavailable), so this is the standard answer."}</div>`;
+}
+function go(i) {
+  cur = Math.max(0, Math.min(STEPS.length - 1, i)); stop();
+  document.querySelectorAll(".card").forEach((c, j) => c.classList.toggle("show", j === cur));
+  document.querySelectorAll(".chip").forEach((c, j) => { c.classList.toggle("on", j === cur); c.classList.toggle("done", j < cur); });
+  $("#prog").style.width = ((cur + 1) / STEPS.length * 100) + "%";
+  $("#back").disabled = cur === 0;
+  $("#next").textContent = cur === STEPS.length - 1 ? "Start again ↺" : "Next →";
+  const card = $("#c" + cur);
+  card.appendChild($("#navbox"));
+  card.querySelectorAll(".person").forEach(p => { p.style.animation = "none"; p.offsetHeight; p.style.animation = ""; });
+  setTimeout(() => card.querySelectorAll(".fill").forEach(f => { f.style.left = f.dataset.l + "%"; f.style.width = f.dataset.w + "%"; }), 60);
+  if (cur === 2) { bindTM(); if (!seenTM.done && D.paths && !matchMedia("(prefers-reduced-motion: reduce)").matches) { seenTM.done = true; setTimeout(play, 700); } }
+}
+$("#chips").onclick = e => { const b = e.target.closest(".chip"); if (b) go(+b.dataset.i); };
+$("#back").onclick = () => go(cur - 1);
+$("#next").onclick = () => go(cur === STEPS.length - 1 ? 0 : cur + 1);
+document.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(cur + 1); if (e.key === "ArrowLeft") go(cur - 1); });
+$("#stage").addEventListener("click", e => { const b = e.target.closest(".opt > button"); if (!b) return;
+  const o = b.parentElement; o.classList.toggle("open"); b.setAttribute("aria-expanded", o.classList.contains("open")); });
+let sx = null;
+$("#stage").addEventListener("touchstart", e => { if (e.target.closest(".tm")) return; sx = e.touches[0].clientX; }, { passive: true });
+$("#stage").addEventListener("touchend", e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
+  if (Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); });
+function equalize() {  // every step gets the height of the tallest, so the page never jumps or clips
+  const st = $("#stage"), box = document.createElement("div"); let mx = 0;
+  box.style.cssText = `position:absolute;visibility:hidden;left:-9999px;width:${st.clientWidth}px`;
+  document.body.appendChild(box);
+  document.querySelectorAll(".card").forEach(c => { const k = c.cloneNode(true); k.className = "card";
+    k.style.display = "block"; k.style.animation = "none"; box.appendChild(k); mx = Math.max(mx, k.offsetHeight); });
+  box.remove(); st.style.minHeight = (mx + 96 + (D.paths ? 70 : 0)) + "px";  // + nav, + time-machine readout  // + room for the time-machine readout
+}
+let lastW = 0;
+equalize(); addEventListener("resize", () => { if (innerWidth !== lastW) { lastW = innerWidth; equalize(); } });
+lastW = innerWidth;
+go(0);
+</script></body></html>

@@ -133,6 +133,54 @@ def horizons_for(n):
     return [24 if n < 24 else n + 12, 36 if n < 36 else n + 24]
 
 
+def sip_paths(s, day=5, max_m=36, max_starts=160):
+    """Time-machine data (shown, not given to the AI): for every past monthly start in `s`, the value as a % above
+    or below money put in after 1..max_m instalments, measured when the next instalment is due (as in replay)."""
+    if not s or not s.pts:
+        return []
+    y0, m0 = add_months(s.dates[0].year, s.dates[0].month, 1)
+    last = s.dates[-1]
+    out, k = [], 0
+    while True:
+        y, m = add_months(y0, m0, k)
+        k += 1
+        if inst_date(*add_months(y, m, 1), day) > last:
+            break
+        units, inv, path = 0.0, 0.0, []
+        for t in range(max_m):
+            yy, mm = add_months(y, m, t)
+            p = s.first_on_or_after(inst_date(yy, mm, day))
+            ny, nm = add_months(y, m, t + 1)
+            measure = inst_date(ny, nm, day)
+            if p is None or measure > last:
+                break
+            units += 1000 / p[1]
+            inv += 1000
+            q = s.last_on_or_before(measure)
+            path.append(round(100 * (units * q[1] / inv - 1), 1))
+        if path:
+            out.append({"start": f"{y}-{m:02d}", "p": path})
+    if len(out) > max_starts:
+        step = len(out) / max_starts
+        out = [out[int(i * step)] for i in range(max_starts)]
+    return out
+
+
+def own_path(s, y, m, day, n, as_of):
+    units, inv, path = 0.0, 0.0, []
+    for t in range(n):
+        yy, mm = add_months(y, m, t)
+        p = s.first_on_or_after(inst_date(yy, mm, day))
+        if p is None:
+            break
+        units += 1000 / p[1]
+        inv += 1000
+        ny, nm = add_months(y, m, t + 1)
+        q = s.last_on_or_before(min(inst_date(ny, nm, day), as_of))
+        path.append(round(100 * (units * q[1] / inv - 1), 1))
+    return path
+
+
 def months_of(s):
     return (s.dates[-1].year - s.dates[0].year) * 12 + s.dates[-1].month - s.dates[0].month if s.pts else 0
 
@@ -201,6 +249,9 @@ def facts_from_fund(code, start_y, start_m, day, amount, as_of=None, live=True):
     f["compare"] = compare_block(inv, val, cmp_.get("market"), cat_v, pkey) if equity else \
         {"available": False, "reason": "not an equity fund, so a share-market index is not a fair comparison"}
     f["history"] = history_block(n, lbl, hist, loss_ratio=(val / inv) if val < inv else None)
+    if f["history"].get("available"):
+        f["_paths"] = {"series": lbl, "max_m": horizons_for(n)[1], "paths": sip_paths(hist, 5, horizons_for(n)[1]),
+                       "you": own_path(own, start_y, start_m, day, n, as_of)}
     return finish(f)
 
 
@@ -215,6 +266,10 @@ def facts_from_manual(invested, value, months, as_of=None, live=True):
     f["compare"] = {"available": False, "reason": "no fund chosen"}
     lbl, hist = pick_history(months, None, None, (D.PROXIES["market"]["label"], market))
     f["history"] = history_block(months, lbl, hist, loss_ratio=(value / invested) if value < invested else None)
+    if f["history"].get("available"):
+        f["_paths"] = {"series": lbl, "max_m": horizons_for(months)[1],
+                       "paths": sip_paths(hist, 5, horizons_for(months)[1]),
+                       "you": [None] * (months - 1) + [round(100 * (value / invested - 1), 1)]}
     return finish(f)
 
 

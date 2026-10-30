@@ -76,6 +76,14 @@ def check(ans, facts):
     res.append(("no_pressure", not pr, str(pr[:4]) if pr else ""))
 
     comp = []
+    say = facts.get("say") or {}
+    if say:  # every fact the code prepared must reach the user (writer-v4 dropped sentences)
+        said = set(norm_num(t) for k in ("your_numbers", "history", "market_or_fund", "patience")
+                   for t in NUM.findall(say.get(k, "")))
+        shown = set(norm_num(t) for t in NUM.findall(allt))
+        missing = sorted(said - shown)
+        if missing:
+            comp.append(f"leaves out facts {missing[:5]}")
     if facts.get("history", {}).get("available") and facts["history"].get("horizons") and not UNCERTAIN.search(ans["patience"]):
         comp.append("patience answer does not say what the past cannot tell")
     if not facts.get("compare", {}).get("category_label") and re.search(r"\bcategory\b", ans["market_or_fund"], re.I):

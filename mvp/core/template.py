@@ -108,7 +108,7 @@ def patience(f):
     a = hz[0]
     def share(k):
         return "all of them" if k == 10 else f"about {k} in 10"
-    s = (f"Of the past SIPs that were in the red at month {f['months']}, {share(a['above_in_10'])} were above"
+    s = (f"Of past SIPs in the red by any amount at month {f['months']}, {share(a['above_in_10'])} were above"
          f" what was put in by month {a['month']}.")
     if len(hz) > 1:
         s += f" By month {hz[1]['month']}, it was {share(hz[1]['above_in_10'])}."

@@ -25,18 +25,24 @@ def history_line(f):
             f" put in after {_plural(f['months'], 'month')}.")
 
 
-def normal(f):
-    s = your_numbers(f) + " " + history_line(f)
+def meaning(f):
+    """The one sentence of interpretation, decided by code, not by the AI."""
     h = f["history"]
-    if not h.get("available"):
-        return s
+    if f["direction"] != "down" or not h.get("available"):
+        return ""
     if h["red_in_10"] >= 3:
-        s += " So being in the red at this stage is common."
-    elif h["red_in_10"] >= 1:
-        s += " So it happens, though less often."
-    else:
-        s += " Being in the red at this stage was rare in this history."
-    return s
+        return "So being in the red at this stage is common."
+    if h["red_in_10"] >= 1:
+        return "So it happens, though less often."
+    return "Being in the red at this stage was rare in this history."
+
+
+def _the(label):
+    return label if label.startswith("the ") else "the " + label
+
+
+def normal(f):
+    return " ".join(x for x in (your_numbers(f), history_line(f), meaning(f)) if x)
 
 
 def market_or_fund(f):
@@ -48,24 +54,24 @@ def market_or_fund(f):
             return ("Your fund is not a pure share fund, so comparing it with a share-market index would not be fair."
                     " We have left this comparison out.")
         return "We could not load the index prices to compare right now."
-    lab = c.get("category_label") or c.get("market_label")
+    lab = _the(c.get("category_label") or c.get("market_label"))
     val = c.get("category_value") or c.get("market_value")
     a = c["attribution"]
     if a == "market":
-        return (f"Most of this dip comes from the market, not your fund. The same SIP in the {lab} would be worth"
+        return (f"Most of this dip comes from the market, not your fund. The same SIP in {lab} would be worth"
                 f" {val}, also below what you put in.")
     if a == "fund" and c.get("category_label"):
-        return (f"Your fund has done less well than its category. The same SIP in the {lab} would be worth {val},"
+        return (f"Your fund has done less well than its category. The same SIP in {lab} would be worth {val},"
                 f" which is {c['fund_vs_category_abs']} more than yours.")
     if a == "fund":
         return f"Your fund has done less well than the market. The same SIP in {lab} would be worth {val}."
     if a == "both":
         extra = f", {c['fund_vs_category_abs']} more than yours" if c.get("fund_vs_category_abs") else ""
-        return (f"Both the market and your fund played a part. The same SIP in the {lab} would be worth {val}:"
+        return (f"Both the market and your fund played a part. The same SIP in {lab} would be worth {val}:"
                 f" below what you put in{extra}.")
     if a == "close":
-        return f"Your fund and its comparison index moved about the same. The same SIP in the {lab} would be worth {val}."
-    return f"Your SIP is not below what you put in. The same SIP in the {lab} would be worth {val}."
+        return f"Your fund and its comparison index moved about the same. The same SIP in {lab} would be worth {val}."
+    return f"Your SIP is not below what you put in. The same SIP in {lab} would be worth {val}."
 
 
 def patience_lines(f):

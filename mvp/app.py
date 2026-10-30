@@ -45,6 +45,7 @@ div[data-testid="stTextInput"] input, div[data-testid="stNumberInput"] input {{ 
 [data-testid="stButton"] button, div.stButton > button {{ width:100% !important; border-radius:14px; min-height:48px; font-weight:700; width:100%; transition: transform .15s, box-shadow .2s; }}
 [data-testid="stButton"] button[kind="primary"] {{ background: linear-gradient(135deg, {BLUE}, #0A5C8F); border:0; box-shadow: 0 8px 20px rgba(0,114,178,.28); }}
 div.stButton > button:active {{ transform: scale(.98); }}
+button:disabled, button[disabled] {{ opacity:.45 !important; box-shadow:none !important; filter: grayscale(.4); }}
 .notice {{ font-size:.8rem; color:{MUTED}; border-top:1px solid #DCE3EC; padding-top:10px; margin-top:18px; line-height:1.5; }}
 .tour-art {{ background: linear-gradient(135deg,#14213D,#0B4F75); border-radius:18px; padding:18px; color:#fff; margin-bottom:12px; min-height:150px; }}
 .tour-art .big {{ font-size:1.25rem; font-weight:800; line-height:1.3; }}

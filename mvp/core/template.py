@@ -32,6 +32,9 @@ def market_or_fund(f):
     if not c.get("available"):
         if f["path"] == "manual":
             return "We can only compare with the market once we know your fund. Pick your fund to see this part."
+        if c.get("reason", "").startswith("not an equity"):
+            return ("Your fund is not a pure share fund, so comparing it with a share-market index would not be fair."
+                    " We have left this comparison out.")
         return "We could not load the index prices to compare right now."
     lab = c.get("category_label") or c.get("market_label")
     val = c.get("category_value") or c.get("market_value")
@@ -60,10 +63,12 @@ def patience(f):
         return ("The price history is too short to show what usually came next for SIPs like yours. "
                 "The past cannot promise the future either way.")
     a = hz[0]
-    s = (f"Of the past SIPs that were in the red at month {f['months']}, about {a['above_in_10']} in 10 were above"
+    def share(k):
+        return "all of them" if k == 10 else f"about {k} in 10"
+    s = (f"Of the past SIPs that were in the red at month {f['months']}, {share(a['above_in_10'])} were above"
          f" what was put in by month {a['month']}.")
     if len(hz) > 1:
-        s += f" By month {hz[1]['month']}, it was about {hz[1]['above_in_10']} in 10."
+        s += f" By month {hz[1]['month']}, it was {share(hz[1]['above_in_10'])}."
     if a["not_above_in_10"] > 0:
         s += f" About {a['not_above_in_10']} in 10 were still below at month {a['month']}."
     s += " The past cannot promise what happens next, and markets can stay down for a long time."

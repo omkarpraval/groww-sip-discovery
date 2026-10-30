@@ -35,7 +35,8 @@ def good():
 
 
 def test_good_answer_passes():
-    ok, res = gate.check(good(), facts())
+    f = facts(); f.pop("say")  # hand-written answer; the completeness rule is tested separately
+    ok, res = gate.check(good(), f)
     assert ok, res
 
 
@@ -104,3 +105,9 @@ def test_catches_dip_talk_when_green():
     a = good(); a["normal"] = "You have put in ₹24,000. A dip like this happens."
     ok, _ = gate.check(a, f)
     assert not ok
+
+
+def test_catches_dropped_facts():
+    # Found in eval run 4 (writer-v4): the AI dropped prepared sentences, e.g. the depth-of-drop line.
+    ok, res = gate.check(good(), facts())
+    assert not ok and not dict((n, p) for n, p, _ in res)["complete"]

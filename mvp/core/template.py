@@ -24,16 +24,19 @@ def deep_phrase(h):
 
 
 def history_line(f):
+    """One statistic only. When the SIP is down it is the depth of the user's drop (human review of writer-v3:
+    "any loss" understated deep losses); otherwise how often SIPs were below at this stage."""
     h = f["history"]
     if not h.get("available"):
         return "The price history is too short to compare with past SIPs at this stage."
     ref = ("We do not know your fund, so this uses the market (Nifty 50) as a reference. "
            if f["path"] == "manual" else "")
-    s = (f"{ref}Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what was"
-         f" put in after {_plural(f['months'], 'month')}.")
+    m = _plural(f["months"], "month")
     if f["direction"] == "down" and h.get("deep_in_10") is not None:
-        s += f" A drop as big as yours or bigger happened in {deep_phrase(h)}."
-    return s
+        return (f"{ref}Looking at {h['series']} since {h['since_year']}, {deep_phrase(h)} past SIPs had a drop this"
+                f" big or bigger after {m}.")
+    return (f"{ref}Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what"
+            f" was put in after {m}.")
 
 
 def meaning(f):

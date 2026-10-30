@@ -38,7 +38,7 @@ h1 {{ font-size: 1.55rem !important; line-height: 1.25 !important; font-weight: 
 .dots .on {{ color:{ORANGE}; }} .dots .off {{ color:#D3D7DD; }} .dots .up {{ color:{BLUE}; }}
 .cap {{ font-size:.85rem; color:{MUTED}; }}
 .bar {{ margin:8px 0 2px; font-size:.9rem; }}
-.track {{ background:#EEF0F3; border-radius:6px; height:14px; position:relative; }}
+.track {{ background:#EEF0F3; border-radius:6px; height:14px; position:relative; overflow:visible; }}
 .fill {{ height:14px; border-radius:6px; }}
 .mark {{ position:absolute; top:-4px; width:2px; height:22px; background:{INK}; }}
 .badge {{ border-radius:12px; padding:10px 12px; font-size:.9rem; margin:12px 0 4px; }}
@@ -52,10 +52,10 @@ div.stButton > button {{ border-radius:12px; min-height:46px; font-weight:600; w
 </style>""", unsafe_allow_html=True)
 
 NOTICE = "This explains your own numbers using public fund prices. It is not investment advice."
-EXAMPLES = {
-    "Small-cap SIP, month 5 (seen in Mar 2025)": dict(q="Nippon India Small Cap Fund - Direct Plan Growth", y=2024, m=10, day=5, amt=3000, as_of=date(2025, 3, 3)),
-    "Flexi-cap SIP, month 6 (seen in Jun 2022)": dict(q="Parag Parikh Flexi Cap Fund - Direct Plan - Growth", y=2022, m=1, day=10, amt=5000, as_of=date(2022, 6, 20)),
-    "Large-cap SIP, month 4 (seen in Feb 2025)": dict(q="ICICI Prudential Bluechip Fund - Direct Plan - Growth", y=2024, m=11, day=1, amt=2000, as_of=date(2025, 2, 28)),
+EXAMPLES = {  # real public prices, replayed as they stood on that date
+    "Small-cap SIP, month 5 (as on 3 Mar 2025)": dict(code=118778, y=2024, m=10, day=5, amt=3000, as_of=date(2025, 3, 3)),
+    "Flexi-cap SIP, month 6 (as on 20 Jun 2022)": dict(code=122639, y=2022, m=1, day=10, amt=5000, as_of=date(2022, 6, 20)),
+    "Mid-cap SIP behind its index, month 12 (as on 3 Mar 2026)": dict(code=120841, y=2025, m=3, day=5, amt=2000, as_of=date(2026, 3, 3)),
 }
 
 st.markdown('<span class="tag">Prototype · first-time SIP investors</span>', unsafe_allow_html=True)
@@ -77,11 +77,6 @@ def fund_facts(code, y, m, day, amt, as_of):
 @st.cache_data(ttl=3600, show_spinner=False)
 def manual_facts(inv, val, months):
     return E.facts_from_manual(inv, val, months)
-
-
-def code_for(name):
-    hits = [f for f in cached_search(name) if f["schemeName"].strip().lower() == name.lower()] or cached_search(name)
-    return hits[0]["schemeCode"] if hits else None
 
 
 # ---------------------------------------------------------------- inputs
@@ -128,10 +123,7 @@ if go:
                 f = manual_facts(*req[1:])
             else:
                 e = req[1]
-                c = code_for(e["q"])
-                if c is None:
-                    raise D.DataError("example fund not available")
-                f = fund_facts(c, e["y"], e["m"], e["day"], float(e["amt"]), e["as_of"])
+                f = fund_facts(e["code"], e["y"], e["m"], e["day"], float(e["amt"]), e["as_of"])
             st.session_state["result"] = explain(f, timeout=20)
         except D.DataError as ex:
             st.error(f"We couldn't work this out: {ex}. You can choose **Type my numbers** instead.")
@@ -143,12 +135,14 @@ def dots(k, cls="on"):
     return f'<div class="dots"><span class="{cls}">{"●" * k}</span><span class="off">{"●" * (10 - k)}</span></div>'
 
 
-def bar_row(label, v, inv, lo, hi, colour):
-    span = (hi - lo) or 1
-    w = max(2, (v - lo) / span * 100)
-    mk = (inv - lo) / span * 100
-    return (f'<div class="bar">{label}: <b>{E.inr(v)}</b><div class="track"><div class="fill" style="width:{w:.1f}%;'
-            f'background:{colour}"></div><div class="mark" style="left:{mk:.1f}%"></div></div></div>')
+def bar_row(label, gain, biggest, colour):
+    """Diverging bar: the centre line is what you put in; left = below it, right = above it."""
+    w = abs(gain) / (biggest or 1) * 50
+    left = 50 - w if gain < 0 else 50
+    sign = "−" if gain < 0 else "+"
+    return (f'<div class="bar">{label}: <b>{sign}{E.inr(abs(gain))}</b><div class="track"><div class="fill" '
+            f'style="position:absolute;left:{left:.1f}%;width:{max(w, 0.6):.1f}%;background:{colour}"></div>'
+            f'<div class="mark" style="left:50%"></div></div></div>')
 
 
 r = st.session_state.get("result")
@@ -176,10 +170,11 @@ if r:
             rows.append(("Same SIP in the category index", c["_cat"], GREY))
         if c.get("_mkt") is not None:
             rows.append(("Same SIP in the market (Nifty 50)", c["_mkt"], GREY))
-        vals = [x[1] for x in rows] + [f["_inv"]]
-        lo, hi = min(vals) * 0.97, max(vals) * 1.01
-        vis = "".join(bar_row(l, v, f["_inv"], lo, hi, col) for l, v, col in rows)
-        vis += f"<div class='cap'>Black line = what you put in ({f['invested']}). Bars start at {E.inr(lo)}, not zero.</div>"
+        gains = [(l, v - f["_inv"], col) for l, v, col in rows]
+        big = max(abs(g) for _, g, _ in gains)
+        vis = "".join(bar_row(l, g, big, col) for l, g, col in gains)
+        vis += (f"<div class='cap'>Centre line = what you put in ({f['invested']}). Bars to the left are below it,"
+                f" bars to the right are above it.</div>")
     st.markdown(f'<div class="card"><div class="qnum">2 of 3</div><h3>Is it the market or my fund?</h3>{vis}<p style="margin-top:10px">{a["market_or_fund"]}</p></div>',
                 unsafe_allow_html=True)
 

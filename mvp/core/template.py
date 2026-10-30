@@ -17,24 +17,37 @@ def your_numbers(f):
     return f"You have put in {f['invested']} over {m}. Today it is worth about the same, {f['value']}."
 
 
+def deep_phrase(h):
+    if h.get("deep_in_10") is None:
+        return ""
+    return "fewer than 1 in 10" if h.get("deep_rare") else f"about {h['deep_in_10']} in 10"
+
+
 def history_line(f):
     h = f["history"]
     if not h.get("available"):
         return "The price history is too short to compare with past SIPs at this stage."
-    return (f"Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what was"
-            f" put in after {_plural(f['months'], 'month')}.")
+    ref = ("We do not know your fund, so this uses the market (Nifty 50) as a reference. "
+           if f["path"] == "manual" else "")
+    s = (f"{ref}Looking at {h['series']} since {h['since_year']}, about {h['red_in_10']} in 10 SIPs were below what was"
+         f" put in after {_plural(f['months'], 'month')}.")
+    if f["direction"] == "down" and h.get("deep_in_10") is not None:
+        s += f" A drop as big as yours or bigger happened in {deep_phrase(h)}."
+    return s
 
 
 def meaning(f):
-    """The one sentence of interpretation, decided by code, not by the AI."""
+    """The one sentence of interpretation, decided by code from how DEEP the user's drop is (human review of
+    writer-v3 found "common" understated deep losses when it was based on any loss)."""
     h = f["history"]
-    if f["direction"] != "down" or not h.get("available"):
+    if f["direction"] != "down" or not h.get("available") or h.get("deep_share_pct") is None:
         return ""
-    if h["red_in_10"] >= 3:
-        return "So being in the red at this stage is common."
-    if h["red_in_10"] >= 1:
-        return "So it happens, though less often."
-    return "Being in the red at this stage was rare in this history."
+    d = h["deep_share_pct"]
+    if d >= 30:
+        return "So a drop of this size at this stage is common."
+    if d >= 10:
+        return "So a drop of this size happens, though less often."
+    return "So a drop this deep at this stage was rare in this history."
 
 
 def _the(label):
@@ -51,27 +64,28 @@ def market_or_fund(f):
         if f["path"] == "manual":
             return "We can only compare with the market once we know your fund. Pick your fund to see this part."
         if c.get("reason", "").startswith("not an equity"):
-            return ("Your fund is not a pure share fund, so comparing it with a share-market index would not be fair."
-                    " We have left this comparison out.")
+            return ("Your fund does not invest only in shares, so comparing it with a share-market index would not be"
+                    " fair. We have left this comparison out.")
         return "We could not load the index prices to compare right now."
+    has_cat = bool(c.get("category_label"))
     lab = _the(c.get("category_label") or c.get("market_label"))
     val = c.get("category_value") or c.get("market_value")
+    gap = c.get("fund_vs_category_abs") if has_cat else c.get("fund_vs_market_abs")
+    above = c.get("fund_above_category") if has_cat else c.get("fund_above_market")
+    gap_line = f" Yours is {gap} {'more' if above else 'less'} than that." if gap and gap != "₹0" else ""
+    kind = "the index for its type of fund" if has_cat else "the market"
     a = c["attribution"]
     if a == "market":
         return (f"Most of this dip comes from the market, not your fund. The same SIP in {lab} would be worth"
-                f" {val}, also below what you put in.")
-    if a == "fund" and c.get("category_label"):
-        return (f"Your fund has done less well than its category. The same SIP in {lab} would be worth {val},"
-                f" which is {c['fund_vs_category_abs']} more than yours.")
+                f" {val}, also below what you put in.{gap_line}")
     if a == "fund":
-        return f"Your fund has done less well than the market. The same SIP in {lab} would be worth {val}."
+        return f"Your fund has done less well than {kind}. The same SIP in {lab} would be worth {val}.{gap_line}"
     if a == "both":
-        extra = f", {c['fund_vs_category_abs']} more than yours" if c.get("fund_vs_category_abs") else ""
-        return (f"Both the market and your fund played a part. The same SIP in {lab} would be worth {val}:"
-                f" below what you put in{extra}.")
+        return (f"Both the market and your fund played a part. The same SIP in {lab} would be worth {val}, also"
+                f" below what you put in.{gap_line}")
     if a == "close":
-        return f"Your fund and its comparison index moved about the same. The same SIP in {lab} would be worth {val}."
-    return f"Your SIP is not below what you put in. The same SIP in {lab} would be worth {val}."
+        return f"Your fund and {kind} moved about the same. The same SIP in {lab} would be worth {val}.{gap_line}"
+    return f"Your SIP is not below what you put in. The same SIP in {lab} would be worth {val}.{gap_line}"
 
 
 def patience_lines(f):
@@ -95,8 +109,6 @@ def patience(f):
          f" what was put in by month {a['month']}.")
     if len(hz) > 1:
         s += f" By month {hz[1]['month']}, it was {share(hz[1]['above_in_10'])}."
-    if a["not_above_in_10"] > 0:
-        s += f" About {a['not_above_in_10']} in 10 were still below at month {a['month']}."
     s += " " + UNCERTAIN
     return s
 

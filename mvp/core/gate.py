@@ -60,7 +60,8 @@ def check(ans, facts):
     if facts.get("direction") == "up" and LOSS_WORDS.search(ans["normal"]):
         wrong_dir.append("calls a gain a loss")
     h = facts.get("history", {})
-    if h.get("available") and h.get("red_in_10", 10) < 3 and COMMON.search(ans["normal"]):
+    common_ok = h.get("deep_share_pct", 100) >= 30 if h.get("deep_share_pct") is not None else h.get("red_in_10", 10) >= 3
+    if h.get("available") and not common_ok and COMMON.search(ans["normal"]):
         wrong_dir.append("calls a dip common when it was not")
     if facts.get("direction") != "down" and re.search(r"\bdip\b|\bin the red\b", ans["normal"], re.I):
         wrong_dir.append("talks about a dip on a SIP that is not down")
@@ -77,6 +78,8 @@ def check(ans, facts):
     comp = []
     if facts.get("history", {}).get("available") and facts["history"].get("horizons") and not UNCERTAIN.search(ans["patience"]):
         comp.append("patience answer does not say what the past cannot tell")
+    if not facts.get("compare", {}).get("category_label") and re.search(r"\bcategory\b", ans["market_or_fund"], re.I):
+        comp.append("talks about a category it did not compare with")
     if not facts.get("compare", {}).get("available") and re.search(r"\b(market|index)\b.*\b(fell|down|dropped|rose|up)\b", ans["market_or_fund"], re.I):
         comp.append("compares with the market without data")
     res.append(("complete", not comp, "; ".join(comp)))

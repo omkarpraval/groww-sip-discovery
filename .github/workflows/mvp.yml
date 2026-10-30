@@ -41,6 +41,7 @@ jobs:
         run: |
           git config user.name "mvp-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add mvp/cache mvp/eval/outputs 2>/dev/null || true
+          mkdir -p mvp/eval/outputs mvp/cache && touch mvp/eval/outputs/.keep
+          git add mvp/cache mvp/eval/outputs
           git diff --cached --quiet || git commit -m "mvp run: ${{ inputs.stage || 'cache' }}"
           git pull --rebase -q && git push

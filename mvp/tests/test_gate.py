@@ -89,3 +89,18 @@ def test_catches_field_names():
     # Found in eval run 1: raw field names such as not_above_in_10 and "attribution" leaked into answers.
     bad, r = failing("market_or_fund", "The attribution is not_red for your fund.")
     assert bad and not r["plain_words"][0]
+
+
+def test_catches_false_common_claim():
+    # Found in eval run 2 (writer-v2): "a dip like this is common" when only 2 in 10 past SIPs were red.
+    f = facts(); f["history"]["red_in_10"] = 2
+    a = good(); a["normal"] = "You have put in ₹24,000. It is ₹860 less. A dip like this is common at this stage."
+    ok, res = gate.check(a, f)
+    assert not ok and not dict((n, p) for n, p, _ in res)["numbers_match"]
+
+
+def test_catches_dip_talk_when_green():
+    f = facts(direction="up")
+    a = good(); a["normal"] = "You have put in ₹24,000. A dip like this happens."
+    ok, _ = gate.check(a, f)
+    assert not ok

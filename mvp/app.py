@@ -173,7 +173,7 @@ if r:
     if c.get("available"):
         rows = [("Your SIP", f["_val"], colour)]
         if c.get("_cat") is not None:
-            rows.append(("Same SIP in the category index", c["_cat"], GREY))
+            rows.append(("Same SIP in the index for its type of fund", c["_cat"], GREY))
         if c.get("_mkt") is not None:
             rows.append(("Same SIP in the market (Nifty 50)", c["_mkt"], GREY))
         gains = [(l, v - f["_inv"], col) for l, v, col in rows]

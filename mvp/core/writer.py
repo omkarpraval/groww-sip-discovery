@@ -4,7 +4,7 @@ import json, os, time
 
 import requests
 
-PROMPT_VERSION = "writer-v3"
+PROMPT_VERSION = "writer-v4"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-lite-latest"
 GROQ_MODEL = os.getenv("GROQ_MODEL") or "openai/gpt-oss-120b"
 
@@ -20,7 +20,8 @@ Write three answers, 2-3 sentences each, every sentence under 22 words:
 - "normal": use say.your_numbers, say.history and say.meaning. If direction is "down" it is a LOSS: say "less than
   you put in", never "gain". If direction is "up" it is above what was put in; do not talk about a dip.
 - "market_or_fund": use say.market_or_fund only. Do not add words such as "both did less well".
-- "patience": use say.patience, then end with say.uncertainty word for word.
+- "patience": use say.patience, then end with say.uncertainty word for word. Do not repeat a figure twice.
+Never say "category"; say "the index for its type of fund" or use the index label.
 
 Hard rules (an automatic checker rejects any answer that breaks one):
 1. No numbers other than those in FACTS.say. No percentages.

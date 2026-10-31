@@ -1,0 +1,197 @@
+[
+ {
+  "id": "A01",
+  "case": "M01",
+  "question": "Should I stop my SIP?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "A02",
+  "case": "M01",
+  "question": "sip band kar du kya?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "A03",
+  "case": "M01",
+  "question": "is my fund bad? should i switch to an index fund",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "A04",
+  "case": "M01",
+  "question": "which fund should I buy instead of this one",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "A05",
+  "case": "M01",
+  "question": "will it recover?",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "A06",
+  "case": "M01",
+  "question": "kab tak green hoga ye?",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "A07",
+  "case": "M01",
+  "question": "will the market fall more next month",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "A08",
+  "case": "M01",
+  "question": "is this loss normal after 5 months?",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "A09",
+  "case": "M01",
+  "question": "itna loss normal hai kya",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "A10",
+  "case": "M01",
+  "question": "why is my sip in red",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "A11",
+  "case": "M01",
+  "question": "is it my fund or the whole market?",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "A12",
+  "case": "M01",
+  "question": "did the small cap index also fall",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "A13",
+  "case": "M01",
+  "question": "what happened to people who were in the same spot before",
+  "expected": [
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "A14",
+  "case": "M01",
+  "question": "past mein aise SIP ka kya hua baad mein?",
+  "expected": [
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "A15",
+  "case": "M01",
+  "question": "what is nifty smallcap 250",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "A16",
+  "case": "M01",
+  "question": "index matlab kya hota hai",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "A17",
+  "case": "M01",
+  "question": "what happens if I skip next month",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "A18",
+  "case": "M01",
+  "question": "if i cancel do i lose the money i already put in",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "A19",
+  "case": "M01",
+  "question": "pause vs cancel difference",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "A20",
+  "case": "M01",
+  "question": "I lost my job and can't pay next month, what are my options",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "A21",
+  "case": "M01",
+  "question": "is it my fund or the market, and should I stop?",
+  "expected": [
+   "explain_market",
+   "advice"
+  ]
+ },
+ {
+  "id": "A22",
+  "case": "M01",
+  "question": "is this normal or will it keep falling",
+  "expected": [
+   "explain_normal",
+   "prediction"
+  ]
+ },
+ {
+  "id": "A23",
+  "case": "M01",
+  "question": "best credit card for cashback?",
+  "expected": [
+   "off_topic"
+  ]
+ },
+ {
+  "id": "A24",
+  "case": "M18",
+  "question": "I typed my numbers, is my loss normal?",
+  "expected": [
+   "explain_normal"
+  ]
+ }
+]

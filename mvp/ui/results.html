@@ -307,16 +307,5 @@ let sx = null;
 $("#stage").addEventListener("touchstart", e => { if (e.target.closest(".tm")) return; sx = e.touches[0].clientX; }, { passive: true });
 $("#stage").addEventListener("touchend", e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
   if (Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); });
-function equalize() {  // every step gets the height of the tallest, so the page never jumps or clips
-  const st = $("#stage"), box = document.createElement("div"); let mx = 0;
-  box.style.cssText = `position:absolute;visibility:hidden;left:-9999px;width:${st.clientWidth}px`;
-  document.body.appendChild(box);
-  document.querySelectorAll(".card").forEach(c => { const k = c.cloneNode(true); k.className = "card";
-    k.style.display = "block"; k.style.animation = "none"; box.appendChild(k); mx = Math.max(mx, k.offsetHeight); });
-  box.remove(); st.style.minHeight = (mx + 96 + (D.paths ? 70 : 0)) + "px";  // + nav, + time-machine readout  // + room for the time-machine readout
-}
-let lastW = 0;
-equalize(); addEventListener("resize", () => { if (innerWidth !== lastW) { lastW = innerWidth; equalize(); } });
-lastW = innerWidth;
 go(0);
 </script></body></html>

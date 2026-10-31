@@ -1,0 +1,100 @@
+[
+ {
+  "id": "H25",
+  "case": "M01",
+  "question": "is losing 2879 rupees normal",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H26",
+  "case": "M01",
+  "question": "why has my money gone down",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H27",
+  "case": "M01",
+  "question": "did other small cap funds also go down or just mine",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "H28",
+  "case": "M01",
+  "question": "how did SIPs like mine do a couple of years later",
+  "expected": [
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "H29",
+  "case": "M01",
+  "question": "what does instalment mean",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "H30",
+  "case": "M01",
+  "question": "if I skip one month will my SIP get cancelled",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H31",
+  "case": "M01",
+  "question": "should I put a lump sum now since it is down",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H32",
+  "case": "M01",
+  "question": "agle saal tak recover ho jayega?",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "H33",
+  "case": "M01",
+  "question": "job chali gayi, ab instalment nahi bhar paunga",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H34",
+  "case": "M01",
+  "question": "is this normal, and what happens if I cancel",
+  "expected": [
+   "explain_normal",
+   "choices"
+  ]
+ },
+ {
+  "id": "H35",
+  "case": "M18",
+  "question": "is my 600 rupee loss bad",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H36",
+  "case": "M01",
+  "question": "recommend a good movie",
+  "expected": [
+   "off_topic"
+  ]
+ }
+]

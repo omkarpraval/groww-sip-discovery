@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v3"
+PROMPT_VERSION = "ask-v4"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -54,6 +54,8 @@ about. Most questions have exactly one intent; use two only when the question cl
 answer: 1-3 short sentences that answer ONLY the explain_*, meaning and choices parts, using ONLY sentences and
 numbers from FACTS.say, GLOSSARY or CHOICES (you may shorten or join them). Leave the advice, prediction,
 affordability and off_topic parts out; the app adds its own text for those. If nothing is left, answer "".
+For explain_normal always include both the your_numbers and the history sentences. For a yes/no question about
+skip, change or cancel, start with "Yes," or "No," and then the CHOICES sentence.
 Rules: no numbers that are not in FACTS.say; never advise, recommend, predict or reassure; no fear or urgency
 words; never call a fund good or bad; no field names; plain English even if the question is in Hinglish."""
 
@@ -113,7 +115,8 @@ def template_parts(intents, facts, q, glossary):
         if t and t.lower() in g:
             out.append(f"{t}: {g[t.lower()]}")
         elif t:
-            out.append(f"'{t}' isn't used in your answers here, so it isn't explained.")
+            out.append(f"'{t}' isn't used in your answers here. Your answers only use what you put in, what it is "
+                       "worth today, and what happened to past SIPs.")
     if "choices" in intents:
         out.append(CHOICES[_choice(q)])
     return [x for x in out if x]
@@ -130,6 +133,38 @@ def tail(intents):
     if intents == ["off_topic"]:
         t.append(OFF_TOPIC)
     return t
+
+
+# ask-v4 (human review of v3: answers to "is this normal / bad?" also explained the market or past SIPs, which
+# nobody asked; clarity 3.83). Topics are kept only if the question gives a sign of them.
+ASKS_MARKET = re.compile(r"market|fund|index|nifty|small ?cap|mid ?cap|large ?cap|others|other funds|baaki|sab ", re.I)
+ASKS_PAST = re.compile(r"past|before|later|history|people|others|like mine|similar|pehle|baad|aage|years? later", re.I)
+
+
+def drop_unasked(intents, q):
+    if "explain_normal" not in intents:
+        return intents
+    keep = [i for i in intents if not (i == "explain_market" and not ASKS_MARKET.search(q))
+            and not (i == "explain_patience" and not ASKS_PAST.search(q))]
+    return keep
+
+
+def _money(t):
+    return set(re.findall(r"₹[\d,]+", t or ""))
+
+
+def complete(text, intents, facts):
+    """ask-v4: an AI answer must carry the facts each asked part needs (v3 answers sometimes gave only totals,
+    or 'worth less' with no amount). Returns the list of missing parts."""
+    say, miss = facts.get("say") or {}, []
+    if "explain_normal" in intents:
+        if not _money(say.get("your_numbers")) <= _money(text) or ("in 10" in (say.get("history") or "") and "in 10" not in text):
+            miss.append("explain_normal")
+    if "explain_market" in intents and _money(say.get("market_or_fund")) and not (_money(say.get("market_or_fund")) & _money(text)):
+        miss.append("explain_market")
+    if "explain_patience" in intents and "in 10" in (say.get("patience") or "") and not re.search(r"in 10|all of them", text):
+        miss.append("explain_patience")
+    return miss
 
 
 def check(text, facts, defined_term=""):
@@ -182,13 +217,21 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
         intents, out["safety_net"] = intents + ["advice"], True
     if any(i != "off_topic" for i in intents):
         intents = [i for i in intents if i != "off_topic"]
+    kept = drop_unasked(intents, q)
+    if kept != intents:
+        out["dropped_unasked"] = [i for i in intents if i not in kept]
+        intents, ai_text = kept, None   # the AI wrote for topics nobody asked: use the checked template instead
+        out["fallback_reason"] = "unasked topics removed: " + ", ".join(out["dropped_unasked"])
     parts_tpl = template_parts(intents, facts, q if not term else term, glossary)
     body, source = " ".join(parts_tpl), "template"
     if ai_text:
         ok, checks = check(ai_text, facts, term or _term(q, glossary))
         out["checks"] = checks
-        if ok:
+        miss = complete(ai_text, intents, facts) if ok else []
+        if ok and not miss:
             body, source = ai_text, "ai"
+        elif ok:
+            out["fallback_reason"] = "incomplete: " + ", ".join(miss)
         else:
             out["fallback_reason"] = "failed: " + ", ".join(n for n, p, _ in checks if not p)
     if any(i in intents for i in ("explain_normal", "explain_patience")) and "past cannot promise" not in body:

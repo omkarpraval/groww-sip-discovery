@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v1"
+PROMPT_VERSION = "ask-v2"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -36,7 +36,9 @@ SYSTEM = """You help a first-time SIP investor understand THEIR OWN numbers. You
 Read the QUESTION (it may be English, Hinglish or have typos, and may ask several things) and return JSON:
 {"intents": [...], "term": "", "choice": "", "answer": "..."}
 
-intents: every one that applies, from this list:
+intents: ONLY what the question explicitly asks, from this list. Do not add related topics the user did not ask
+about. Most questions have exactly one intent; use two only when the question clearly asks two things
+(for example "X, and should I Y?"). (ask-v1 added unasked topics such as market and past SIPs to "is this normal?")
 - explain_normal: is my loss/dip normal, why is it red, how bad is it
 - explain_market: is it the market or my fund, did the index/market fall too, is my fund doing worse
 - explain_patience: what happened to past SIPs like mine later

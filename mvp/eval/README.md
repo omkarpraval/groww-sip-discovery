@@ -60,3 +60,6 @@ ask-v4: a code rule drops "market" and "past SIPs" topics from "is this normal?"
 mentions them; an AI answer must carry the user's own numbers for each part asked, otherwise the checked template
 is shown; clearer text when a word isn't used. 12 more held-out questions (`ask_heldout3.json`) were written
 before the v4 change; the pass marks apply to heldout3. Accuracy is for the full understanding step (AI + rule).
+
+ask-v4 (31 Oct 12:13 UTC): heldout3 intent accuracy 91.7% vs keyword 66.7%; decline recall 100%; gate pass 97.1%;
+unsafe shown 0; clarity 4.00 on heldout3 (labels Claude-suggested, accepted by Omkar). All pass marks met: frozen.

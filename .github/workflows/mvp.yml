@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "cache | eval | both"
+        description: "cache | eval | ask | both"
         default: "both"
       provider:
         description: "auto | gemini | groq"
@@ -37,6 +37,13 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           LLM_PROVIDER: ${{ inputs.provider }}
         run: python mvp/eval/run_eval.py
+      - name: Ask golden-set eval
+        if: inputs.stage == 'ask'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ inputs.provider }}
+        run: python mvp/eval/run_ask_eval.py
       - name: Commit
         run: |
           git config user.name "mvp-bot"

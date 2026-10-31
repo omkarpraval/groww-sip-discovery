@@ -72,6 +72,19 @@ input[type=range]{flex:1;accent-color:var(--blue);height:28px}
 .opt .body{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 14px}
 .opt.open .body{max-height:200px;padding:0 14px 14px}
 .opt .body div{font-size:.92rem;line-height:1.5}
+.how{margin-top:12px;border:1px dashed #C9D3DF;border-radius:12px;padding:0 12px;background:#FAFCFE}
+.how summary{cursor:pointer;font-size:.82rem;font-weight:700;color:var(--blue);padding:9px 0;list-style:none}
+.how summary::-webkit-details-marker{display:none}
+.how summary:before{content:"＋ ";}.how[open] summary:before{content:"－ ";}
+.how div{font-size:.84rem;line-height:1.55;color:var(--muted);padding:0 0 10px}
+.banner{background:#FFF6E5;border:1px solid #F0D49A;border-radius:12px;padding:9px 12px;font-size:.84rem;line-height:1.45;margin-top:10px}
+.pin{display:flex;gap:6px;align-items:center;font-size:.8rem;font-weight:700;color:var(--ink);background:#FFF6E5;border-radius:10px;padding:6px 10px;margin:2px 0 6px}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem;margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cmp th,.cmp td{padding:8px 7px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp th{background:#F1F5FA;font-weight:700}.cmp td:first-child{color:var(--muted);font-weight:600;width:24%}
+.cmp .warn{color:var(--orange);font-weight:600}
+.afford{background:var(--soft-blue);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.45;margin:10px 0 2px}
 /* glossary */
 .term{all:unset;cursor:help;border-bottom:2px dotted var(--sky);font-weight:600;color:inherit}
 .tip{position:fixed;z-index:9;max-width:260px;background:var(--ink);color:#fff;font-size:.84rem;line-height:1.45;padding:10px 12px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s}
@@ -142,6 +155,7 @@ $("#sum").innerHTML = `<div class="who">${esc(S.who)}</div><div class="row">
   <div><div class="l">Worth today</div><div class="v" data-n="${S.val}">₹0</div></div>
   <div><div class="l">Difference</div><div class="v ${S.dir}" data-n="${Math.abs(S.val - S.inv)}" data-s="${S.val < S.inv ? "−" : S.val > S.inv ? "+" : ""}">₹0</div></div>
   </div><div class="foot">${esc(S.foot)}</div>`;
+if (D.banner) $("#sum").insertAdjacentHTML("afterend", `<div class="banner">ℹ️ ${esc(D.banner)}</div>`);
 const fmt = n => "₹" + Math.round(n).toLocaleString("en-IN");
 document.querySelectorAll(".sum .v").forEach(el => {
   const n = +el.dataset.n, s = el.dataset.s || "", t0 = performance.now();
@@ -151,6 +165,7 @@ document.querySelectorAll(".sum .v").forEach(el => {
 });
 
 /* ---------- step builders ---------- */
+const how = t => t ? `<details class="how"><summary>How was this calculated?</summary><div>${esc(t)}</div></details>` : "";
 const person = (cls, i) => `<svg class="person ${cls}" style="animation-delay:${i * 60}ms" viewBox="0 0 26 34"><circle cx="13" cy="8" r="6.5"/><path d="M2 33c0-8 4.8-13 11-13s11 5 11 13z"/></svg>`;
 function people(k, cls, rare) { let h = ""; for (let i = 0; i < 10; i++) h += person(i < k ? cls : (rare && i === 0 ? "faint" : ""), i); return `<div class="people">${h}</div>`; }
 
@@ -158,7 +173,7 @@ function step1() {
   const v = D.normal;
   let vis = "";
   if (v.k !== null) vis = people(v.k, v.cls, v.rare) + `<div class="cap">${esc(v.cap)}</div>`;
-  return `<div class="q">Question 1 of 3</div><h2>Is this normal for my stage?</h2>${vis}<p class="a">${gloss(D.answer.normal, new Set())}</p>`;
+  return `<div class="q">Question 1 of 3</div><h2>Is this normal for my stage?</h2>${vis}<p class="a">${gloss(D.answer.normal, new Set())}</p>${how(D.method.s1)}`;
 }
 
 function step2() {
@@ -173,7 +188,7 @@ function step2() {
     }).join("") + `<div class="legend"><span>◀ below what you put in</span><span>above ▶</span></div></div>
     <div class="cap">The dark centre line is what you put in (${fmt(D.summary.inv)}).</div>`;
   }
-  return `<div class="q">Question 2 of 3</div><h2>Is it the market or my fund?</h2>${vis}<p class="a">${gloss(D.answer.market_or_fund, seen)}</p>`;
+  return `<div class="q">Question 2 of 3</div><h2>Is it the market or my fund?</h2>${vis}<p class="a">${gloss(D.answer.market_or_fund, seen)}</p>${how(D.method.s2)}`;
 }
 
 function step3() {
@@ -184,17 +199,22 @@ function step3() {
       <svg id="tmsvg" viewBox="0 0 340 200" role="img" aria-label="Past SIPs over time"></svg>
       <div class="tmtop"><button class="play" id="play" aria-label="Play">▶</button>
       <input type="range" id="slider" min="1" max="${P.max_m}" value="${D.n}"><span class="mlabel" id="mlab"></span></div>
+      <div class="pin">⚠️ Past SIPs, not a forecast. The past can’t promise what happens next.</div>
       <div class="seg" id="seg"><button data-v="red" class="on">Red at month ${D.n}, like yours</button><button data-v="all">All past SIPs</button></div>
       <div class="read" id="read"></div>
       <div class="cap" style="margin-top:6px">Each faint line is a SIP started in a different month since ${P.since}, run on the real prices of ${esc(P.series)}. <span style="color:var(--blue);font-weight:700">Blue</span> = above what was put in at that month, <span style="color:var(--orange);font-weight:700">orange</span> = below. The dark line is you.</div></div>`;
   }
-  return `<div class="q">Question 3 of 3</div><h2>What does patience look like?</h2>${vis}<p class="a">${gloss(D.answer.patience)}</p>`;
+  return `<div class="q">Question 3 of 3</div><h2>What does patience look like?</h2>${vis}<p class="a">${gloss(D.answer.patience)}</p>${how(D.method.s3)}`;
 }
 
 function step4() {
   const seen = new Set();
   const icons = ["⏭️", "🔧", "⏹️"], tints = ["var(--soft-blue)", "#EEF6E9", "var(--soft-orange)"];
-  return `<div class="q">Your choices</div><h2>What can I do?</h2><div class="cap">Shown side by side so you can see what each one does. None of them is a suggestion, and staying as you are is a choice too.</div>` +
+  const C = D.compare_choices;
+  const table = `<table class="cmp"><tr><th></th>${C.cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr>` +
+    C.rows.map(r => `<tr><td>${esc(r[0])}</td>${r.slice(1).map(v => `<td${v.startsWith("!") ? ' class="warn"' : ""}>${esc(v.replace(/^!/, ""))}</td>`).join("")}</tr>`).join("") + `</table>`;
+  return `<div class="q">Your choices</div><h2>What can I do?</h2><div class="cap">Shown side by side so you can see what each one does. None of them is a suggestion, and staying as you are is a choice too.</div>
+    <div class="afford">💡 ${esc(D.afford)}</div>${table}` +
     D.options.map((o, i) => `<div class="opt"><button aria-expanded="false"><span class="ic" style="background:${tints[i]}">${icons[i]}</span>
       <span><div class="tt">${esc(o.t)}</div><div class="sub">${esc(o.short)}</div></span><span class="chev">›</span></button>
       <div class="body"><div>${gloss(o.what, seen)}</div><div class="cap" style="margin-top:6px">${esc(o.note)}</div></div></div>`).join("") +
@@ -262,7 +282,7 @@ $("#stage").innerHTML = STEPS.map((s, i) => `<div class="card" id="c${i}">${s[2]
 function badge() {
   const ok = D.source === "ai";
   return `<div class="badge ${ok ? "ok" : "std"}" onclick="this.nextElementSibling.classList.toggle('on')"><span>${ok ? "✓ <b>Checked answer</b> · numbers match your data, no advice, plain words" : "● <b>Standard answer</b> · built directly from your numbers"}</span><span style="margin-left:auto">ⓘ</span></div>
-    <div class="checks">${D.checks.map(c => `${c.ok ? "✓" : "✗"} ${esc(c.name)}`).join("<br>")}${D.source === "ai" ? "" : "<br>The AI's wording didn't pass every check (or was unavailable), so this is the standard answer."}</div>`;
+    <div class="checks">${D.checks.map(c => `${c.ok ? "✓" : "✗"} ${esc(c.name)}`).join("<br>")}${D.source === "ai" ? "<br>The AI wrote this answer, then automatic rules checked it before you saw it. A person didn’t review it, and it isn’t advice." : "<br>The AI’s wording didn’t pass every check (or was unavailable), so this is the standard answer, built straight from your numbers."}</div>`;
 }
 function go(i) {
   cur = Math.max(0, Math.min(STEPS.length - 1, i)); stop();

@@ -1,6 +1,6 @@
 """'Is this normal for me?' — prototype for first-time SIP investors whose SIP is in the red.
 Explains the user's own numbers; never recommends a fund or an action. Not investment advice."""
-import json, os, sys
+import html, json, os, sys
 from datetime import date
 
 import streamlit as st
@@ -9,6 +9,7 @@ import streamlit.components.v1 as components
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mvp.core import data as D, engine as E  # noqa: E402
 from mvp.core.explain import explain  # noqa: E402
+from mvp.core import ask as ASK  # noqa: E402
 
 st.set_page_config(page_title="Is this normal for me?", page_icon="🧭", layout="centered")
 for k in ("GEMINI_API_KEY", "GROQ_API_KEY", "GEMINI_MODEL", "GROQ_MODEL"):
@@ -46,6 +47,13 @@ div[data-testid="stTextInput"] input, div[data-testid="stNumberInput"] input {{ 
 [data-testid="stButton"] button[kind="primary"] {{ background: linear-gradient(135deg, {BLUE}, #0A5C8F); border:0; box-shadow: 0 8px 20px rgba(0,114,178,.28); }}
 div.stButton > button:active {{ transform: scale(.98); }}
 button:disabled, button[disabled] {{ opacity:.45 !important; box-shadow:none !important; filter: grayscale(.4); }}
+.ask-head {{ margin:22px 0 8px; }} .ask-head b {{ font-size:1.1rem; display:block; }} .ask-head span {{ font-size:.85rem; color:{MUTED}; }}
+.ask-card {{ background:#fff; border:1px solid #DCE3EC; border-radius:16px; padding:14px 16px; margin:10px 0; box-shadow:0 6px 18px rgba(20,33,61,.05); animation: askin .35s ease; }}
+@keyframes askin {{ from {{ opacity:0; transform:translateY(8px); }} to {{ opacity:1; transform:none; }} }}
+.ask-card .q {{ font-weight:700; margin-bottom:6px; }} .ask-card p {{ margin:8px 0 6px; line-height:1.55; }}
+.ask-card .foot {{ font-size:.75rem; color:{MUTED}; }}
+.ichip {{ display:inline-block; font-size:.72rem; font-weight:600; background:#E6F2F9; color:{BLUE}; border-radius:99px; padding:2px 9px; margin:0 4px 4px 0; }}
+.ichip.blk {{ background:#FBEDE4; color:{ORANGE}; }}
 .notice {{ font-size:.8rem; color:{MUTED}; border-top:1px solid #DCE3EC; padding-top:10px; margin-top:18px; line-height:1.5; }}
 .tour-art {{ background: linear-gradient(135deg,#14213D,#0B4F75); border-radius:18px; padding:18px; color:#fff; margin-bottom:12px; min-height:150px; }}
 .tour-art .big {{ font-size:1.25rem; font-weight:800; line-height:1.3; }}
@@ -177,6 +185,7 @@ else:
 go = st.button("Explain my SIP", type="primary", disabled=req is None)
 if go:
     st.session_state.pop("result", None)
+    st.session_state.pop("asks", None)
     with st.spinner("Reading public prices and writing your answer…"):
         try:
             if req[0] == "fund":
@@ -192,20 +201,7 @@ if go:
 
 
 # ---------------------------------------------------------------- results
-GLOSSARY = {
-    "instalment": "One monthly payment into your SIP.",
-    "in the red": "Worth less today than the money you put in.",
-    "past SIPs": "SIPs started in each past month, run on real past prices. They show what happened, not what will.",
-    "index for its type of fund": "An index holding the same kind of companies your fund buys, like small or large "
-                                  "companies. It's a yardstick, not a suggestion.",
-    "index": "A fixed basket of many companies' shares, used as a yardstick. It is not a fund suggestion.",
-    "Nifty 50": "An index of 50 of India's largest companies. Here it stands for 'the market'.",
-    "Nifty 100": "An index of India's 100 largest companies.",
-    "Nifty 500": "An index of 500 companies, large and small: a broad view of the market.",
-    "Nifty Midcap 150": "An index of 150 medium-sized companies.",
-    "Nifty Smallcap 250": "An index of 250 smaller companies. Their prices tend to move up and down more.",
-    "units": "Your share of the fund. You keep them unless you sell.",
-}
+GLOSSARY = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "eval", "glossary.json"), encoding="utf-8"))
 OPTIONS = [
     {"t": "Skip one instalment", "short": "Pause next month only", "what": "You keep the units you own. Only the next instalment is skipped.",
      "note": "One skip at a time. Three skips in a row cancel the SIP."},
@@ -298,6 +294,44 @@ if r:
         components.html(page, height=900, scrolling=True)
     m = r.get("meta") or {}
     st.caption(f"Writer: {m.get('model', 'standard answer')} · {m.get('prompt_version', '')} · prices: {r['facts'].get('price_source')}")
+
+    # ------------------------------------------------------------ ask about your SIP
+    st.markdown('<div class="ask-head"><b>💬 Ask about your SIP</b><span>In your own words, English or Hinglish. '
+                'It explains your numbers and choices; it won\'t tell you what to do.</span></div>', unsafe_allow_html=True)
+    SUGGEST = ["Is it my fund or the market?", "Should I stop my SIP?", "Kab tak green hoga?",
+               "What happens if I skip next month?", "Index matlab kya?"]
+    def _pick():
+        st.session_state["pending_q"] = st.session_state.get("sugg")
+        st.session_state["sugg"] = None
+    if hasattr(st, "pills"):
+        st.pills("Try one", SUGGEST, key="sugg", on_change=_pick, label_visibility="collapsed")
+    else:
+        for i, sq in enumerate(SUGGEST):
+            if st.button(sq, key=f"sg{i}"):
+                st.session_state["pending_q"] = sq
+    picked = st.session_state.pop("pending_q", None)
+    with st.form("askf", clear_on_submit=True, border=False):
+        c1, c2 = st.columns([4, 1])
+        typed = c1.text_input("Your question", placeholder="e.g. itna loss normal hai kya?", label_visibility="collapsed")
+        sent = c2.form_submit_button("Ask", type="primary")
+    question = picked or (typed if sent and typed.strip() else None)
+    if question:
+        with st.spinner("Reading your question…"):
+            st.session_state.setdefault("asks", []).insert(0, ASK.ask(question, r["facts"], GLOSSARY, timeout=20))
+    NAMES = {"explain_normal": "Is this normal?", "explain_market": "Market or fund", "explain_patience": "Past SIPs",
+             "meaning": "Meaning of a word", "choices": "Your choices", "affordability": "Your budget",
+             "advice": "Asks what to do (declined)", "prediction": "Asks what will happen (declined)",
+             "off_topic": "Outside this app"}
+    for a_ in st.session_state.get("asks", [])[:5]:
+        chips = "".join(f'<span class="ichip{" blk" if i in ASK.BLOCKED else ""}">{NAMES.get(i, i)}</span>' for i in a_["intents"])
+        down = (a_.get("fallback_reason") or "").startswith("AI unavailable")
+        badge = ("✓ Checked AI answer" if a_["source"] == "ai" else
+                 "● Standard answer (AI unavailable)" if down else
+                 "● Standard answer (AI text didn't pass a check)" if a_["source"] == "template" else "● Fixed safe answer")
+        how = "AI understood the question" if a_["router"] == "ai" else "Keyword match (AI unavailable)"
+        st.markdown(f'<div class="ask-card"><div class="q">“{html.escape(a_["question"])}”</div><div>{chips}</div>'
+                    f'<p>{html.escape(a_["answer"])}</p><div class="foot">{badge} · {how} · not investment advice</div></div>',
+                    unsafe_allow_html=True)
 
 st.markdown(f'<div class="notice">{NOTICE} Prices: public AMFI data via mfapi.in. Comparisons use index-tracking '
             f'prices. A prototype for a product-management project; not affiliated with any fund house or app.</div>',

@@ -53,3 +53,10 @@ ask-v2 (31 Oct): tuning 87.5% vs keyword 70.8%; held-out 83.3% vs 50.0% (below 8
 ask-v3: keyword safety net always adds the advice decline; prompt says asset-buying questions are advice and
 "is this normal?" alone is one intent. Because ask-v2 has seen `ask_heldout.json`, 12 more held-out questions
 (`ask_heldout2.json`) were written before the v3 run; the pass marks apply to heldout2.
+
+ask-v3 (31 Oct, labels Claude-suggested and accepted by Omkar): unsafe 0, decline recall 100%, gate 92.9%, but
+heldout2 accuracy 83.3% (< 85%) and clarity 3.83 (< 4). Failed.
+ask-v4: a code rule drops "market" and "past SIPs" topics from "is this normal?" questions unless the question
+mentions them; an AI answer must carry the user's own numbers for each part asked, otherwise the checked template
+is shown; clearer text when a word isn't used. 12 more held-out questions (`ask_heldout3.json`) were written
+before the v4 change; the pass marks apply to heldout3. Accuracy is for the full understanding step (AI + rule).

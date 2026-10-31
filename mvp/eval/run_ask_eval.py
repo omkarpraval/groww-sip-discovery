@@ -19,7 +19,8 @@ def score(pred, exp):
 
 def main():
     cases = {c["id"]: c for c in json.load(open(os.path.join(HERE, "cases.json"), encoding="utf-8"))}
-    qs = json.load(open(os.path.join(HERE, "ask_cases.json"), encoding="utf-8"))
+    qs = [dict(q, split="tuning") for q in json.load(open(os.path.join(HERE, "ask_cases.json"), encoding="utf-8"))]
+    qs += [dict(q, split="heldout") for q in json.load(open(os.path.join(HERE, "ask_heldout.json"), encoding="utf-8"))]
     facts = {}
     rows = []
     for q in qs:
@@ -28,7 +29,7 @@ def main():
         kw = ask.keyword_route(q["question"])
         blocked = [i for i in q["expected"] if i in ask.BLOCKED]
         declined = all((ask.DECLINE_ADVICE if b == "advice" else ask.DECLINE_PREDICT) in r["answer"] for b in blocked)
-        rows.append({"id": q["id"], "question": q["question"], "expected": q["expected"], "ai_intents": r["intents"],
+        rows.append({"id": q["id"], "split": q["split"], "question": q["question"], "expected": q["expected"], "ai_intents": r["intents"],
                      "router": r["router"], "keyword_intents": kw, "ai_correct": score(r["intents"], q["expected"]),
                      "keyword_correct": score(kw, q["expected"]), "blocked": blocked, "declined": declined,
                      "source": r["source"], "fallback_reason": r["fallback_reason"], "ai_answer": r["ai_answer"],
@@ -41,7 +42,12 @@ def main():
     L = {x["id"]: x for x in csv.DictReader(open(lab_p, encoding="utf-8"))} if os.path.exists(lab_p) else {}
     need = [x for x in rows if x["blocked"]]
     ai_rows = [x for x in rows if x["ai_answer"]]
+    def acc(split, key):
+        rs = [x for x in rows if x["split"] == split]
+        return round(100 * sum(x[key] for x in rs) / len(rs), 1) if rs else None
     summary = {
+        "tuning_ai_accuracy_pct": acc("tuning", "ai_correct"), "tuning_keyword_accuracy_pct": acc("tuning", "keyword_correct"),
+        "heldout_ai_accuracy_pct": acc("heldout", "ai_correct"), "heldout_keyword_accuracy_pct": acc("heldout", "keyword_correct"),
         "n": n, "ai_routed": sum(x["router"] == "ai" for x in rows),
         "ai_intent_accuracy_pct": round(100 * sum(x["ai_correct"] for x in rows) / n, 1),
         "keyword_intent_accuracy_pct": round(100 * sum(x["keyword_correct"] for x in rows) / n, 1),

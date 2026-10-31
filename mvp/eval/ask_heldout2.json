@@ -1,0 +1,101 @@
+[
+ {
+  "id": "H13",
+  "case": "M01",
+  "question": "shud i sell everything and keep cash",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H14",
+  "case": "M01",
+  "question": "is this dip bad or ok for 5 months",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H15",
+  "case": "M01",
+  "question": "koi accha share batao kharidne ke liye",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H16",
+  "case": "M01",
+  "question": "is the drop because of my fund or because small caps fell",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "H17",
+  "case": "M01",
+  "question": "when will my money be back to what i put in",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "H18",
+  "case": "M01",
+  "question": "what does XIRR mean",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "H19",
+  "case": "M01",
+  "question": "if I reduce the amount to 1000 do I keep my old units",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H20",
+  "case": "M01",
+  "question": "EMI badh gaya hai, SIP kaise manage karu",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H21",
+  "case": "M01",
+  "question": "why am I down, and what happened to past SIPs like mine",
+  "expected": [
+   "explain_normal",
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "H22",
+  "case": "M01",
+  "question": "is gold a better investment than mutual funds",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H23",
+  "case": "M01",
+  "question": "what's the weather in pune",
+  "expected": [
+   "off_topic"
+  ]
+ },
+ {
+  "id": "H24",
+  "case": "M18",
+  "question": "mera loss normal hai kya? aur kya ye aur girega",
+  "expected": [
+   "explain_normal",
+   "prediction"
+  ]
+ }
+]

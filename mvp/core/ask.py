@@ -160,6 +160,11 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
     try:
         res, meta = writer.complete_json(SYSTEM, json.dumps(payload, ensure_ascii=False), provider=provider,
                                          timeout=timeout, keys=keys)
+        # models sometimes wrap the object in a list, or return something else: never crash, fall back instead
+        if isinstance(res, list) and res and isinstance(res[0], dict):
+            res = res[0]
+        if not isinstance(res, dict):
+            raise writer.WriterError(f"AI returned {type(res).__name__}, not an object")
         got = [i for i in (res.get("intents") or []) if i in INTENTS]
         if got:
             intents, out["router"] = got, "ai"

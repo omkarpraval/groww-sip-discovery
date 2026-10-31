@@ -79,20 +79,16 @@ st.markdown(f"""<div class="hero">{COMPASS}<div><h1>Is this normal for me?</h1>
 TOUR = [
     ("What this is", "Your SIP is in the red. Is that normal?",
      ["① Is this normal for my stage?", "② Is it the market or my fund?", "③ What does patience look like?"],
-     "First SIPs often go below what you put in, and it's hard to tell if that's a problem. This app answers "
-     "three questions about <b>your own numbers</b>, using real past prices."),
+     "Three plain answers about <b>your own numbers</b>, using real past prices."),
     ("How to start", "Three ways in, no login",
      ["🔎 Find my fund", "⌨️ Type my numbers", "🎲 Try an example"],
-     "Pick your fund and when you started, or just type what you put in and what it's worth today. "
-     "We never ask for PAN, account numbers or screenshots."),
-    ("How to read it", "Pictures you can read in a glance",
-     ["🧍 10 people = 10 past SIPs", "▮ centre line = what you put in", "⏳ time machine = past SIPs over time"],
-     "Each answer has a small picture. The <b>time machine</b> lets you press ▶ and watch where past SIPs like yours "
-     "were months later. Dotted words open a plain meaning when you tap them."),
+     "Pick your fund, or type what you put in and what it's worth. No PAN or account numbers."),
+    ("How to read it", "Pictures, not jargon",
+     ["🧍 10 people = 10 past SIPs", "▮ centre line = what you put in", "⏳ time machine = past, not a forecast"],
+     "Tap ▶ to see where past SIPs were later, tap dotted words for a meaning, and open “How was this calculated?” for the method."),
     ("What it won't do", "No advice. No predictions. No pressure.",
      ["✓ Checked answers", "⚖️ Choices side by side", "🧭 You decide"],
-     "Every answer is checked before you see it: the numbers must match your data, with no advice, fund tips or "
-     "scary words. If a check fails, you see a standard answer built straight from your numbers."),
+     "Automatic checks block advice, fund tips and scary words before you see an answer."),
 ]
 
 
@@ -247,11 +243,45 @@ def ui_data(r):
     paths = f.get("_paths")
     if paths:
         paths = dict(paths, since=h.get("since_year"), series=h.get("series"))
+    n, asof, src = f["months"], f["as_of"], "Prices are public AMFI NAVs (via mfapi.in)"
+    if h.get("available"):
+        s1 = (f"We replayed {h['past_starts']} past SIPs in {h['series']}, one starting each month from {h['since_year']}, "
+              f"each investing the same amount on the 5th. Then we counted how many were "
+              + ("as far down as yours, or further," if f["direction"] == "down" else "below what was put in")
+              + f" after {n} months. {src}, up to {asof}.")
+    else:
+        s1 = f"There isn't enough price history to compare with past SIPs at month {n}. {src}, up to {asof}."
+    if c.get("available"):
+        s2 = ("We put the same instalments, on the same dates, into "
+              + (f"the {c['category_label']}, the index for {f.get('category_name') or 'funds'} funds like yours, and into "
+                 if c.get("category_label") else "")
+              + "the market (Nifty 50). Index values come from public prices of funds that track each index, so they can "
+                f"differ slightly from the official index. {src}, up to {asof}.")
+    elif f["path"] == "manual":
+        s2 = "You typed your totals, so we don't know your fund and have nothing fair to compare it with. Pick your fund to see this part."
+    else:
+        s2 = "Your fund doesn't invest only in shares, so a share-market index wouldn't be a fair yardstick. We left the comparison out."
+    hz = h.get("horizons") or []
+    if h.get("available") and hz:
+        s3 = (f"From the {h['past_starts']} past SIPs, we took those in the red at month {n} and checked where they were at "
+              + " and ".join(f"month {x['month']} ({x['red_starts_seen']} with known results)" for x in hz)
+              + ". Only past SIPs are used; the past can't promise what happens next.")
+    else:
+        s3 = ""
+    banner = ("You typed your numbers, so we don't know your fund. We use past SIPs in the market (Nifty 50) as a guide, "
+              "and can't compare your fund with others." if f["path"] == "manual" else "")
     return {
+        "method": {"s1": s1, "s2": s2, "s3": s3}, "banner": banner,
+        "afford": "This app explains your SIP's numbers. Only you know whether the next instalment fits your budget this month.",
+        "compare_choices": {"cols": ["Skip one", "Change amount or date", "Cancel"], "rows": [
+            ["Next instalment", "Not taken", "Taken at the new amount or date*", "Not taken"],
+            ["Units you own", "Kept", "Kept", "Kept"],
+            ["Later instalments", "Continue as before", "Use the new amount or date", "Stop"],
+            ["Watch out", "!3 skips in a row cancel the SIP", "*If it's due within 2 working days, the change starts after it", "To restart, you set up a new SIP"]]},
         "summary": {"who": who, "inv": f["_inv"], "val": f["_val"], "dir": f["direction"],
                     "foot": f"{f['months']} monthly instalments of {f['monthly_amount']}"},
         "n": f["months"], "answer": a, "normal": normal, "compare": {"rows": rows}, "paths": paths,
-        "options": OPTIONS, "options_note": "Rules as described on Groww's help pages; check the app for the latest. "
+        "options": OPTIONS, "options_note": "Source: rules as described on Groww's help pages (read Oct 2026); check the app for the latest. "
                                              "Banks may charge for a failed auto-debit.",
         "glossary": GLOSSARY, "source": r["source"],
         "checks": [{"name": CHECK_NAMES.get(n, n), "ok": ok} for n, ok, _ in (r.get("checks") or [])],

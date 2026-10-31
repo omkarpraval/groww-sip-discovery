@@ -47,3 +47,9 @@ Run: GitHub Actions -> "MVP (price cache + eval)" -> stage `ask`. Output: `outpu
 ask-v1 (31 Oct): decline recall 100%, gate pass 100%, but AI intent accuracy 70.8% = keyword router, so it failed.
 The AI tagged topics nobody asked about. For ask-v2, 12 held-out questions (`ask_heldout.json`) were written
 before the rerun and are never used to tune the prompt; accuracy is reported on both sets.
+
+ask-v2 (31 Oct): tuning 87.5% vs keyword 70.8%; held-out 83.3% vs 50.0% (below 85%); decline recall 92.9%
+("which stock is best to buy today" was tagged off_topic, so no decline was shown). Gate pass 95.7%. Failed.
+ask-v3: keyword safety net always adds the advice decline; prompt says asset-buying questions are advice and
+"is this normal?" alone is one intent. Because ask-v2 has seen `ask_heldout.json`, 12 more held-out questions
+(`ask_heldout2.json`) were written before the v3 run; the pass marks apply to heldout2.

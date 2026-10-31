@@ -53,3 +53,17 @@ def test_keyword_safety_net_adds_advice_decline(monkeypatch):
     monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["off_topic"], "answer": ""}, {}))
     r = ask.ask("which fund should I buy today", facts(), GLOSS)
     assert "advice" in r["intents"] and ask.DECLINE_ADVICE in r["answer"] and r.get("safety_net")
+
+
+def test_unasked_topics_are_dropped():
+    assert ask.drop_unasked(["explain_normal", "explain_market", "explain_patience"], "is this loss bad") == ["explain_normal"]
+    assert ask.drop_unasked(["explain_normal", "explain_market"], "is it normal or is it my fund") == ["explain_normal", "explain_market"]
+    assert ask.drop_unasked(["explain_market"], "did small caps fall") == ["explain_market"]
+
+
+def test_incomplete_ai_answer_uses_template(monkeypatch):
+    f = facts()
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: (
+        {"intents": ["explain_normal"], "answer": "Your SIP is below what you put in."}, {}))
+    r = ask.ask("is this normal?", f, GLOSS)
+    assert r["source"] == "template" and r["fallback_reason"].startswith("incomplete")

@@ -40,3 +40,10 @@ def test_ai_cannot_add_numbers(monkeypatch):
         {"intents": ["explain_normal"], "answer": "You are down 37% and that happens 9 in 10 times."}, {}))
     r = ask.ask("is this normal?", facts(), GLOSS)
     assert r["source"] == "template"
+
+
+def test_ai_non_object_falls_back(monkeypatch):
+    for bad in ([], "text", 3, [{"intents": ["advice"], "answer": ""}]):
+        monkeypatch.setattr(ask.writer, "complete_json", lambda *a, _b=bad, **k: (_b, {"provider": "x", "model": "y"}))
+        r = ask.ask("should I stop my SIP?", facts(), GLOSS)
+        assert ask.DECLINE_ADVICE in r["answer"]

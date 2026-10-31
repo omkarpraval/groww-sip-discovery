@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v2"
+PROMPT_VERSION = "ask-v3"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -39,13 +39,15 @@ Read the QUESTION (it may be English, Hinglish or have typos, and may ask severa
 intents: ONLY what the question explicitly asks, from this list. Do not add related topics the user did not ask
 about. Most questions have exactly one intent; use two only when the question clearly asks two things
 (for example "X, and should I Y?"). (ask-v1 added unasked topics such as market and past SIPs to "is this normal?")
+"Is this normal / bad / ok?" on its own is ONLY explain_normal. "What does X mean?" on its own is ONLY meaning.
 - explain_normal: is my loss/dip normal, why is it red, how bad is it
 - explain_market: is it the market or my fund, did the index/market fall too, is my fund doing worse
 - explain_patience: what happened to past SIPs like mine later
 - meaning: what a word means (put the word in "term")
 - choices: what skip, change amount/date or cancel DO (put skip, change or cancel in "choice"); pause = skip
 - affordability: can't pay, money is tight, lost job, income changed
-- advice: asks what to DO or which fund (stop? continue? switch? buy? sell? invest more? is my fund good/bad?)
+- advice: asks what to DO or which fund (stop? continue? switch? buy? sell? invest more? is my fund good/bad?);
+  also which stock, share, fund or asset to buy, or whether gold, FDs, stocks etc. are better. This is advice, never off_topic
 - prediction: asks what WILL happen (will it recover, when will it be green, will the market fall)
 - off_topic: anything not about this SIP
 
@@ -174,6 +176,10 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
         out["ai_answer"] = ai_text
     except writer.WriterError as e:
         out["fallback_reason"] = f"AI unavailable: {str(e)[:120]}"
+    # ask-v3 safety net (ask-v2 tagged "which stock is best to buy today" as off_topic, so no decline was shown):
+    # if the keyword router sees an advice question, the decline is always added, whatever the AI said.
+    if "advice" in keyword_route(q) and "advice" not in intents:
+        intents, out["safety_net"] = intents + ["advice"], True
     if any(i != "off_topic" for i in intents):
         intents = [i for i in intents if i != "off_topic"]
     parts_tpl = template_parts(intents, facts, q if not term else term, glossary)

@@ -1,0 +1,101 @@
+[
+ {
+  "id": "H01",
+  "case": "M01",
+  "question": "mujhe SIP rok deni chahiye kya?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H02",
+  "case": "M01",
+  "question": "is a 2,879 loss bad at month 5",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H03",
+  "case": "M01",
+  "question": "does the market also show a loss",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "H04",
+  "case": "M01",
+  "question": "how long until I am in profit",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "H05",
+  "case": "M01",
+  "question": "what does units mean",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "H06",
+  "case": "M01",
+  "question": "can I change my sip date to the 10th",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H07",
+  "case": "M01",
+  "question": "salary is late this month, what can i do about the instalment",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H08",
+  "case": "M01",
+  "question": "is my fund worse than the market, should i move to another fund",
+  "expected": [
+   "explain_market",
+   "advice"
+  ]
+ },
+ {
+  "id": "H09",
+  "case": "M01",
+  "question": "batao past mein log kitne time mein profit mein aaye",
+  "expected": [
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "H10",
+  "case": "M01",
+  "question": "which stock is best to buy today",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H11",
+  "case": "M01",
+  "question": "tell me a joke",
+  "expected": [
+   "off_topic"
+  ]
+ },
+ {
+  "id": "H12",
+  "case": "M18",
+  "question": "will nifty go up next week, and is my loss normal?",
+  "expected": [
+   "prediction",
+   "explain_normal"
+  ]
+ }
+]

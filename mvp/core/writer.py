@@ -54,10 +54,12 @@ def public_facts(f):
     return clean(f)
 
 
-def _gemini(prompt, key, timeout):
+def _gemini(prompt, key, timeout, system=None, schema=SCHEMA):
+    cfg = {"temperature": 0.2, "responseMimeType": "application/json"}
+    if schema:
+        cfg["responseSchema"] = schema
     body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
-            "systemInstruction": {"parts": [{"text": SYSTEM}]},
-            "generationConfig": {"temperature": 0.2, "responseMimeType": "application/json", "responseSchema": SCHEMA}}
+            "systemInstruction": {"parts": [{"text": system or SYSTEM}]}, "generationConfig": cfg}
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     r = requests.post(url, params={"key": key}, json=body, timeout=timeout)
     if r.status_code != 200:
@@ -66,9 +68,9 @@ def _gemini(prompt, key, timeout):
     return json.loads("".join(p.get("text", "") for p in parts if not p.get("thought"))), GEMINI_MODEL
 
 
-def _groq(prompt, key, timeout):
+def _groq(prompt, key, timeout, system=None, schema=None):
     body = {"model": GROQ_MODEL, "temperature": 0.2, "response_format": {"type": "json_object"},
-            "messages": [{"role": "system", "content": SYSTEM}, {"role": "user", "content": prompt}]}
+            "messages": [{"role": "system", "content": system or SYSTEM}, {"role": "user", "content": prompt}]}
     r = requests.post("https://api.groq.com/openai/v1/chat/completions", json=body, timeout=timeout,
                       headers={"Authorization": f"Bearer {key}"})
     if r.status_code != 200:
@@ -94,6 +96,27 @@ def write(facts, provider=None, timeout=20, keys=None):
             ans, model = (_gemini if p == "gemini" else _groq)(prompt, k, timeout)
             return ans, {"provider": p, "model": model, "seconds": round(time.time() - t0, 1),
                          "prompt_version": PROMPT_VERSION}
+        except (WriterError, requests.RequestException, KeyError, IndexError, ValueError) as e:
+            errors.append(f"{p}: {str(e)[:120]}")
+    raise WriterError("; ".join(errors))
+
+
+def complete_json(system, prompt, provider=None, timeout=20, keys=None):
+    """Any JSON task with the same providers and fallback order (used by 'Ask about your SIP')."""
+    keys = keys or {}
+    gk = keys.get("gemini") or os.getenv("GEMINI_API_KEY")
+    qk = keys.get("groq") or os.getenv("GROQ_API_KEY")
+    provider = provider or os.getenv("LLM_PROVIDER") or "auto"
+    order = {"gemini": ["gemini"], "groq": ["groq"]}.get(provider, ["gemini", "groq"])
+    errors = []
+    for p in order:
+        k = gk if p == "gemini" else qk
+        if not k:
+            errors.append(f"{p}: no key"); continue
+        t0 = time.time()
+        try:
+            ans, model = (_gemini if p == "gemini" else _groq)(prompt, k, timeout, system=system, schema=None)
+            return ans, {"provider": p, "model": model, "seconds": round(time.time() - t0, 1)}
         except (WriterError, requests.RequestException, KeyError, IndexError, ValueError) as e:
             errors.append(f"{p}: {str(e)[:120]}")
     raise WriterError("; ".join(errors))

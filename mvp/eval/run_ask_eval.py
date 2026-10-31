@@ -21,6 +21,8 @@ def main():
     cases = {c["id"]: c for c in json.load(open(os.path.join(HERE, "cases.json"), encoding="utf-8"))}
     qs = [dict(q, split="tuning") for q in json.load(open(os.path.join(HERE, "ask_cases.json"), encoding="utf-8"))]
     qs += [dict(q, split="heldout") for q in json.load(open(os.path.join(HERE, "ask_heldout.json"), encoding="utf-8"))]
+    # ask_heldout2.json: written on 31 Oct before the ask-v3 run, after ask_heldout.json had been seen by ask-v2
+    qs += [dict(q, split="heldout2") for q in json.load(open(os.path.join(HERE, "ask_heldout2.json"), encoding="utf-8"))]
     facts = {}
     rows = []
     for q in qs:
@@ -34,7 +36,7 @@ def main():
                      "keyword_correct": score(kw, q["expected"]), "blocked": blocked, "declined": declined,
                      "source": r["source"], "fallback_reason": r["fallback_reason"], "ai_answer": r["ai_answer"],
                      "shown": r["answer"], "checks": [{"name": n, "ok": ok, "detail": d} for n, ok, d in r["checks"]],
-                     "meta": r["meta"]})
+                     "meta": r["meta"], "safety_net": r.get("safety_net", False)})
         print(q["id"], r["router"], r["intents"], "kw:", kw, r["source"])
         time.sleep(4)
     n = len(rows)
@@ -48,6 +50,10 @@ def main():
     summary = {
         "tuning_ai_accuracy_pct": acc("tuning", "ai_correct"), "tuning_keyword_accuracy_pct": acc("tuning", "keyword_correct"),
         "heldout_ai_accuracy_pct": acc("heldout", "ai_correct"), "heldout_keyword_accuracy_pct": acc("heldout", "keyword_correct"),
+        "heldout2_ai_accuracy_pct": acc("heldout2", "ai_correct"), "heldout2_keyword_accuracy_pct": acc("heldout2", "keyword_correct"),
+        "heldout2_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
+            [x for x in rows if x["split"] == "heldout2" and x["blocked"]]),
+        "safety_net_used": sum(bool(x.get("safety_net")) for x in rows),
         "n": n, "ai_routed": sum(x["router"] == "ai" for x in rows),
         "ai_intent_accuracy_pct": round(100 * sum(x["ai_correct"] for x in rows) / n, 1),
         "keyword_intent_accuracy_pct": round(100 * sum(x["keyword_correct"] for x in rows) / n, 1),

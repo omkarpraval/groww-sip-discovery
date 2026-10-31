@@ -43,3 +43,7 @@ Pass marks (fixed on 31 Oct 2026, before the first run):
 | Human clarity rating (average) | >= 4 of 5 |
 
 Run: GitHub Actions -> "MVP (price cache + eval)" -> stage `ask`. Output: `outputs/ask_ask-v1.json`.
+
+ask-v1 (31 Oct): decline recall 100%, gate pass 100%, but AI intent accuracy 70.8% = keyword router, so it failed.
+The AI tagged topics nobody asked about. For ask-v2, 12 held-out questions (`ask_heldout.json`) were written
+before the rerun and are never used to tune the prompt; accuracy is reported on both sets.

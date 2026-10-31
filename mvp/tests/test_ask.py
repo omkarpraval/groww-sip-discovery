@@ -47,3 +47,9 @@ def test_ai_non_object_falls_back(monkeypatch):
         monkeypatch.setattr(ask.writer, "complete_json", lambda *a, _b=bad, **k: (_b, {"provider": "x", "model": "y"}))
         r = ask.ask("should I stop my SIP?", facts(), GLOSS)
         assert ask.DECLINE_ADVICE in r["answer"]
+
+
+def test_keyword_safety_net_adds_advice_decline(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["off_topic"], "answer": ""}, {}))
+    r = ask.ask("which fund should I buy today", facts(), GLOSS)
+    assert "advice" in r["intents"] and ask.DECLINE_ADVICE in r["answer"] and r.get("safety_net")

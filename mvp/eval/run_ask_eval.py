@@ -23,6 +23,8 @@ def main():
     qs += [dict(q, split="heldout") for q in json.load(open(os.path.join(HERE, "ask_heldout.json"), encoding="utf-8"))]
     # ask_heldout2.json: written on 31 Oct before the ask-v3 run, after ask_heldout.json had been seen by ask-v2
     qs += [dict(q, split="heldout2") for q in json.load(open(os.path.join(HERE, "ask_heldout2.json"), encoding="utf-8"))]
+    # ask_heldout3.json: written on 31 Oct before the ask-v4 run (ask-v3 had seen heldout2)
+    qs += [dict(q, split="heldout3") for q in json.load(open(os.path.join(HERE, "ask_heldout3.json"), encoding="utf-8"))]
     facts = {}
     rows = []
     for q in qs:
@@ -36,7 +38,8 @@ def main():
                      "keyword_correct": score(kw, q["expected"]), "blocked": blocked, "declined": declined,
                      "source": r["source"], "fallback_reason": r["fallback_reason"], "ai_answer": r["ai_answer"],
                      "shown": r["answer"], "checks": [{"name": n, "ok": ok, "detail": d} for n, ok, d in r["checks"]],
-                     "meta": r["meta"], "safety_net": r.get("safety_net", False)})
+                     "meta": r["meta"], "safety_net": r.get("safety_net", False),
+                     "dropped_unasked": r.get("dropped_unasked")})
         print(q["id"], r["router"], r["intents"], "kw:", kw, r["source"])
         time.sleep(4)
     n = len(rows)
@@ -53,6 +56,10 @@ def main():
         "heldout2_ai_accuracy_pct": acc("heldout2", "ai_correct"), "heldout2_keyword_accuracy_pct": acc("heldout2", "keyword_correct"),
         "heldout2_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
             [x for x in rows if x["split"] == "heldout2" and x["blocked"]]),
+        "heldout3_ai_accuracy_pct": acc("heldout3", "ai_correct"), "heldout3_keyword_accuracy_pct": acc("heldout3", "keyword_correct"),
+        "heldout3_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
+            [x for x in rows if x["split"] == "heldout3" and x["blocked"]]),
+        "dropped_unasked": sum(bool(x.get("dropped_unasked")) for x in rows),
         "safety_net_used": sum(bool(x.get("safety_net")) for x in rows),
         "n": n, "ai_routed": sum(x["router"] == "ai" for x in rows),
         "ai_intent_accuracy_pct": round(100 * sum(x["ai_correct"] for x in rows) / n, 1),

@@ -27,6 +27,8 @@ def main():
     qs += [dict(q, split="heldout3") for q in json.load(open(os.path.join(HERE, "ask_heldout3.json"), encoding="utf-8"))]
     # ask_heldout4.json: written on 2 Nov after the round-2 user test, before the ask-v5 change
     qs += [dict(q, split="heldout4") for q in json.load(open(os.path.join(HERE, "ask_heldout4.json"), encoding="utf-8"))]
+    # ask_heldout5.json: written on 2 Nov after the ask-v5 run failed, before the ask-v6 change
+    qs += [dict(q, split="heldout5") for q in json.load(open(os.path.join(HERE, "ask_heldout5.json"), encoding="utf-8"))]
     facts = {}
     rows = []
     for q in qs:
@@ -34,7 +36,9 @@ def main():
         r = ask.ask(q["question"], f, GLOSS, timeout=60)
         kw = ask.keyword_route(q["question"])
         blocked = [i for i in q["expected"] if i in ask.BLOCKED]
-        declined = all((ask.DECLINE_ADVICE if b == "advice" else ask.DECLINE_PREDICT) in r["answer"] for b in blocked)
+        # ask-v6: the short advice decline (used with money-is-tight answers) counts as a decline too
+        declined = all(((ask.DECLINE_ADVICE in r["answer"] or ask.DECLINE_ADVICE_SHORT in r["answer"]) if b == "advice"
+                        else ask.DECLINE_PREDICT in r["answer"]) for b in blocked)
         rows.append({"id": q["id"], "split": q["split"], "question": q["question"], "expected": q["expected"], "ai_intents": r["intents"],
                      "router": r["router"], "keyword_intents": kw, "ai_correct": score(r["intents"], q["expected"]),
                      "keyword_correct": score(kw, q["expected"]), "blocked": blocked, "declined": declined,
@@ -64,6 +68,9 @@ def main():
         "heldout4_ai_accuracy_pct": acc("heldout4", "ai_correct"), "heldout4_keyword_accuracy_pct": acc("heldout4", "keyword_correct"),
         "heldout4_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
             [x for x in rows if x["split"] == "heldout4" and x["blocked"]]),
+        "heldout5_ai_accuracy_pct": acc("heldout5", "ai_correct"), "heldout5_keyword_accuracy_pct": acc("heldout5", "keyword_correct"),
+        "heldout5_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
+            [x for x in rows if x["split"] == "heldout5" and x["blocked"]]),
         "factual_choice_used": sum(bool(x.get("factual_choice")) for x in rows),
         "dropped_unasked": sum(bool(x.get("dropped_unasked")) for x in rows),
         "safety_net_used": sum(bool(x.get("safety_net")) for x in rows),

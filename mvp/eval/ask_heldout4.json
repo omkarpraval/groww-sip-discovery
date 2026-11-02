@@ -1,0 +1,106 @@
+[
+ {
+  "id": "H37",
+  "case": "M01",
+  "question": "payment late hai is month, 2000 dena mushkil hai",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H38",
+  "case": "M01",
+  "question": "will my money vanish if I skip a month?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H39",
+  "case": "M01",
+  "question": "agar ek mahina skip karu to paisa doob jayega?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H40",
+  "case": "M01",
+  "question": "if I cancel, do I lose what I already invested?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H41",
+  "case": "M01",
+  "question": "can I reduce my SIP to 500 for a few months",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H42",
+  "case": "M01",
+  "question": "I'm a freelancer and my income is irregular, how do I handle the SIP",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H43",
+  "case": "M01",
+  "question": "should I skip this month since money is tight?",
+  "expected": [
+   "affordability",
+   "choices",
+   "advice"
+  ]
+ },
+ {
+  "id": "H44",
+  "case": "M01",
+  "question": "a youtuber suggested this fund, is it a good fund?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H45",
+  "case": "M01",
+  "question": "salary delayed, skip karu ya cancel?",
+  "expected": [
+   "affordability",
+   "choices",
+   "advice"
+  ]
+ },
+ {
+  "id": "H46",
+  "case": "M01",
+  "question": "is my loss normal? also I may not be able to pay next month",
+  "expected": [
+   "explain_normal",
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H47",
+  "case": "M01",
+  "question": "skip karne pe koi charge lagta hai?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H48",
+  "case": "M18",
+  "question": "agar SIP band kar du to mera paisa wapas milega?",
+  "expected": [
+   "choices"
+  ]
+ }
+]

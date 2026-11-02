@@ -4,6 +4,10 @@
 "schemeName": "Parag Parikh Flexi Cap Fund - Direct Plan - Growth"
 },
 {
+"schemeCode": 118955,
+"schemeName": "HDFC Flexi Cap Fund - Direct Plan - Growth Option"
+},
+{
 "schemeCode": 120828,
 "schemeName": "Quant Small Cap Fund - Direct Plan - Growth Option"
 },
@@ -78,5 +82,9 @@
 {
 "schemeCode": 119835,
 "schemeName": "SBI CONTRA FUND - Direct Plan - Growth"
+},
+{
+"schemeCode": 120594,
+"schemeName": "ICICI Prudential Technology Fund - Direct Plan - Growth"
 }
 ]

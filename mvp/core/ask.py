@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v5"
+PROMPT_VERSION = "ask-v6"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -60,14 +60,15 @@ about. Most questions have exactly one intent; use two only when the question cl
 answer: 1-3 short sentences that answer ONLY the explain_*, meaning and choices parts, using ONLY sentences and
 numbers from FACTS.say, GLOSSARY or CHOICES (you may shorten or join them). Leave the advice, prediction,
 affordability and off_topic parts out; the app adds its own text for those. If nothing is left, answer "".
-For explain_normal always include both the your_numbers and the history sentences. For a yes/no question about
-skip, change or cancel, start with "Yes," or "No," and then the CHOICES sentence.
+For explain_normal always include both the your_numbers and the history sentences. Never start with "Yes" or "No"
+(ask-v5 answered "should I skip?" with "Yes, skip one instalment", which is advice).
 Rules: no numbers that are not in FACTS.say; never advise, recommend, predict or reassure; no fear or urgency
 words; never call a fund good or bad; no field names; plain English even if the question is in Hinglish."""
 
 # keyword router: the non-AI baseline (and the fallback when the AI is unavailable)
 KW = [
     ("advice", r"\b(should|shud|kya karu|karu kya|kar du|band kar|stop kar|switch|change (my |the )?fund|which fund|"
+               r"karu ya|kar du ya|ya cancel|ya skip|ya band|or cancel|or skip|or stop|or continue|skip or|cancel or|"
                r"better fund|buy|sell|redeem|invest more|continue|good fund|bad fund|kharab)\b"),
     ("prediction", r"\b(will|recover|kab tak|kab hoga|future|next (month|year)|go up|green hoga|fall more)\b"),
     ("affordability", r"\b(afford|job|salary|money is tight|paise nahi|can'?t pay|income)\b"),
@@ -224,6 +225,10 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
             intents, out["router"] = got, "ai"
         term = (res.get("term") or "").strip()
         ai_text = (res.get("answer") or "").strip()
+        # ask-v6: never lead with Yes/No. In ask-v5 "Yes, skip one instalment" (advice) and "will my money vanish if
+        # I skip?" -> "Yes, you keep your units" (wrong) both came from a yes/no lead.
+        ai_text = re.sub(r"^\s*(yes|no|haan|nahi|nahin)\b[\s,.!:;-]*", "", ai_text, flags=re.I)
+        ai_text = ai_text[:1].upper() + ai_text[1:]
         out["meta"] = dict(meta, prompt_version=PROMPT_VERSION)
         out["ai_answer"] = ai_text
     except writer.WriterError as e:
@@ -256,6 +261,11 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
             out["fallback_reason"] = "incomplete: " + ", ".join(miss)
         else:
             out["fallback_reason"] = "failed: " + ", ".join(n for n, p, _ in checks if not p)
+    if not body and not tail(intents):
+        # ask-v6: "pause vs cancel difference" was read as a word meaning with no word found, and showed nothing.
+        intents = [i for i in keyword_route(q) if i != "off_topic"] or ["off_topic"]
+        body, source = " ".join(template_parts(intents, facts, q, glossary)), "template"
+        out["fallback_reason"] = "nothing to show; used the keyword reading"
     if any(i in intents for i in ("explain_normal", "explain_patience")) and "past cannot promise" not in body:
         if body:
             body += " " + "The past cannot promise what happens next."

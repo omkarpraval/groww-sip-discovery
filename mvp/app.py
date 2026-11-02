@@ -328,6 +328,10 @@ if r:
         typed = c1.text_input("Your question", placeholder="e.g. itna loss normal hai kya?", label_visibility="collapsed")
         sent = c2.form_submit_button("Ask", type="primary")
     question = picked or (typed if sent and typed.strip() else None)
+    if st.query_params.get("debug") == "1":
+        st.session_state["_runs"] = st.session_state.get("_runs", 0) + 1
+        st.caption(f"debug · run {st.session_state['_runs']} · sent={sent} typed={typed!r} picked={picked!r} · "
+                   f"asks={len(st.session_state.get('asks', []))} · req={hash(req_key) % 10000}")
     if question:
         with st.spinner("Reading your question…"):
             st.session_state.setdefault("asks", []).insert(0, ASK.ask(question, r["facts"], GLOSSARY, timeout=20))

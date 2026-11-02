@@ -255,7 +255,7 @@ function drawTM() {
   const up = at.filter(p => p.p[month - 1] > 0).length;
   $("#mlab").textContent = `Month ${month}`;
   if (!at.length) { $("#read").innerHTML = `Not enough history to show month ${month}.`; return; }
-  const who = filt === "red" ? `past SIPs that were in the red at month ${D.n}` : `all past SIPs`;
+  const who = filt === "red" ? `past SIPs that were in the red at month ${D.n} (by any amount)` : `all past SIPs`;
   $("#read").innerHTML = month === D.n && filt === "red" ? `These are the ${at.length} ${who}. Press ▶ to see where they were later.`
     : `At <b>month ${month}</b>, ${in10(up / at.length) === 10 ? `all ${at.length}` : `${share(in10(up / at.length))} of the ${at.length}`} ${who} were <b>above</b> what was put in.`;
 }

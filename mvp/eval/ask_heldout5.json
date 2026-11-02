@@ -1,0 +1,101 @@
+[
+ {
+  "id": "H49",
+  "case": "M01",
+  "question": "should I pause my SIP for 2 months?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H50",
+  "case": "M01",
+  "question": "band karu ya chalne du?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H51",
+  "case": "M01",
+  "question": "will I lose everything if I cancel today?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H52",
+  "case": "M01",
+  "question": "is it okay to skip one instalment?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H53",
+  "case": "M01",
+  "question": "difference between skip and change amount",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H54",
+  "case": "M01",
+  "question": "money is tight this month, skip or reduce?",
+  "expected": [
+   "affordability",
+   "choices",
+   "advice"
+  ]
+ },
+ {
+  "id": "H55",
+  "case": "M01",
+  "question": "do my units go away if I stop the SIP",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H56",
+  "case": "M01",
+  "question": "kya mujhe amount kam kar dena chahiye?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H57",
+  "case": "M01",
+  "question": "EMI aur SIP dono nahi ho payenge is mahine",
+  "expected": [
+   "affordability",
+   "choices"
+  ]
+ },
+ {
+  "id": "H58",
+  "case": "M01",
+  "question": "if I change the date to 15th, will this month's instalment still go?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H59",
+  "case": "M01",
+  "question": "is skipping better than cancelling?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H60",
+  "case": "M18",
+  "question": "my loss is 600, should I continue or stop",
+  "expected": [
+   "advice"
+  ]
+ }
+]

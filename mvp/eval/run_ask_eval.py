@@ -25,6 +25,8 @@ def main():
     qs += [dict(q, split="heldout2") for q in json.load(open(os.path.join(HERE, "ask_heldout2.json"), encoding="utf-8"))]
     # ask_heldout3.json: written on 31 Oct before the ask-v4 run (ask-v3 had seen heldout2)
     qs += [dict(q, split="heldout3") for q in json.load(open(os.path.join(HERE, "ask_heldout3.json"), encoding="utf-8"))]
+    # ask_heldout4.json: written on 2 Nov after the round-2 user test, before the ask-v5 change
+    qs += [dict(q, split="heldout4") for q in json.load(open(os.path.join(HERE, "ask_heldout4.json"), encoding="utf-8"))]
     facts = {}
     rows = []
     for q in qs:
@@ -39,7 +41,7 @@ def main():
                      "source": r["source"], "fallback_reason": r["fallback_reason"], "ai_answer": r["ai_answer"],
                      "shown": r["answer"], "checks": [{"name": n, "ok": ok, "detail": d} for n, ok, d in r["checks"]],
                      "meta": r["meta"], "safety_net": r.get("safety_net", False),
-                     "dropped_unasked": r.get("dropped_unasked")})
+                     "dropped_unasked": r.get("dropped_unasked"), "factual_choice": r.get("factual_choice", False)})
         print(q["id"], r["router"], r["intents"], "kw:", kw, r["source"])
         time.sleep(4)
     n = len(rows)
@@ -59,6 +61,10 @@ def main():
         "heldout3_ai_accuracy_pct": acc("heldout3", "ai_correct"), "heldout3_keyword_accuracy_pct": acc("heldout3", "keyword_correct"),
         "heldout3_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
             [x for x in rows if x["split"] == "heldout3" and x["blocked"]]),
+        "heldout4_ai_accuracy_pct": acc("heldout4", "ai_correct"), "heldout4_keyword_accuracy_pct": acc("heldout4", "keyword_correct"),
+        "heldout4_decline_recall_pct": (lambda rs: round(100 * sum(x["declined"] for x in rs) / len(rs), 1) if rs else None)(
+            [x for x in rows if x["split"] == "heldout4" and x["blocked"]]),
+        "factual_choice_used": sum(bool(x.get("factual_choice")) for x in rows),
         "dropped_unasked": sum(bool(x.get("dropped_unasked")) for x in rows),
         "safety_net_used": sum(bool(x.get("safety_net")) for x in rows),
         "n": n, "ai_routed": sum(x["router"] == "ai" for x in rows),

@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v4"
+PROMPT_VERSION = "ask-v5"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -28,8 +28,12 @@ DECLINE_ADVICE = ("I can't make that choice for you or pick a fund, because that
                   "adviser can give advice for your situation.")
 DECLINE_PREDICT = ("No one can know what markets do next, so I can't say when, or if, your SIP turns green. "
                    "What I can show is what happened to past SIPs, and the past cannot promise what happens next.")
-AFFORD = ("Only you know whether the next instalment fits your budget this month. If money is tight, the choices "
-          "step shows what skip, change and cancel each do; none of them is a suggestion.")
+# ask-v5 (round-2 user test, P2: a late-payment question got only a pointer to "the choices step", twice).
+# A money-is-tight question now always gets the facts of skip and change, then this line.
+AFFORD = ("Only you know whether the next instalment fits your budget this month. None of these choices is a "
+          "suggestion, and keeping your SIP as it is is a choice too.")
+DECLINE_ADVICE_SHORT = ("I can't pick one for you, because that would be investment advice; a SEBI-registered "
+                        "investment adviser can advise on your situation.")
 OFF_TOPIC = "I can only explain your SIP's numbers, words like these, and your choices here."
 
 SYSTEM = """You help a first-time SIP investor understand THEIR OWN numbers. You are NOT an adviser.
@@ -44,7 +48,9 @@ about. Most questions have exactly one intent; use two only when the question cl
 - explain_market: is it the market or my fund, did the index/market fall too, is my fund doing worse
 - explain_patience: what happened to past SIPs like mine later
 - meaning: what a word means (put the word in "term")
-- choices: what skip, change amount/date or cancel DO (put skip, change or cancel in "choice"); pause = skip
+- choices: what skip, change amount/date or cancel DO (put skip, change or cancel in "choice"); pause = skip.
+  Worried factual questions are choices, NOT advice: "will my money vanish if I skip?", "do I lose what I put in
+  if I cancel?", "is there a charge for skipping?"
 - affordability: can't pay, money is tight, lost job, income changed
 - advice: asks what to DO or which fund (stop? continue? switch? buy? sell? invest more? is my fund good/bad?);
   also which stock, share, fund or asset to buy, or whether gold, FDs, stocks etc. are better. This is advice, never off_topic
@@ -118,7 +124,10 @@ def template_parts(intents, facts, q, glossary):
             out.append(f"'{t}' isn't used in your answers here. Your answers only use what you put in, what it is "
                        "worth today, and what happened to past SIPs.")
     if "choices" in intents:
-        out.append(CHOICES[_choice(q)])
+        if "affordability" in intents:
+            out += [CHOICES["skip"], CHOICES["change"]]
+        else:
+            out.append(CHOICES[_choice(q)])
     return [x for x in out if x]
 
 
@@ -127,7 +136,7 @@ def tail(intents):
     if "affordability" in intents:
         t.append(AFFORD)
     if "advice" in intents:
-        t.append(DECLINE_ADVICE)
+        t.append(DECLINE_ADVICE_SHORT if "affordability" in intents else DECLINE_ADVICE)
     if "prediction" in intents:
         t.append(DECLINE_PREDICT)
     if intents == ["off_topic"]:
@@ -186,6 +195,14 @@ def check(text, facts, defined_term=""):
     return all(ok for _, ok, _ in res), res
 
 
+# ask-v5: "will my money vanish if I skip a month?" was declined as advice (round-2 user test, P2). A question
+# about what happens IF you skip/change/cancel, with no "should / which / better" words, is a factual question.
+FACTUAL_CHOICE = re.compile(r"\b(if|agar|kya hoga|what happens|lose|vanish|doob|wapas|charge|keep)\b.*"
+                            r"\b(skip|pause|cancel|change|reduce|stop|band|miss)|\b(skip|pause|cancel|change|reduce|"
+                            r"stop|band)\w*\b.*\b(lose|vanish|doob|wapas|charge|units|money|paisa)\b", re.I)
+SHOULD = re.compile(r"\b(should|shud|kya karu|karu kya|chahiye|better|best|which|recommend|good idea|worth it|ya cancel|or cancel)\b", re.I)
+
+
 def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
     """Returns dict(intents, router, answer, source, checks, ai_answer, meta)."""
     q = (question or "").strip()[:400]
@@ -217,6 +234,11 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
         intents, out["safety_net"] = intents + ["advice"], True
     if any(i != "off_topic" for i in intents):
         intents = [i for i in intents if i != "off_topic"]
+    if "advice" in intents and FACTUAL_CHOICE.search(q) and not SHOULD.search(q):
+        intents = [i for i in intents if i != "advice"] + ([] if "choices" in intents else ["choices"])
+        out["factual_choice"] = True
+    if "affordability" in intents and "choices" not in intents:
+        intents = intents + ["choices"]
     kept = drop_unasked(intents, q)
     if kept != intents:
         out["dropped_unasked"] = [i for i in intents if i not in kept]

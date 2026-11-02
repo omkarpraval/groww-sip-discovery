@@ -82,3 +82,21 @@ def test_factual_skip_question_is_not_declined(monkeypatch):
     assert "advice" not in r["intents"] and ask.DECLINE_ADVICE not in r["answer"] and ask.CHOICES["skip"] in r["answer"]
     r = ask.ask("should I skip this month?", facts(), GLOSS)
     assert ask.DECLINE_ADVICE in r["answer"]
+
+
+def test_no_yes_no_lead_from_ai(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: (
+        {"intents": ["choices"], "answer": "Yes, you keep the units you own and only the next instalment is not taken."}, {}))
+    r = ask.ask("will my money vanish if I skip a month?", facts(), GLOSS)
+    assert not r["answer"].lower().startswith("yes")
+
+
+def test_either_or_question_is_declined(monkeypatch):
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False); monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    assert "advice" in ask.keyword_route("salary delayed, skip karu ya cancel?")
+
+
+def test_never_empty(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["meaning"], "answer": ""}, {}))
+    r = ask.ask("pause vs cancel difference", facts(), GLOSS)
+    assert r["answer"].strip()

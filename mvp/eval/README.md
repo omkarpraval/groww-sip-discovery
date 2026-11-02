@@ -63,3 +63,11 @@ before the v4 change; the pass marks apply to heldout3. Accuracy is for the full
 
 ask-v4 (31 Oct 12:13 UTC): heldout3 intent accuracy 91.7% vs keyword 66.7%; decline recall 100%; gate pass 97.1%;
 unsafe shown 0; clarity 4.00 on heldout3 (labels Claude-suggested, accepted by Omkar). All pass marks met: frozen.
+
+ask-v5 (2 Nov, after the round-2 user test): P2's late-payment question got only a pointer to "the choices
+step" (twice), and "will my money vanish if I skip?" was declined as advice. Changes: a money-is-tight question
+always gets the facts of skip and change; a worried factual question about skip/change/cancel with no
+"should/which/better" words is answered as a choice, not declined; the prompt says the same. 12 held-out
+questions (`ask_heldout4.json`) were written before the change. Note: the factual-choice rule was checked against
+these phrases while it was written, so heldout4 is not blind for that rule (the prompt was not tuned on it).
+Pass marks apply to heldout4.

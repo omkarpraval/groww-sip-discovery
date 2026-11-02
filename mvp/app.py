@@ -183,9 +183,16 @@ else:
     req = ("example", e)
 
 go = st.button("Explain my SIP", type="primary", disabled=req is None)
+# round-2 user test (P3): an old result stayed on screen after switching to another way in. A result is now
+# shown only while the inputs that produced it are still the ones on screen.
+req_key = repr(req)
+if st.session_state.get("result_req") != req_key and not go:
+    st.session_state.pop("result", None)
+    st.session_state.pop("asks", None)
 if go:
     st.session_state.pop("result", None)
     st.session_state.pop("asks", None)
+    st.session_state["result_req"] = req_key
     with st.spinner("Reading public prices and writing your answer…"):
         try:
             if req[0] == "fund":
@@ -244,7 +251,9 @@ def ui_data(r):
         s1 = (f"We replayed {h['past_starts']} past SIPs in {h['series']}, one starting each month from {h['since_year']}, "
               f"each investing the same amount on the 5th. Then we counted how many were "
               + ("as far down as yours, or further," if f["direction"] == "down" else "below what was put in")
-              + f" after {n} months. {src}, up to {asof}.")
+              + f" after {n} months. {src}, up to {asof}."
+              + (" This counts only drops as deep as yours, so it is a smaller group than the SIPs in step 3, which "
+                 "counts every SIP below what was put in by any amount." if f["direction"] == "down" else ""))
     else:
         s1 = f"There isn't enough price history to compare with past SIPs at month {n}. {src}, up to {asof}."
     if c.get("available"):
@@ -259,7 +268,8 @@ def ui_data(r):
         s2 = "Your fund doesn't invest only in shares, so a share-market index wouldn't be a fair yardstick. We left the comparison out."
     hz = h.get("horizons") or []
     if h.get("available") and hz:
-        s3 = (f"From the {h['past_starts']} past SIPs, we took those in the red at month {n} and checked where they were at "
+        s3 = (f"From the {h['past_starts']} past SIPs, we took every one in the red at month {n}, by any amount (not only "
+              f"drops as deep as yours, as in step 1), and checked where they were at "
               + " and ".join(f"month {x['month']} ({x['red_starts_seen']} with known results)" for x in hz)
               + ". Only past SIPs are used; the past can't promise what happens next.")
     else:
@@ -269,11 +279,12 @@ def ui_data(r):
     return {
         "method": {"s1": s1, "s2": s2, "s3": s3}, "banner": banner,
         "afford": "This app explains your SIP's numbers. Only you know whether the next instalment fits your budget this month.",
-        "compare_choices": {"cols": ["Skip one", "Change amount or date", "Cancel"], "rows": [
-            ["Next instalment", "Not taken", "Taken at the new amount or date*", "Not taken"],
-            ["Units you own", "Kept", "Kept", "Kept"],
-            ["Later instalments", "Continue as before", "Use the new amount or date", "Stop"],
-            ["Watch out", "!3 skips in a row cancel the SIP", "*If it's due within 2 working days, the change starts after it", "To restart, you set up a new SIP"]]},
+        # round-2 user test (P2): "keep going" was mentioned but had no column, so the table read as "pick an action"
+        "compare_choices": {"cols": ["Keep going as is", "Skip one", "Change amount or date", "Cancel"], "rows": [
+            ["Next instalment", "Taken as usual", "Not taken", "Taken at the new amount or date*", "Not taken"],
+            ["Units you own", "Kept", "Kept", "Kept", "Kept"],
+            ["Later instalments", "Continue as before", "Continue as before", "Use the new amount or date", "Stop"],
+            ["Watch out", "Nothing changes", "!3 skips in a row cancel the SIP", "*If it's due within 2 working days, the change starts after it", "To restart, you set up a new SIP"]]},
         "summary": {"who": who, "inv": f["_inv"], "val": f["_val"], "dir": f["direction"],
                     "foot": f"{f['months']} monthly instalments of {f['monthly_amount']}"},
         "n": f["months"], "answer": a, "normal": normal, "compare": {"rows": rows}, "paths": paths,
@@ -293,7 +304,9 @@ if r:
     else:
         components.html(page, height=900, scrolling=True)
     m = r.get("meta") or {}
-    st.caption(f"Writer: {m.get('model', 'standard answer')} · {m.get('prompt_version', '')} · prices: {r['facts'].get('price_source')}")
+    if st.query_params.get("debug") == "1":  # round-2 user test (P3): hide the model line from users
+        st.caption(f"Writer: {m.get('model', 'standard answer')} · {m.get('prompt_version', '')} · ask: {ASK.PROMPT_VERSION} · "
+                   f"prices: {r['facts'].get('price_source')}")
 
     # ------------------------------------------------------------ ask about your SIP
     st.markdown('<div class="ask-head"><b>💬 Ask about your SIP</b><span>In your own words, English or Hinglish. '

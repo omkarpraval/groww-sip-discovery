@@ -8,7 +8,7 @@ GLOSS = {"index": "A fixed basket of many companies' shares, used as a yardstick
 
 def test_fixed_texts_pass_gate():
     f = facts()
-    for t in [ask.DECLINE_ADVICE, ask.DECLINE_PREDICT, ask.AFFORD, ask.OFF_TOPIC, *ask.CHOICES.values()]:
+    for t in [ask.DECLINE_ADVICE, ask.DECLINE_ADVICE_SHORT, ask.DECLINE_PREDICT, ask.AFFORD, ask.OFF_TOPIC, *ask.CHOICES.values()]:
         ok, res = ask.check(t, f)
         assert ok, (t, res)
 
@@ -67,3 +67,18 @@ def test_incomplete_ai_answer_uses_template(monkeypatch):
         {"intents": ["explain_normal"], "answer": "Your SIP is below what you put in."}, {}))
     r = ask.ask("is this normal?", f, GLOSS)
     assert r["source"] == "template" and r["fallback_reason"].startswith("incomplete")
+
+
+def test_affordability_gets_choice_facts(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["affordability"], "answer": ""}, {}))
+    r = ask.ask("payment late hai, 2000 dena mushkil hai", facts(), GLOSS)
+    assert "choices" in r["intents"] and ask.CHOICES["skip"] in r["answer"] and ask.CHOICES["change"] in r["answer"]
+    assert r["answer"].count("choices step") == 0
+
+
+def test_factual_skip_question_is_not_declined(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["advice"], "answer": ""}, {}))
+    r = ask.ask("will my money vanish if I skip a month?", facts(), GLOSS)
+    assert "advice" not in r["intents"] and ask.DECLINE_ADVICE not in r["answer"] and ask.CHOICES["skip"] in r["answer"]
+    r = ask.ask("should I skip this month?", facts(), GLOSS)
+    assert ask.DECLINE_ADVICE in r["answer"]

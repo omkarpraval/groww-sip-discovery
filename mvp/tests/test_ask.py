@@ -100,3 +100,31 @@ def test_never_empty(monkeypatch):
     monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["meaning"], "answer": ""}, {}))
     r = ask.ask("pause vs cancel difference", facts(), GLOSS)
     assert r["answer"].strip()
+
+
+# ask-v7: "is it my fund or the market?" is the product's own question, not advice.
+MARKET_OR_FUND_QS = ["Mera fund kharab hai kya ya market ki wajah se hai?",
+                     "is my fund bad or is the whole market down?",
+                     "fund ki galti hai ya market ki wajah se gira?",
+                     "Is it my fund or the index that fell?"]
+STILL_ADVICE_QS = ["Mera fund kharab hai kya?",
+                   "is my fund bad or is it the market, should I switch?",
+                   "market gir gaya, fund band karu kya?",
+                   "is it okay to stop my SIP?",
+                   "is gold better than my fund?"]
+
+
+def test_market_or_fund_is_answered_not_declined(monkeypatch):
+    for ai in ({"intents": ["advice"], "answer": ""}, {"intents": ["explain_market"], "answer": ""}):
+        monkeypatch.setattr(ask.writer, "complete_json", lambda *a, _r=ai, **k: (_r, {}))
+        for q in MARKET_OR_FUND_QS:
+            r = ask.ask(q, facts(), GLOSS)
+            assert "advice" not in r["intents"] and ask.DECLINE_ADVICE not in r["answer"], (q, r["intents"])
+            assert "explain_market" in r["intents"] and r["answer"], q
+
+
+def test_market_or_fund_with_do_words_still_declined(monkeypatch):
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: ({"intents": ["explain_market"], "answer": ""}, {}))
+    for q in STILL_ADVICE_QS:
+        r = ask.ask(q, facts(), GLOSS)
+        assert "advice" in r["intents"], (q, r["intents"])

@@ -1,6 +1,6 @@
-"""SIP Discovery Engine — Live Lab.
+"""SIP Discovery Engine: Live Lab.
 Hands-on companion to the public story page (GitHub Pages): run the same AI coder on any text, browse the
-verified evidence behind every number, and inspect how the engine is validated. Research only — not advice."""
+verified evidence behind every number, and inspect how the engine is validated. Research only, not advice."""
 import html, json, os, re, sys
 import pandas as pd
 import streamlit as st
@@ -62,17 +62,18 @@ E = html.escape
 # ------------------------------------------------------------------ design system (matches the story page)
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#f0f2f5;--line:#e3e6ea;--ink:#101418;--ink-2:#47505a;--ink-3:#66707c;
- --accent:#0072B2;--accent-soft:#e6f1f8;--accent-ink:#005a8c;--bar-dim:#a9cde4;
- --good:#00704f;--good-bg:#e2f4ee;--warn:#8a5700;--warn-bg:#fdf1d8;--bad:#a94400;--bad-bg:#fbe7dc;
- --shadow:0 1px 2px rgba(16,20,24,.04),0 4px 16px rgba(16,20,24,.06)}
-.stApp,.stApp *:not([data-testid="stIconMaterial"]):not(.material-symbols-rounded):not(code):not(pre){font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important}
-.stApp{background:var(--bg)}
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Kalam:wght@400&display=swap');
+:root{--bg:#F2F5F3;--surface:#fff;--surface-2:#EDF2F0;--line:#D3DDDA;--ink:#0E2A2B;--ink-2:#3C5352;--ink-3:#5C6F6E;
+ --accent:#1F4A4B;--accent-soft:#DDF1E9;--accent-ink:#00704F;--bar-dim:#9DB5B1;--ver:#D55E00;
+ --good:#00704F;--good-bg:#DDF1E9;--warn:#8A5A00;--warn-bg:#FCEFD0;--bad:#A84700;--bad-bg:#F8E4D6;
+ --disp:'Bricolage Grotesque','Bricolage Grotesque 96pt ExtraBold',Inter,sans-serif;
+ --shadow:none}
+.stApp,.stApp *:not([data-testid="stIconMaterial"]):not(.material-symbols-rounded):not(code):not(pre):not(h1):not(h2):not(h3):not(.disp):not(.stat b):not(.brand){font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important}
+.stApp{background-color:var(--bg);background-image:radial-gradient(circle,#D3DDD9 1px,transparent 1.3px);background-size:22px 22px}
 header[data-testid="stHeader"],[data-testid="stToolbar"],[data-testid="stDecoration"],#MainMenu,footer,
 [data-testid="stSidebarCollapsedControl"]{display:none!important}
 .block-container{max-width:1120px!important;padding-top:0!important;padding-bottom:64px!important}
-h1,h2,h3{letter-spacing:-.02em;color:var(--ink)}
+h1,h2,h3,.hero h1,.card h3,.stat b,.brand,.score .n{font-family:var(--disp)!important;letter-spacing:-.02em;color:var(--ink)}
 p,li{color:var(--ink-2)}
 /* top bar */
 .topbar{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap}
@@ -172,6 +173,41 @@ div[data-testid="stExpander"] code{font-size:13px!important}
   .cmp-d{display:none}.cmp-m{display:block}
   .quote a{min-height:36px;display:inline-flex;align-items:center}
 }
+/* ===== redesign: shared identity with the MVP and deck */
+.stApp .hero h1,.stApp .card h3,.stApp .stat b,.stApp .brand,.stApp h3{font-family:var(--disp)!important}
+.topbar{border-bottom:1.5px solid var(--ink)}
+.brand .dot{background:var(--ink);border-radius:10px}
+.labtag{background:var(--ver);color:#fff}
+.brand,.brand:visited{color:var(--ink)!important;font-size:18px}
+.hero h1{font-weight:800;max-width:900px}
+.hero h1 em{color:var(--accent-ink)}
+.stats{gap:0;border-top:1.5px solid var(--ink);padding-top:10px}
+.stat{background:transparent;border:0;border-left:1.5px solid var(--line);border-radius:0;padding:2px 18px}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{font-size:30px;font-weight:800;color:var(--ink)}
+.stat:nth-child(2) b{color:var(--ver)}
+.card{border:1.5px solid var(--line);border-radius:18px}
+.eyebrow{text-transform:none;letter-spacing:0;font-size:15px;color:var(--accent-ink)}
+.kv span{text-transform:none;letter-spacing:0}
+.score th{text-transform:none;letter-spacing:0;font-size:14px}
+.pill{background:var(--accent-soft);color:var(--accent-ink)}
+.bars .t i{background:var(--accent)}
+.bars .b:first-child .t i{background:var(--ver)}
+.step .no{background:var(--ink);border-radius:50%}
+.stButton>button[kind="primary"]{background:var(--ink)!important;border-color:var(--ink)!important;border-radius:14px}
+.stButton>button[kind="primary"]:hover{background:var(--accent-ink)!important;border-color:var(--accent-ink)!important}
+.st-key-navbar [data-testid="stButtonGroup"] button[kind="segmented_controlActive"],.st-key-navbar [data-testid="stButtonGroup"] button[aria-checked="true"]{background:var(--ink)!important;color:#fff!important;border-color:var(--ink)!important}
+.st-key-navbar [data-testid="stButtonGroup"] button[kind="segmented_controlActive"] p,.st-key-navbar [data-testid="stButtonGroup"] button[aria-checked="true"] p{color:#fff!important}
+.notice{background:var(--warn-bg);border:1.5px dashed #E69F00}
+.quote{border:1.5px solid var(--line);border-radius:14px}
+.quote p{font-size:17px}
+.input mark{background:#FCE3C4}
+.lab-path{display:block;width:100%;max-width:520px;height:auto;margin:-6px 0 6px}
+.lab-path .line{stroke-dasharray:700;stroke-dashoffset:700;animation:labdraw 1.8s .2s cubic-bezier(.6,.1,.2,1) forwards}
+@keyframes labdraw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.lab-path .line{animation:none;stroke-dashoffset:0}}
+@media (max-width:640px){.stat{padding:2px 10px}.stat b{font-size:22px}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -188,9 +224,9 @@ gold = (DATA.get("golden") or {}).get("primary")
 # ------------------------------------------------------------------ top bar + hero
 st.markdown(f"""
 <div class="topbar">
-  <a class="brand" href="{STORY}" target="_blank"><span class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>SIP Discovery Engine</a>
+  <a class="brand" href="{STORY}" target="_blank"><span class="dot"><svg width="20" height="14" viewBox="0 0 40 28" fill="none"><path d="M2 12 C10 10 14 22 20 22 S30 6 38 3" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="22" r="3.6" fill="#D55E00"/></svg></span>SIP Discovery Engine</a>
   <span class="labtag">Live lab</span><span class="sp"></span>
-  <a class="toplink" href="{STORY}" target="_blank">← Read the findings</a>
+  <a class="toplink" href="{STORY}" target="_blank">Read the findings</a>
   <a class="toplink code" href="{REPO}" target="_blank">Code</a>
 </div>""", unsafe_allow_html=True)
 
@@ -203,9 +239,12 @@ if gold:
     stats += f'<div class="stat"><b>{round(gold["fields"]["primary_trigger"]["agreement"])}%</b><span>agreement with humans on “why”</span></div>'
 _m = os.getenv("GEMINI_MODEL", "auto")
 _m = "Gemini" if _m == "auto" else "Gemini " + _m.replace("gemini-", "").replace("-latest", "").replace("-", " ").title()
-stats += f'<div class="stat"><b>{E(_m)}</b><span>model · Groq as backup</span></div>'
-st.markdown(f"""<div class="hero">
-<h1>Run the engine on <em>any SIP post</em> — and see the evidence behind every number.</h1>
+stats += f'<div class="stat"><b>{E(_m)}</b><span>model, with Groq as backup</span></div>'
+LAB_PATH = """<svg class="lab-path" viewBox="0 0 520 70"><line x1="0" x2="520" y1="30" y2="30" stroke="#0E2A2B" stroke-opacity=".35" stroke-dasharray="3 5"/>
+<path class="line" d="M6,28 C60,24 100,40 150,50 S230,66 270,58 S360,24 410,16 S490,6 514,4" fill="none" stroke="#0E2A2B" stroke-width="3" stroke-linecap="round"/>
+<circle cx="236" cy="62" r="6" fill="#D55E00" stroke="#fff" stroke-width="2"/></svg>"""
+st.markdown(f"""<div class="hero">{LAB_PATH}
+<h1>Run the engine on <em>any SIP post</em>, and see the evidence behind every number.</h1>
 <p>Paste a review, Reddit post or comment. The same AI and prompt that labelled 8,900 public conversations will read it, explain why the person might stop, and check its own evidence word-for-word.</p>
 <div class="stats">{stats}</div></div>""", unsafe_allow_html=True)
 
@@ -244,12 +283,12 @@ def gate(c, text):
     q = (c.get("evidence_quote") or "").lower().strip(" .\"'")
     quote_ok = (not q) or q in text.lower()
     if not c.get("relevant"):
-        return "info", "Not about a personal SIP — excluded from counts", quote_ok
+        return "info", "Not about a personal SIP, so left out of the counts", quote_ok
     if not quote_ok:
-        return "warn", "Needs human review — evidence quote not found in the text", quote_ok
+        return "warn", "Needs a human check: the evidence quote isn't in the text", quote_ok
     if c.get("confidence", 0) < 0.6:
-        return "warn", "Needs human review — low confidence", quote_ok
-    return "good", "Passed quality check — evidence verified word-for-word", quote_ok
+        return "warn", "Needs a human check: low confidence", quote_ok
+    return "good", "Passed the quality check: evidence found word for word", quote_ok
 
 
 def result_card(text, c, model):
@@ -265,12 +304,12 @@ def result_card(text, c, model):
     if c.get("relevant"):
         body += f"""<div class="grid">
   <div class="kv {'risk' if act in RISK else ''}"><span>What they did</span><b>{E(ACT.get(act, act))}</b></div>
-  <div class="kv"><span>Stage</span><b>{E(STAGE.get(c.get('investor_stage'), '—'))}</b></div>
-  <div class="kv"><span>First-time?</span><b>{E(FT.get(c.get('first_time'), '—'))}</b></div>
-  <div class="kv"><span>Emotion</span><b>{E(str(c.get('emotion', '—')).capitalize())}</b></div>
+  <div class="kv"><span>Stage</span><b>{E(STAGE.get(c.get('investor_stage'), 'Not stated'))}</b></div>
+  <div class="kv"><span>First-time?</span><b>{E(FT.get(c.get('first_time'), 'Not stated'))}</b></div>
+  <div class="kv"><span>Emotion</span><b>{E(str(c.get('emotion', 'Not stated')).capitalize())}</b></div>
 </div>
 <div class="row"><b>Why</b>{''.join(f'<span class="pill">{E(w)}</span>' for w in why)}</div>
-<div class="row"><b>Unmet need</b><span>{E(c.get('unmet_need') or '—')}</span></div>"""
+<div class="row"><b>Unmet need</b><span>{E(c.get('unmet_need') or 'Not stated')}</span></div>"""
         if outside:
             body += f'<div class="row"><b>Went to</b><span>{E(", ".join(outside))}</span></div>'
     body += f"""<div class="meta">{E(model)} · prompt {E(c.get('_prompt', ''))} · confidence {c.get('confidence', 0):.2f}
@@ -295,7 +334,7 @@ def analyse(texts):
 if nav == "Analyse text":
     left, right = st.columns([1.15, 1], gap="large")
     with left:
-        st.markdown('<div class="eyebrow">Step 1 · choose or paste text</div>', unsafe_allow_html=True)
+        st.markdown('<div class="eyebrow">1. Choose a sample or paste text</div>', unsafe_allow_html=True)
         pick = st.pills("Try a sample", list(SAMPLES), selection_mode="single", key="sample",
                         label_visibility="collapsed")
         if pick and st.session_state.get("_last_pick") != pick:
@@ -310,7 +349,7 @@ if nav == "Analyse text":
     with right, st.container(key="howto"):
         st.markdown("""<div class="card"><h3>What you’ll get</h3><p class="hint">For each item, in about 5–15 seconds</p>
 <div class="step"><span class="no">1</span><div><b>What they did</b><br><span style="color:var(--ink-2)">continuing, considering stopping, paused, debit failed…</span></div></div>
-<div class="step"><span class="no">2</span><div><b>Why — in plain English</b><br><span style="color:var(--ink-2)">up to three reasons, plus the unmet need behind them</span></div></div>
+<div class="step"><span class="no">2</span><div><b>Why, in plain English</b><br><span style="color:var(--ink-2)">up to three reasons, plus the unmet need behind them</span></div></div>
 <div class="step"><span class="no">3</span><div><b>A quality check you can see</b><br><span style="color:var(--ink-2)">the quoted evidence must exist word-for-word, or it’s flagged for human review</span></div></div>
 </div>""", unsafe_allow_html=True)
 
@@ -319,18 +358,18 @@ if nav == "Analyse text":
         if not items:
             st.warning("Paste some text first, or pick a sample above.")
         else:
-            st.markdown('<div class="eyebrow" style="margin-top:12px">Step 2 · results</div>', unsafe_allow_html=True)
+            st.markdown('<div class="eyebrow" style="margin-top:12px">2. What the engine read</div>', unsafe_allow_html=True)
             try:
                 with st.spinner("Reading like a researcher…"):
                     out, model, switches = analyse(tuple(items))
                 if switches:
-                    st.info("Primary model unavailable right now — the backup model answered. "
+                    st.info("The main model is unavailable right now, so the backup model answered. "
                             "Its accuracy is scored separately on the Validation tab.")
                 for t, c in zip(items, out):
                     if c:
                         result_card(t, c, model)
                     else:
-                        st.markdown(f'<div class="card"><span class="badge warn">! No answer for this item — routed to human review</span>'
+                        st.markdown(f'<div class="card"><span class="badge warn">! No answer for this item, sent for a human check</span>'
                                     f'<div class="input">{E(t)}</div></div>', unsafe_allow_html=True)
             except Exception:
                 ex = DATA.get("example")
@@ -391,7 +430,7 @@ elif nav == "Explore the evidence":
     with a:
         n = len(v)
         drop = int(v.drop_event.sum())
-        st.markdown(f"""<div class="card"><h3>{n:,} matching posts</h3><p class="hint">{round(100 * drop / n) if n else 0}% describe stopping, pausing or a failed debit — or thinking about it</p>
+        st.markdown(f"""<div class="card"><h3>{n:,} matching posts</h3><p class="hint">{round(100 * drop / n) if n else 0}% describe stopping, pausing or a failed debit, or thinking about it</p>
 <div class="bars">{''.join(f'<div class="b"><span>{E(k)}</span><span class="t"><i style="width:{100 * c / max(1, n):.1f}%"></i></span><span class="v">{round(100 * c / max(1, n))}%</span></div>'
                    for k, c in pd.Series([c for cs in v.cluster for c in cs if c != "No reason stated"] or ["-"]).value_counts().head(5).items() if k != "-")}</div>
 <p class="hint" style="margin-top:12px">Share of matching posts per root cause (a post can have several)</p></div>""",
@@ -440,16 +479,16 @@ elif nav == "Validation":
     else:
         main = gold or reports[0]
         rows = "".join(f'<tr><td>{FIELD[k][0]}</td><td class="n">{round(main["fields"][k]["agreement"])}%</td>'
-                       f'<td class="k">{main["fields"][k]["kappa"]}</td><td class="k">{FIELD[k][1] and str(FIELD[k][1]) + "%" or "—"}</td>'
+                       f'<td class="k">{main["fields"][k]["kappa"]}</td><td class="k">{FIELD[k][1] and str(FIELD[k][1]) + "%" or "n/a"}</td>'
                        f'<td>{badge(main["fields"][k]["agreement"], FIELD[k][1])}</td></tr>'
                        for k in FIELD if k in main["fields"])
-        st.markdown(f"""<div class="card"><h3>Scorecard — {E(name(main))}</h3><p class="hint">{main['n']} items scored · κ above 0.6 = substantial agreement · “Spots a drop-off moment” was added after round one, so it has no pass mark</p>
+        st.markdown(f"""<div class="card"><h3>Scorecard: {E(name(main))}</h3><p class="hint">{main['n']} items scored · κ above 0.6 = substantial agreement · “Spots a drop-off moment” was added after round one, so it has no pass mark</p>
 <table class="score stack"><tr class="h"><th>What the AI labels</th><th>Agreement</th><th>Cohen’s κ</th><th>Pass mark</th><th>Result</th></tr>{rows}</table></div>""",
                     unsafe_allow_html=True)
         if len(reports) > 1:
             def cell(r, k):
                 f = r["fields"].get(k)
-                if not f: return "<td>—</td>"
+                if not f: return "<td>n/a</td>"
                 t = FIELD[k][1]; ok = None if t is None else f["agreement"] >= t
                 col = "var(--good)" if ok else "var(--bad)" if ok is False else "var(--ink)"
                 return f'<td class="n" style="color:{col}">{round(f["agreement"])}%{" ✓" if ok else ""}</td>'
@@ -478,14 +517,14 @@ elif nav == "Validation":
 <div class="cmp-m">{mob}</div></div>""", unsafe_allow_html=True)
         corr = (DATA.get("golden") or {}).get("corrections", [])
         if corr:
-            st.markdown('<h3 style="margin:18px 0 10px">Where the AI was wrong — and what changed</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 style="margin:18px 0 10px">Where the AI was wrong, and what changed</h3>', unsafe_allow_html=True)
             cols = st.columns(len(corr))
             for col, c in zip(cols, corr):
                 col.markdown(f"""<div class="card"><p style="margin:0 0 12px;color:var(--ink-2)">“{E(c['text'])}”</p>
 <div class="row"><b>AI said ({E(c.get('ai_version', '').replace('coder-', ''))})</b><span style="text-decoration:line-through;color:var(--bad);font-weight:600">{E(ACT.get(c['ai'], c['ai']))}</span></div>
 <div class="row"><b>Human said</b><span style="color:var(--good);font-weight:700">{E(ACT.get(c['human'], c['human']))}</span></div>
 {f'<div class="row"><b>{E(c["now_version"].replace("coder-", ""))} now says</b><span style="font-weight:700;color:{"var(--good)" if c["now_ok"] else "var(--ink)"}">{E(ACT.get(c["now"], c["now"]))}{" ✓" if c["now_ok"] else ""}</span></div>' if c.get("now") else ""}
-<p class="hint" style="margin:10px 0 0">{("Fixed by the new rules" if c["now_ok"] else "No longer a false drop-off" if c["now_drop_ok"] else "Still wrong — logged") if c.get("now") else "Became an explicit rule in the next prompt"}</p></div>""", unsafe_allow_html=True)
+<p class="hint" style="margin:10px 0 0">{("Fixed by the new rules" if c["now_ok"] else "No longer a false drop-off" if c["now_drop_ok"] else "Still wrong, and logged") if c.get("now") else "Became an explicit rule in the next prompt"}</p></div>""", unsafe_allow_html=True)
 
 # ------------------------------------------------------------------ 4. Method
 else:
@@ -508,13 +547,13 @@ else:
                     "".join(f'<div class="b"><span>{E(s["source"])}</span><span class="t"><i style="width:{100 * s["sip"] / mx:.1f}%"></i></span>'
                             f'<span class="v">{s["sip"]:,}</span></div>' for s in src) + "</div></div>", unsafe_allow_html=True)
         st.markdown(f"""<div class="card"><h3>Guardrails</h3>
-<div class="row">✓ No fund or stock is ever recommended — the engine only labels text.</div>
+<div class="row">✓ No fund or stock is ever recommended. The engine only labels text.</div>
 <div class="row">✓ Phone, email, PAN and account numbers are stripped before AI sees anything.</div>
 <div class="row">✓ Gemini first, Groq as automatic backup; each scored separately.</div>
 <div class="row">✓ Every label records its model and prompt version.</div></div>""", unsafe_allow_html=True)
     with st.expander("Read the full codebook"):
         st.markdown(open(os.path.join(ROOT, "prompts", "codebook.md"), encoding="utf-8").read())
 
-st.markdown(f"""<div class="notice"><span>ⓘ</span><span><b>Research tool — not investment advice.</b> It does not recommend any fund or stock.
+st.markdown(f"""<div class="notice"><span>ⓘ</span><span><b>Research tool, not investment advice.</b> It does not recommend any fund or stock.
 Quotes are from public posts with personal data removed. Independent student project, not affiliated with any company named.
-<a href="{STORY}" target="_blank">Read the full findings →</a></span></div>""", unsafe_allow_html=True)
+<a href="{STORY}" target="_blank">Read the full findings</a></span></div>""", unsafe_allow_html=True)

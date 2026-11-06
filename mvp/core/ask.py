@@ -10,7 +10,7 @@ import json, re
 
 from . import gate, writer
 
-PROMPT_VERSION = "ask-v6"
+PROMPT_VERSION = "ask-v7"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
@@ -69,7 +69,7 @@ words; never call a fund good or bad; no field names; plain English even if the 
 KW = [
     ("advice", r"\b(should|shud|kya karu|karu kya|kar du|band kar|stop kar|switch|change (my |the )?fund|which fund|"
                r"karu ya|kar du ya|ya cancel|ya skip|ya band|or cancel|or skip|or stop|or continue|skip or|cancel or|"
-               r"better fund|buy|sell|redeem|invest more|continue|good fund|bad fund|kharab)\b"),
+               r"better fund|better than|okay to|ok to|buy|sell|redeem|invest more|continue|good fund|bad fund|kharab)\b"),
     ("prediction", r"\b(will|recover|kab tak|kab hoga|future|next (month|year)|go up|green hoga|fall more)\b"),
     ("affordability", r"\b(afford|job|salary|money is tight|paise nahi|can'?t pay|income)\b"),
     ("choices", r"\b(skip|pause|cancel|change (the )?(amount|date)|stop sip|missed)\b"),
@@ -203,6 +203,17 @@ FACTUAL_CHOICE = re.compile(r"\b(if|agar|kya hoga|what happens|lose|vanish|doob|
                             r"stop|band)\w*\b.*\b(lose|vanish|doob|wapas|charge|units|money|paisa)\b", re.I)
 SHOULD = re.compile(r"\b(should|shud|kya karu|karu kya|chahiye|better|best|which|recommend|good idea|worth it|ya cancel|or cancel)\b", re.I)
 
+# ask-v7 (live check, 6 Nov): "Mera fund kharab hai kya ya market ki wajah se hai?" was declined as advice because
+# the keyword net matched "kharab". Asking whether a dip comes from the fund or the whole market is the product's
+# own second question, not a request for advice. It is answered with the market-or-fund facts, unless the question
+# also asks what to DO (stop, switch, sell, should...), which is still declined.
+MARKET_OR_FUND = re.compile(
+    r"(\bfund\b.*\b(market|index|nifty|sab(hi)?|baaki|others|everyone)\b|"
+    r"\b(market|index|nifty)\b.*\bfund\b|\bmarket (ki|ke|ka) (wajah|karan|vajah)|because of (the )?market)", re.I)
+DO_WORDS = re.compile(
+    r"\b(should|shud|kya karu|karu kya|kar du|karun|chahiye|switch|sell|redeem|stop|band|cancel|skip|pause|"
+    r"continue|change (my |the )?fund|which|recommend|better than|okay to|ok to|buy)\b", re.I)
+
 
 def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
     """Returns dict(intents, router, answer, source, checks, ai_answer, meta)."""
@@ -239,6 +250,9 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
         intents, out["safety_net"] = intents + ["advice"], True
     if any(i != "off_topic" for i in intents):
         intents = [i for i in intents if i != "off_topic"]
+    if "advice" in intents and MARKET_OR_FUND.search(q) and not DO_WORDS.search(q):
+        intents = [i for i in intents if i != "advice"] + ([] if "explain_market" in intents else ["explain_market"])
+        out["market_or_fund"] = True
     if "advice" in intents and FACTUAL_CHOICE.search(q) and not SHOULD.search(q):
         intents = [i for i in intents if i != "advice"] + ([] if "choices" in intents else ["choices"])
         out["factual_choice"] = True

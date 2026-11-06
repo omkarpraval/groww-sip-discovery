@@ -1,4 +1,4 @@
-"""'Is this normal for me?' — prototype for first-time SIP investors whose SIP is in the red.
+"""'Is this normal for me?': a prototype for first-time SIP investors whose SIP is in the red.
 Explains the user's own numbers; never recommends a fund or an action. Not investment advice."""
 import html, json, os, sys
 from datetime import date
@@ -19,51 +19,86 @@ for k in ("GEMINI_API_KEY", "GROQ_API_KEY", "GEMINI_MODEL", "GROQ_MODEL"):
     except Exception:  # noqa: BLE001  (no secrets file locally)
         pass
 
-BLUE, ORANGE, GREY, INK, MUTED = "#0072B2", "#D55E00", "#8A8F98", "#14213D", "#5B6474"
+INK, PINE, VER, GRN, GRND, MUTED = "#0E2A2B", "#1F4A4B", "#D55E00", "#009E73", "#00704F", "#5C6F6E"
+DISP = "'Bricolage Grotesque','Bricolage Grotesque 96pt ExtraBold','Inter',sans-serif"
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-html, body, [class*="css"], .stApp {{ font-family: 'Inter', sans-serif; color: {INK}; }}
-.stApp {{ background: radial-gradient(1200px 500px at 50% -120px, #DCEBF7 0%, #F4F7FB 55%) fixed; }}
-.block-container {{ max-width: 580px; padding-top: 1rem; padding-bottom: 4rem; }}
-header[data-testid="stHeader"] {{ background: transparent; }}
-.hero {{ display:flex; gap:14px; align-items:center; margin: 6px 0 10px; }}
-.hero h1 {{ font-size:1.7rem !important; line-height:1.15 !important; font-weight:800 !important; margin:0 !important; padding:0 !important; letter-spacing:-.02em; }}
-.hero .sub {{ font-size:.95rem; color:{MUTED}; margin-top:4px; line-height:1.45; }}
-.compass {{ width:58px; height:58px; flex:none; filter: drop-shadow(0 6px 14px rgba(20,33,61,.18)); }}
-.compass .needle {{ transform-origin: 29px 29px; animation: settle 2.4s cubic-bezier(.3,1.6,.5,1) both; }}
-@keyframes settle {{ 0% {{ transform: rotate(-140deg); }} 60% {{ transform: rotate(18deg); }} 100% {{ transform: rotate(0deg); }} }}
-.pills {{ display:flex; gap:6px; flex-wrap:wrap; margin: 4px 0 14px; }}
-.pill {{ font-size:.74rem; font-weight:600; color:{INK}; background:#fff; border:1px solid #DCE3EC; border-radius:99px; padding:4px 10px; }}
-.panel-title {{ font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:{MUTED}; font-weight:700; margin: 6px 0 4px; }}
-div[role="radiogroup"] {{ gap: 6px !important; background:#E8EDF4; padding:4px; border-radius:14px; display:flex; flex-wrap:wrap; }}
-div[role="radiogroup"] > label {{ flex:1 1 auto; justify-content:center; margin:0 !important; padding:8px 10px !important; border-radius:10px; transition: all .2s; }}
-div[role="radiogroup"] > label:has(input:checked) {{ background:#fff; box-shadow:0 2px 8px rgba(20,33,61,.12); }}
-div[role="radiogroup"] > label > div:first-child {{ display:none; }}
-div[role="radiogroup"] p {{ font-weight:600; font-size:.9rem; }}
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap');
+html, body, [class*="css"], .stApp {{ font-family:'Inter',sans-serif; color:{INK}; }}
+.stApp {{ background-color:#F2F5F3; background-image: radial-gradient(circle, #D3DDD9 1px, transparent 1.3px); background-size:22px 22px; }}
+.block-container, [data-testid="stMainBlockContainer"] {{ max-width:600px; padding-top:1.2rem; padding-bottom:4rem; }}
+header[data-testid="stHeader"] {{ background:transparent; }}
+h1, h2, h3 {{ font-family:{DISP} !important; letter-spacing:-.02em; }}
+/* hero: the SIP path */
+.hero {{ position:relative; margin:4px 0 6px; }}
+.hero svg {{ width:100%; height:auto; display:block; overflow:visible; }}
+.hero .line {{ stroke-dasharray:700; stroke-dashoffset:700; animation: draw 1.8s .2s cubic-bezier(.6,.1,.2,1) forwards; }}
+.hero .zone {{ opacity:0; animation: fade .8s 1.2s forwards; }}
+.hero .here {{ opacity:0; animation: fade .6s 1.7s forwards; }}
+@keyframes draw {{ to {{ stroke-dashoffset:0; }} }}
+@keyframes fade {{ to {{ opacity:1; }} }}
+.hero h1 {{ font-size:2.35rem !important; line-height:1 !important; font-weight:800 !important; margin:4px 0 6px !important; padding:0 !important; color:{INK}; }}
+.hero .sub {{ font-size:1.05rem; color:{PINE}; line-height:1.45; max-width:30em; }}
+.promise {{ display:flex; gap:16px; flex-wrap:wrap; margin:12px 0 4px; padding:0; list-style:none; font-size:.86rem; font-weight:600; color:{PINE}; }}
+.promise li {{ display:flex; align-items:center; gap:6px; }}
+.promise li:before {{ content:""; width:8px; height:8px; border-radius:50%; background:{GRN}; box-shadow:0 0 0 3px rgba(0,158,115,.18); }}
+.panel-title {{ font-family:{DISP}; font-size:1.15rem; font-weight:700; margin:18px 0 6px; }}
+/* segmented control (radio), old + new Streamlit markup */
+[data-testid="stRadio"] div[role="radiogroup"] {{ gap:4px !important; background:#E1E9E6; padding:4px; border-radius:14px; display:flex; flex-wrap:wrap; }}
+[data-testid="stRadio"] div[role="radiogroup"] > label, [data-testid="stRadio"] div[role="radiogroup"] label[data-testid="stRadioOption"] {{ flex:1 1 auto; justify-content:center; margin:0 !important; padding:9px 10px !important; border-radius:10px; transition: background .2s, box-shadow .2s; cursor:pointer; }}
+[data-testid="stRadio"] div[role="radiogroup"] > div {{ flex:1 1 auto; display:flex; }}
+[data-testid="stRadio"] div[role="radiogroup"] > div > label {{ width:100%; justify-content:center; }}
+[data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked), [data-testid="stRadio"] div[role="radiogroup"] label[data-selected="true"] {{ background:#fff; box-shadow:0 2px 10px rgba(14,42,43,.12); }}
+[data-testid="stRadio"] div[role="radiogroup"] > label > div:first-child, [data-testid="stRadio"] div[role="radiogroup"] label[data-testid="stRadioOption"] > div > div:first-child {{ display:none !important; }}
+[data-testid="stRadio"] div[role="radiogroup"] p {{ font-weight:600; font-size:.92rem; color:{INK}; }}
+/* the example list is a second radio: make it a list of choices */
+.st-key-ex div[role="radiogroup"] {{ flex-direction:column; background:transparent; padding:0; gap:6px !important; }}
+.st-key-ex div[role="radiogroup"] label {{ justify-content:flex-start !important; background:#fff; border:1.5px solid #D3DDDA; }}
+.st-key-ex div[role="radiogroup"] label[data-selected="true"], .st-key-ex div[role="radiogroup"] > label:has(input:checked) {{ border-color:{GRN}; box-shadow:0 0 0 3px rgba(0,158,115,.15); }}
 div[data-testid="stTextInput"] input, div[data-testid="stNumberInput"] input {{ border-radius:12px; }}
 [data-testid="stButton"], .stElementContainer:has([data-testid="stButton"]) {{ width:100% !important; }}
-[data-testid="stButton"] button, div.stButton > button {{ width:100% !important; border-radius:14px; min-height:48px; font-weight:700; width:100%; transition: transform .15s, box-shadow .2s; }}
-[data-testid="stButton"] button[kind="primary"] {{ background: linear-gradient(135deg, {BLUE}, #0A5C8F); border:0; box-shadow: 0 8px 20px rgba(0,114,178,.28); }}
+[data-testid="stButton"] button, div.stButton > button {{ width:100% !important; border-radius:16px; min-height:52px; font-weight:700; transition: transform .15s, box-shadow .2s; }}
+[data-testid="stButton"] button[kind="primary"], [data-testid="stBaseButton-primary"] {{ background:{INK}; color:#fff; border:0; box-shadow:0 10px 24px -10px rgba(14,42,43,.6); font-family:{DISP}; font-size:1.05rem; letter-spacing:.01em; }}
+[data-testid="stButton"] button[kind="primary"]:hover, [data-testid="stBaseButton-primary"]:hover {{ background:{GRND}; color:#fff; }}
+[data-testid="stFormSubmitButton"] button {{ background:{INK} !important; color:#fff !important; border:0 !important; border-radius:12px !important; min-height:42px; font-weight:700; }}
 div.stButton > button:active {{ transform: scale(.98); }}
-button:disabled, button[disabled] {{ opacity:.45 !important; box-shadow:none !important; filter: grayscale(.4); }}
-.ask-head {{ margin:22px 0 8px; }} .ask-head b {{ font-size:1.1rem; display:block; }} .ask-head span {{ font-size:.85rem; color:{MUTED}; }}
-.ask-card {{ background:#fff; border:1px solid #DCE3EC; border-radius:16px; padding:14px 16px; margin:10px 0; box-shadow:0 6px 18px rgba(20,33,61,.05); animation: askin .35s ease; }}
+button:disabled, button[disabled] {{ opacity:.45 !important; box-shadow:none !important; }}
+.st-key-help, .st-key-help [data-testid="stButton"] {{ width:auto !important; }}
+.st-key-help button {{ width:auto !important; min-height:34px !important; border-radius:99px !important; padding:2px 14px !important; background:#fff !important; border:1.5px solid #D3DDDA !important; font-size:.85rem !important; color:{INK} !important; float:right; }}
+.ask-head {{ margin:26px 0 8px; }} .ask-head b {{ font-family:{DISP}; font-size:1.35rem; display:block; letter-spacing:-.01em; }} .ask-head span {{ font-size:.9rem; color:{MUTED}; }}
+.ask-card {{ margin:14px 0; animation: askin .35s ease; }}
 @keyframes askin {{ from {{ opacity:0; transform:translateY(8px); }} to {{ opacity:1; transform:none; }} }}
-.ask-card .q {{ font-weight:700; margin-bottom:6px; }} .ask-card p {{ margin:8px 0 6px; line-height:1.55; }}
-.ask-card .foot {{ font-size:.75rem; color:{MUTED}; }}
-.ichip {{ display:inline-block; font-size:.72rem; font-weight:600; background:#E6F2F9; color:{BLUE}; border-radius:99px; padding:2px 9px; margin:0 4px 4px 0; }}
-.ichip.blk {{ background:#FBEDE4; color:{ORANGE}; }}
-.notice {{ font-size:.8rem; color:{MUTED}; border-top:1px solid #DCE3EC; padding-top:10px; margin-top:18px; line-height:1.5; }}
-.tour-art {{ background: linear-gradient(135deg,#14213D,#0B4F75); border-radius:18px; padding:18px; color:#fff; margin-bottom:12px; min-height:150px; }}
-.tour-art .big {{ font-size:1.25rem; font-weight:800; line-height:1.3; }}
+.ask-card .q {{ margin-left:auto; max-width:85%; width:fit-content; background:{INK}; color:#fff; border-radius:18px 18px 4px 18px; padding:9px 14px; font-weight:600; }}
+.ask-card .a {{ margin-top:8px; max-width:94%; background:#fff; border:1.5px solid #D3DDDA; border-radius:18px 18px 18px 4px; padding:12px 14px; }}
+.ask-card .a p {{ margin:6px 0 8px; line-height:1.55; }}
+.ask-card .foot {{ font-size:.76rem; color:{MUTED}; }}
+.ask-card .foot.ok {{ color:{GRND}; font-weight:600; }}
+.ichip {{ display:inline-block; font-size:.72rem; font-weight:700; background:#DDF1E9; color:{GRND}; border-radius:99px; padding:2px 9px; margin:0 4px 2px 0; }}
+.ichip.blk {{ background:#F8E4D6; color:#A84700; }}
+.notice {{ font-size:.8rem; color:{MUTED}; border-top:1.5px solid {INK}; padding-top:10px; margin-top:22px; line-height:1.5; }}
+.tour-art {{ background:{INK}; border-radius:20px; padding:16px 18px 18px; color:#fff; margin-bottom:12px; min-height:160px; position:relative; overflow:hidden; }}
+.tour-art .k {{ font-size:.82rem; color:#8FD9C0; font-weight:600; }}
+.tour-art .big {{ font-family:{DISP}; font-size:1.4rem; font-weight:800; line-height:1.2; margin-top:2px; }}
 .tour-art .row {{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }}
-.tour-art .chipx {{ background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:12px; padding:8px 10px; font-size:.82rem; }}
-.tour-dots {{ display:flex; gap:6px; justify-content:center; margin: 6px 0 2px; }}
-.tour-dots i {{ width:8px; height:8px; border-radius:99px; background:#CFD8E3; display:block; transition: all .25s; }}
-.tour-dots i.on {{ width:22px; background:{BLUE}; }}
-.tour-p {{ font-size:.97rem; line-height:1.55; }}
-@media (max-width: 480px) {{ .block-container {{ padding-left: 14px; padding-right: 14px; }} .hero h1 {{ font-size:1.45rem !important; }} }}
+.tour-art .chipx {{ background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); border-radius:12px; padding:7px 10px; font-size:.84rem; }}
+.tour-dots {{ display:flex; gap:6px; justify-content:center; margin:6px 0 2px; }}
+.tour-dots i {{ width:8px; height:8px; border-radius:99px; background:#C9D3D0; display:block; transition: all .25s; }}
+.tour-dots i.on {{ width:22px; background:{GRN}; }}
+.tour-p {{ font-size:.98rem; line-height:1.55; }}
+[data-testid="stCaptionContainer"] {{ color:{MUTED}; }}
+.promise li {{ margin:0 !important; padding:0 !important; }}
+.promise {{ row-gap:6px; }}
+.st-key-help [data-testid="stButton"] button, .st-key-help div.stButton > button {{ width:auto !important; min-height:34px !important; border-radius:99px !important; padding:2px 14px !important; background:#fff !important; border:1.5px solid #D3DDDA !important; color:{INK} !important; }}
+.st-key-help p {{ font-size:.85rem !important; font-weight:600; }}
+.st-key-help {{ margin-left:auto; }}
+[data-testid="stBaseButton-primary"] p, [data-testid="stButton"] button[kind="primary"] p {{ font-family:{DISP}; font-size:1.08rem; font-weight:700; }}
+.st-key-ex div[role="radiogroup"] > div, .st-key-ex div[role="radiogroup"] label {{ width:100%; }}
+.st-key-sugg button {{ background:#fff !important; border:1.5px solid #D3DDDA !important; border-radius:99px !important; color:{INK} !important; }}
+.st-key-sugg button:hover {{ border-color:{GRN} !important; color:{GRND} !important; }}
+.st-key-sugg button p {{ font-size:.86rem; font-weight:600; }}
+
+@media (prefers-reduced-motion: reduce) {{ .hero .line, .hero .zone, .hero .here {{ animation:none !important; stroke-dashoffset:0; opacity:1; }} }}
+@media (max-width: 480px) {{ .block-container {{ padding-left:14px; padding-right:14px; }} .hero h1 {{ font-size:2rem !important; }} }}
 </style>""", unsafe_allow_html=True)
 
 NOTICE = "This explains your own numbers using public fund prices. It is not investment advice."
@@ -73,15 +108,20 @@ EXAMPLES = {  # real public prices, replayed as they stood on that date
     "Mid-cap SIP behind its index, month 12 (as on 3 Mar 2026)": dict(code=120841, y=2025, m=3, day=5, amt=2000, as_of=date(2026, 3, 3)),
 }
 
-COMPASS = """<svg class="compass" viewBox="0 0 58 58"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0" stop-color="#14213D"/><stop offset="1" stop-color="#0B4F75"/></linearGradient></defs>
-<circle cx="29" cy="29" r="28" fill="url(#cg)"/><circle cx="29" cy="29" r="21" fill="none" stroke="#56B4E9" stroke-opacity=".35" stroke-dasharray="2 4"/>
-<g class="needle"><path d="M29 9 L34 29 L29 27 L24 29 Z" fill="#56B4E9"/><path d="M29 49 L24 29 L29 31 L34 29 Z" fill="#E69F00"/></g>
-<circle cx="29" cy="29" r="3" fill="#fff"/></svg>"""
-st.markdown(f"""<div class="hero">{COMPASS}<div><h1>Is this normal for me?</h1>
-<div class="sub">Your first SIP is in the red. Get your bearings in three plain answers.</div></div></div>
-<div class="pills"><span class="pill">🔒 No login, PAN or account</span><span class="pill">🧾 Your own numbers</span>
-<span class="pill">🚫 Never advice</span></div>""", unsafe_allow_html=True)
+HERO = f"""<div class="hero"><svg viewBox="0 0 560 120" role="img" aria-label="A SIP's value dips below what was put in, then climbs back">
+<defs><clipPath id="hz-up"><rect x="0" y="0" width="560" height="52"/></clipPath><clipPath id="hz-dn"><rect x="0" y="52" width="560" height="80"/></clipPath></defs>
+<path class="zone" d="M8,50 C70,44 110,58 160,74 S250,104 300,92 S400,40 452,30 S530,14 552,10 L552,52 L8,52Z" fill="{GRN}" fill-opacity=".16" clip-path="url(#hz-up)"/>
+<path class="zone" d="M8,50 C70,44 110,58 160,74 S250,104 300,92 S400,40 452,30 S530,14 552,10 L552,52 L8,52Z" fill="{VER}" fill-opacity=".16" clip-path="url(#hz-dn)"/>
+<line x1="0" x2="560" y1="52" y2="52" stroke="{INK}" stroke-opacity=".4" stroke-dasharray="3 5"/>
+<text x="556" y="70" text-anchor="end" font-size="13" fill="{MUTED}" font-family="Inter">what you put in</text>
+<path class="line" d="M8,50 C70,44 110,58 160,74 S250,104 300,92 S400,40 452,30 S530,14 552,10" fill="none" stroke="{INK}" stroke-width="3.5" stroke-linecap="round"/>
+<g class="here"><circle cx="246" cy="98" r="7" fill="{VER}" stroke="#fff" stroke-width="2.5"/>
+<text x="196" y="18" font-family="Kalam, cursive" font-size="20" fill="{VER}">you are here</text>
+<path d="M232,26 C236,48 240,70 244,86" fill="none" stroke="{VER}" stroke-width="2"/></g></svg>
+<h1>Is this normal for me?</h1>
+<div class="sub">Your first SIP is in the red. Get three plain answers about it, in your own rupees.</div>
+<ul class="promise"><li>No login or PAN</li><li>Your own numbers</li><li>Never advice</li></ul></div>"""
+st.markdown(HERO, unsafe_allow_html=True)
 
 # ---------------------------------------------------------------- first-time tour
 TOUR = [
@@ -89,25 +129,25 @@ TOUR = [
      ["① Is this normal for my stage?", "② Is it the market or my fund?", "③ What does patience look like?"],
      "Three plain answers about <b>your own numbers</b>, using real past prices."),
     ("How to start", "Three ways in, no login",
-     ["🔎 Find my fund", "⌨️ Type my numbers", "🎲 Try an example"],
+     ["Find my fund", "Type my numbers", "Try an example"],
      "Pick your fund, or type what you put in and what it's worth. No PAN or account numbers."),
     ("How to read it", "Pictures, not jargon",
-     ["🧍 10 people = 10 past SIPs", "▮ centre line = what you put in", "⏳ time machine = past, not a forecast"],
+     ["10 people = 10 past SIPs", "Centre line = what you put in", "Time machine = the past, not a forecast"],
      "Tap ▶ to see where past SIPs were later, tap dotted words for a meaning, and open “How was this calculated?” for the method."),
     ("What it won't do", "No advice. No predictions. No pressure.",
-     ["✓ Checked answers", "⚖️ Choices side by side", "🧭 You decide"],
+     ["✓ Checked answers", "Choices side by side", "You decide"],
      "Automatic checks block advice, fund tips and scary words before you see an answer."),
 ]
 
 
-@st.dialog("Quick tour · 30 seconds", width="small")
+@st.dialog("A 30-second tour", width="small")
 def tour():
     i = st.session_state.get("tour_i", 0)
     tag, big, chips, body = TOUR[i]
     chips_html = "".join(f'<span class="chipx">{c}</span>' for c in chips)
     dots_html = "".join(f'<i class="{"on" if j == i else ""}"></i>' for j in range(len(TOUR)))
-    st.markdown(f"""<div class="tour-art"><div style="font-size:.72rem;opacity:.75;letter-spacing:.08em;text-transform:uppercase">
-      Step {i + 1} of {len(TOUR)} · {tag}</div><div class="big">{big}</div><div class="row">{chips_html}</div></div>
+    st.markdown(f"""<div class="tour-art"><div class="k">{i + 1} of {len(TOUR)}: {tag}</div>
+      <div class="big">{big}</div><div class="row">{chips_html}</div></div>
       <div class="tour-p">{body}</div><div class="tour-dots">{dots_html}</div>""", unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     if i > 0 and c1.button("Back", key="t_back"):
@@ -128,7 +168,7 @@ def tour():
 if not st.session_state.get("toured"):
     tour()
 _, helpcol = st.columns([3, 1])
-if helpcol.button("❔ How it works", key="help"):
+if helpcol.button("How it works", key="help"):
     st.session_state["tour_i"] = 0
     tour()
 
@@ -149,7 +189,7 @@ def manual_facts(inv, val, months):
 
 
 # ---------------------------------------------------------------- inputs
-st.markdown('<div class="panel-title">Start here</div>', unsafe_allow_html=True)
+st.markdown('<div class="panel-title">Start with your SIP</div>', unsafe_allow_html=True)
 mode = st.radio("How do you want to start?", ["Find my fund", "Type my numbers", "Try an example"], horizontal=True,
                 label_visibility="collapsed")
 req = None
@@ -177,7 +217,7 @@ elif mode == "Type my numbers":
     n = st.slider("Months since your first instalment", 1, 24, 6)
     req = ("manual", float(inv), float(val), int(n))
 else:
-    ex = st.radio("Pick an example", list(EXAMPLES), label_visibility="collapsed")
+    ex = st.radio("Pick an example", list(EXAMPLES), label_visibility="collapsed", key="ex")
     e = EXAMPLES[ex]
     st.caption("Examples replay a real fund's public prices as they stood on that date.")
     req = ("example", e)
@@ -309,8 +349,8 @@ if r:
                    f"prices: {r['facts'].get('price_source')}")
 
     # ------------------------------------------------------------ ask about your SIP
-    st.markdown('<div class="ask-head"><b>💬 Ask about your SIP</b><span>In your own words, English or Hinglish. '
-                'It explains your numbers and choices; it won\'t tell you what to do.</span></div>', unsafe_allow_html=True)
+    st.markdown('<div class="ask-head"><b>Still unsure? Ask it.</b><span>In your own words, English or Hinglish. '
+                'It explains your numbers and choices. It won\'t tell you what to do.</span></div>', unsafe_allow_html=True)
     SUGGEST = ["Is it my fund or the market?", "Should I stop my SIP?", "Kab tak green hoga?",
                "What happens if I skip next month?", "Index matlab kya?"]
     def _pick():
@@ -343,11 +383,11 @@ if r:
         chips = "".join(f'<span class="ichip{" blk" if i in ASK.BLOCKED else ""}">{NAMES.get(i, i)}</span>' for i in a_["intents"])
         down = (a_.get("fallback_reason") or "").startswith("AI unavailable")
         badge = ("✓ Checked AI answer" if a_["source"] == "ai" else
-                 "● Standard answer (AI unavailable)" if down else
-                 "● Standard answer (AI text didn't pass a check)" if a_["source"] == "template" else "● Fixed safe answer")
+                 "Standard answer (AI unavailable)" if down else
+                 "Standard answer (the AI text didn't pass a check)" if a_["source"] == "template" else "Fixed safe answer")
         how = "AI understood the question" if a_["router"] == "ai" else "Keyword match (AI unavailable)"
-        st.markdown(f'<div class="ask-card"><div class="q">“{html.escape(a_["question"])}”</div><div>{chips}</div>'
-                    f'<p>{html.escape(a_["answer"])}</p><div class="foot">{badge} · {how} · not investment advice</div></div>',
+        st.markdown(f'<div class="ask-card"><div class="q">{html.escape(a_["question"])}</div><div class="a"><div>{chips}</div>'
+                    f'<p>{html.escape(a_["answer"])}</p><div class="foot{" ok" if a_["source"] == "ai" else ""}">{badge}. {how}. Not investment advice.</div></div></div>',
                     unsafe_allow_html=True)
 
 st.markdown(f'<div class="notice">{NOTICE} Prices: public AMFI data via mfapi.in. Comparisons use index-tracking '

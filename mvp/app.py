@@ -219,7 +219,7 @@ elif mode == "Type my numbers":
 else:
     ex = st.radio("Pick an example", list(EXAMPLES), label_visibility="collapsed", key="ex")
     e = EXAMPLES[ex]
-    st.caption("Examples replay a real fund's public prices as they stood on that date.")
+    st.caption("Examples replay a real fund's public prices as they stood on that date. They are examples, not suggestions.")
     req = ("example", e)
 
 go = st.button("Explain my SIP", type="primary", disabled=req is None)
@@ -267,6 +267,8 @@ def ui_data(r):
     f, a = r["facts"], r["answer"]
     h, c = f["history"], f["compare"]
     who = (f"{f['fund_name']} · as of {f['as_of']}" if f.get("fund_name") else f"Your SIP · typed numbers · {f['as_of']}")
+    if mode == "Try an example" and f.get("fund_name"):
+        who = f"Example from public prices, not a suggestion · {who}"
     if h.get("available") and f["direction"] == "down" and h.get("deep_in_10") is not None:
         k = 0 if h.get("deep_rare") else h["deep_in_10"]
         normal = {"k": k, "cls": "hit", "rare": k == 0, "cap": f"Out of 10 past SIPs, the orange ones had a drop this big or bigger at month "

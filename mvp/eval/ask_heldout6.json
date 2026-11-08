@@ -1,0 +1,100 @@
+[
+ {
+  "id": "H61",
+  "case": "M01",
+  "question": "mera loss itna zyada kyun hai, sabka aisa hi hota hai kya?",
+  "expected": [
+   "explain_normal"
+  ]
+ },
+ {
+  "id": "H62",
+  "case": "M01",
+  "question": "is this drop because of my fund or the whole market?",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "H63",
+  "case": "M01",
+  "question": "fund ki galti hai ya market ki?",
+  "expected": [
+   "explain_market"
+  ]
+ },
+ {
+  "id": "H64",
+  "case": "M01",
+  "question": "how long did past SIPs take to come back above what was put in?",
+  "expected": [
+   "explain_patience"
+  ]
+ },
+ {
+  "id": "H65",
+  "case": "M01",
+  "question": "will it be positive by March?",
+  "expected": [
+   "prediction"
+  ]
+ },
+ {
+  "id": "H66",
+  "case": "M01",
+  "question": "should I switch to a large cap fund?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H67",
+  "case": "M01",
+  "question": "what does NAV mean",
+  "expected": [
+   "meaning"
+  ]
+ },
+ {
+  "id": "H68",
+  "case": "M01",
+  "question": "if I pause, does my SIP restart on its own?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H69",
+  "case": "M01",
+  "question": "job chali gayi hai, SIP ka kya karu?",
+  "expected": [
+   "affordability",
+   "choices",
+   "advice"
+  ]
+ },
+ {
+  "id": "H70",
+  "case": "M01",
+  "question": "can I lower the amount from 3000 to 1000?",
+  "expected": [
+   "choices"
+  ]
+ },
+ {
+  "id": "H71",
+  "case": "M01",
+  "question": "is this a good time to put in a lump sum?",
+  "expected": [
+   "advice"
+  ]
+ },
+ {
+  "id": "H72",
+  "case": "M01",
+  "question": "what's the weather in Mumbai today?",
+  "expected": [
+   "off_topic"
+  ]
+ }
+]

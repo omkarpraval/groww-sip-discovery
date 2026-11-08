@@ -184,7 +184,7 @@ function step1() {
   const v = D.normal;
   let vis = "";
   if (v.k !== null) vis = people(v.k, v.cls, v.rare) + `<div class="cap">${esc(v.cap)}</div>`;
-  return `<div class="q">Question 1 of 3</div><h2>Is this normal for my stage?</h2>${vis}<p class="a">${gloss(D.answer.normal, new Set())}</p>${how(D.method.s1)}`;
+  return `<div class="q">Step 1 of 4</div><h2>Is this normal for my stage?</h2>${vis}<p class="a">${gloss(D.answer.normal, new Set())}</p>${how(D.method.s1)}`;
 }
 
 function step2() {
@@ -199,7 +199,7 @@ function step2() {
     }).join("") + `<div class="legend"><span>below what you put in</span><span>above it</span></div></div>
     <div class="cap">The dark centre line is what you put in (${fmt(D.summary.inv)}).</div>`;
   }
-  return `<div class="q">Question 2 of 3</div><h2>Is it the market or my fund?</h2>${vis}<p class="a">${gloss(D.answer.market_or_fund, seen)}</p>${how(D.method.s2)}`;
+  return `<div class="q">Step 2 of 4</div><h2>Is it the market or my fund?</h2>${vis}<p class="a">${gloss(D.answer.market_or_fund, seen)}</p>${how(D.method.s2)}`;
 }
 
 function step3() {
@@ -215,7 +215,7 @@ function step3() {
       <div class="read" id="read"></div>
       <div class="cap" style="margin-top:6px">Each faint line is a SIP started in a different month since ${P.since}, run on the real prices of ${esc(P.series)}. <span style="color:var(--grnd);font-weight:700">Green</span> means above what was put in at that month, <span style="color:var(--verd);font-weight:700">orange</span> means below. The dark line is you.</div></div>`;
   }
-  return `<div class="q">Question 3 of 3</div><h2>What does patience look like?</h2>${vis}<p class="a">${gloss(D.answer.patience)}</p>${how(D.method.s3)}`;
+  return `<div class="q">Step 3 of 4</div><h2>What does patience look like?</h2>${vis}<p class="a">${gloss(D.answer.patience)}</p>${how(D.method.s3)}`;
 }
 
 function step4() {
@@ -226,7 +226,7 @@ function step4() {
   const C = D.compare_choices;
   const table = `<table class="cmp"><tr><th></th>${C.cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr>` +
     C.rows.map(r => `<tr><td>${esc(r[0])}</td>${r.slice(1).map(v => `<td${v.startsWith("!") ? ' class="warn"' : ""}>${esc(v.replace(/^!/, ""))}</td>`).join("")}</tr>`).join("") + `</table>`;
-  return `<div class="q">Your choices</div><h2>What can I do?</h2><div class="cap">Shown side by side so you can see what each one does. None of them is a suggestion, and staying as you are is a choice too.</div>
+  return `<div class="q">Step 4 of 4</div><h2>What can I do?</h2><div class="cap">Shown side by side so you can see what each one does. None of them is a suggestion, and staying as you are is a choice too.</div>
     <div class="afford">${esc(D.afford)}</div>${table}` +
     D.options.map((o, i) => `<div class="opt"><button aria-expanded="false"><span class="ic" style="background:${tints[i]}">${icons[i]}</span>
       <span><div class="tt">${esc(o.t)}</div><div class="sub">${esc(o.short)}</div></span><span class="chev">›</span></button>
@@ -322,4 +322,15 @@ $("#stage").addEventListener("touchstart", e => { if (e.target.closest(".tm")) r
 $("#stage").addEventListener("touchend", e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
   if (Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); });
 go(0);
+// round-3 user test (P3): the result loaded below the screen. Scroll it into view once per new result.
+(function () {
+  try {
+    const sig = JSON.stringify(D.summary), ss = window.parent.sessionStorage;
+    if (ss.getItem("sip_last_result") !== sig) {
+      ss.setItem("sip_last_result", sig);
+      const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(() => window.frameElement && window.frameElement.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" }), 350);
+    }
+  } catch (e) { /* the frame cannot reach the page: leave the scroll to the user */ }
+})();
 </script></body></html>

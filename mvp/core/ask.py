@@ -14,6 +14,7 @@ PROMPT_VERSION = "ask-v7"
 INTENTS = ("explain_normal", "explain_market", "explain_patience", "meaning", "choices", "affordability",
            "advice", "prediction", "off_topic")
 BLOCKED = ("advice", "prediction")
+THREE_SKIPS = re.compile(r"\b(three|3)\s+(skips|missed|instalments)", re.I)
 
 CHOICES = {
     "skip": "Skip one instalment: you keep the units you own and only the next instalment is not taken. "
@@ -283,6 +284,9 @@ def ask(question, facts, glossary, provider=None, timeout=20, keys=None):
     if any(i in intents for i in ("explain_normal", "explain_patience")) and "past cannot promise" not in body:
         if body:
             body += " " + "The past cannot promise what happens next."
+    # round-3 user test (P5): an AI answer about skipping said "no charge, units stay" but left out the 3-skip rule.
+    if "choices" in intents and body and re.search(r"\bskip", body + " " + q, re.I) and not THREE_SKIPS.search(body):
+        body += " Three skips in a row cancel the SIP."
     text = " ".join(x for x in [body] + tail(intents) if x).strip()
     out.update(intents=intents, answer=text, source=source if body else "rules")
     return out

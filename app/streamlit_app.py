@@ -236,7 +236,11 @@ if F:
     stats += f'<div class="stat"><b>{F.get("sip", 0):,}</b><span>SIP conversations</span></div>'
     stats += f'<div class="stat"><b>{F.get("early_drops", 0):,}</b><span>first-year drop-off moments</span></div>'
 if gold:
-    stats += f'<div class="stat"><b>{round(gold["fields"]["primary_trigger"]["agreement"])}%</b><span>agreement with humans on “why”</span></div>'
+    _hv = [r for r in (DATA.get("golden") or {}).get("heldout", []) if r.get("prompt_version") == gold.get("prompt_version")]
+    _g = round(gold["fields"]["primary_trigger"]["agreement"])
+    _h = round(_hv[0]["fields"]["primary_trigger"]["agreement"]) if _hv else None
+    _txt = f"{min(_g, _h)}–{max(_g, _h)}%" if _h is not None and _h != _g else f"{_g}%"
+    stats += f'<div class="stat"><b>{_txt}</b><span>agreement with humans on “why” (new posts to golden set)</span></div>'
 _m = os.getenv("GEMINI_MODEL", "auto")
 _m = "Gemini" if _m == "auto" else "Gemini " + _m.replace("gemini-", "").replace("-latest", "").replace("-", " ").title()
 stats += f'<div class="stat"><b>{E(_m)}</b><span>model, with Groq as backup</span></div>'

@@ -128,3 +128,12 @@ def test_market_or_fund_with_do_words_still_declined(monkeypatch):
     for q in STILL_ADVICE_QS:
         r = ask.ask(q, facts(), GLOSS)
         assert "advice" in r["intents"], (q, r["intents"])
+
+
+def test_skip_answer_always_has_three_skip_rule(monkeypatch):
+    # round-3 user test (P5): the AI said "no charge, units stay" and left out that 3 skips in a row cancel the SIP
+    monkeypatch.setattr(ask.writer, "complete_json", lambda *a, **k: (
+        {"intents": ["choices"], "answer": "Skipping one instalment has no charge, and you keep the units you own."}, {}))
+    r = ask.ask("agar ek SIP skip karu toh penalty lagegi?", facts(), GLOSS)
+    assert "choices" in r["intents"] and ask.THREE_SKIPS.search(r["answer"])
+    assert r["answer"].count("Three skips in a row") == 1

@@ -1,0 +1,30 @@
+{
+ "writer-v6": {
+  "n": 30,
+  "median_s": 6.05,
+  "p95_s": 12.2,
+  "max_s": 13.8,
+  "over_timeout": 0,
+  "backup_model": 0,
+  "tokens_in_est": 1260,
+  "tokens_out_est": 203,
+  "usd_per_1000_answers": [
+   0.62,
+   2.12
+  ]
+ },
+ "ask-v6": {
+  "n": 84,
+  "median_s": 0.8,
+  "p95_s": 18.5,
+  "max_s": 25.5,
+  "over_timeout": 4,
+  "backup_model": 1,
+  "tokens_in_est": 1800,
+  "tokens_out_est": 46,
+  "usd_per_1000_answers": [
+   0.52,
+   2.02
+  ]
+ }
+}

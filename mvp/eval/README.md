@@ -109,3 +109,11 @@ Cost uses Gemini Flash-Lite list prices ($0.25 per 1M input, $1.50 per 1M output
 hidden thinking tokens, the high end a full 1,000-token thinking budget. The launch target is a 95th-percentile
 answer time under 10 s; the writer misses it today.
 
+
+## 8 Nov: fixes from the round-3 user test
+
+- Every answer about skipping now ends with "Three skips in a row cancel the SIP." if the AI left it out
+  (P5's skip question got "no charge, units stay" without the rule). A rule in code, not a prompt change, so the
+  ask-v7 prompt and its eval results are unchanged. Unit test: `test_skip_answer_always_has_three_skip_rule`.
+- The result scrolls into view after "Explain my SIP" (P3 did not see it load below the screen).
+- Step labels read "Step 1 of 4" to "Step 4 of 4", matching the 4-step bar (it said "Question 1 of 3").
